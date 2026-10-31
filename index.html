@@ -1,0 +1,3236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PSX Portfolio & Dividend Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    /* =======================================================================
+       VIBRANT, EXECUTIVE FINTECH THEME (LIGHT DEFAULT + RICH DARK MODE)
+       Inspired by Koyfin, Yahoo Finance Pro & Stripe — Crisp cards, Navy
+       headers, distinct Sector colors, and unmistakable Green/Red P&L badges.
+       ======================================================================= */
+    :root[data-theme="light"] {
+      --bg-app: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-hover: #eff6ff;
+      --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      --table-head-bg: #17365d;
+      --table-head-text: #ffffff;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --primary: #1d4ed8;
+      --primary-hover: #1e40af;
+      --primary-text: #ffffff;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      /* Vivid Financial Green & Red */
+      --pos: #059669;
+      --pos-strong: #047857;
+      --pos-bg: #ecfdf5;
+      --pos-pill: #d1fae5;
+      --pos-border: #6ee7b7;
+      --neg: #dc2626;
+      --neg-strong: #b91c1c;
+      --neg-bg: #fef2f2;
+      --neg-pill: #fee2e2;
+      --neg-border: #fca5a5;
+      --warn: #d97706;
+      --warn-bg: #fffbeb;
+      --warn-pill: #fef3c7;
+      --warn-border: #fcd34d;
+      --buy-color: #1d4ed8;
+      --buy-bg: #dbeafe;
+      --buy-border: #93c5fd;
+      --purple: #7c3aed;
+      --purple-bg: #f3e8ff;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+      --three-bg: #0f172a;
+    }
+
+    :root[data-theme="dark"] {
+      --bg-app: #090d16;
+      --bg-card: #111827;
+      --bg-subtle: #1e293b;
+      --bg-hover: rgba(59, 130, 246, 0.08);
+      --header-bg: linear-gradient(135deg, #090d16 0%, #1e293b 100%);
+      --table-head-bg: #1e293b;
+      --table-head-text: #f8fafc;
+      --border: #1f2937;
+      --border-strong: #374151;
+      --text-main: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-text: #ffffff;
+      --accent: #60a5fa;
+      --accent-soft: rgba(59, 130, 246, 0.15);
+      /* Vivid Dark-Mode Financial Green & Red */
+      --pos: #10b981;
+      --pos-strong: #34d399;
+      --pos-bg: rgba(16, 185, 129, 0.08);
+      --pos-pill: rgba(16, 185, 129, 0.18);
+      --pos-border: rgba(16, 185, 129, 0.35);
+      --neg: #f43f5e;
+      --neg-strong: #fb7185;
+      --neg-bg: rgba(244, 63, 94, 0.08);
+      --neg-pill: rgba(244, 63, 94, 0.18);
+      --neg-border: rgba(244, 63, 94, 0.35);
+      --warn: #f59e0b;
+      --warn-bg: rgba(245, 158, 11, 0.08);
+      --warn-pill: rgba(245, 158, 11, 0.18);
+      --warn-border: rgba(245, 158, 11, 0.35);
+      --buy-color: #60a5fa;
+      --buy-bg: rgba(59, 130, 246, 0.18);
+      --buy-border: rgba(59, 130, 246, 0.35);
+      --purple: #a855f7;
+      --purple-bg: rgba(168, 85, 247, 0.18);
+      --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.5);
+      --three-bg: #090d16;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; font-feature-settings: "tnum" on; }
+    .right { text-align: right; }
+    .center { text-align: center; }
+    .pos { color: var(--pos) !important; font-weight: 600; }
+    .neg { color: var(--neg) !important; font-weight: 600; }
+    .muted { color: var(--text-muted) !important; }
+    .fw-600 { font-weight: 600; }
+    .fw-700 { font-weight: 700; }
+
+    /* Colored P&L Badge Pills */
+    .pnl-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+    .pnl-pos {
+      background: var(--pos-pill);
+      color: var(--pos-strong);
+      border: 1px solid var(--pos-border);
+    }
+    .pnl-neg {
+      background: var(--neg-pill);
+      color: var(--neg-strong);
+      border: 1px solid var(--neg-border);
+    }
+
+    /* Executive Navy Top Header */
+    .topbar {
+      background: var(--header-bg);
+      color: #ffffff;
+      padding: 0 24px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13.5px;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    }
+    .brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+    .brand-meta {
+      font-size: 11.5px;
+      color: #93c5fd;
+    }
+
+    /* Navigation Tabs */
+    .nav-bar {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--text-secondary);
+      padding: 13px 15px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .nav-btn:hover { color: var(--primary); background: var(--bg-subtle); }
+    .nav-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: var(--accent-soft);
+    }
+    .count-pill {
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 99px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Buttons & Inputs */
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      color: var(--text-main);
+      padding: 7px 13px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-header {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+    .btn-header:hover { background: rgba(255, 255, 255, 0.22); color: #ffffff; border-color: #ffffff; }
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+    .btn-primary:hover { background: var(--primary-hover); color: #ffffff; }
+    .btn-emerald {
+      background: #059669;
+      border-color: #047857;
+      color: #ffffff;
+    }
+    .btn-emerald:hover { background: #047857; color: #ffffff; }
+    .btn-amber {
+      background: #d97706;
+      border-color: #b45309;
+      color: #ffffff;
+    }
+    .btn-amber:hover { background: #b45309; color: #ffffff; }
+    .btn-sm {
+      padding: 4px 9px;
+      font-size: 11.5px;
+      border-radius: 5px;
+    }
+    .btn-danger {
+      color: var(--neg);
+      border-color: var(--neg-border);
+      background: var(--neg-bg);
+    }
+
+    .input, .select {
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      color: var(--text-main);
+      padding: 7px 11px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    .input:focus, .select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1580px;
+      margin: 0 auto;
+      padding: 22px 24px 48px;
+    }
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+
+    /* KPI Summary Cards with Color Top Bars */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .kpi-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--kpi-color, #2563eb);
+      border-radius: 8px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .kpi-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .kpi-main {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+    .kpi-foot {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Equal-Height Side-by-Side Grids (Fixes whitespace mismatch!) */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+      align-items: stretch;
+    }
+    .grid-equal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+      align-items: stretch;
+    }
+    @media (max-width: 1120px) {
+      .grid-2, .grid-equal { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .grid-2 > .card, .grid-equal > .card {
+      margin-bottom: 0;
+      height: 100%;
+    }
+    .card-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: var(--bg-subtle);
+    }
+    .card-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .card-body {
+      padding: 18px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Tables with Excel-style Deep Navy Header (#17365D) */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th {
+      background: var(--table-head-bg);
+      color: var(--table-head-text);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 10px 13px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    th:hover { opacity: 0.92; }
+    td {
+      padding: 9px 13px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      white-space: nowrap;
+      color: var(--text-main);
+    }
+    tbody tr:hover td {
+      background: var(--bg-hover);
+    }
+    tfoot td {
+      background: var(--bg-subtle);
+      font-weight: 700;
+      border-top: 2px solid var(--border-strong);
+    }
+
+    /* Colored Status & Action Badges */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 9px;
+      border-radius: 5px;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+    .pill-paid {
+      background: var(--pos-pill);
+      color: var(--pos-strong);
+      border: 1px solid var(--pos-border);
+    }
+    .pill-unpaid {
+      background: var(--warn-pill);
+      color: var(--warn);
+      border: 1px solid var(--warn-border);
+    }
+    .pill-buy {
+      background: var(--buy-bg);
+      color: var(--buy-color);
+      border: 1px solid var(--buy-border);
+    }
+    .pill-sell {
+      background: var(--neg-pill);
+      color: var(--neg-strong);
+      border: 1px solid var(--neg-border);
+    }
+    .pill-drip {
+      background: var(--purple-bg);
+      color: var(--purple);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    /* Row Cell Fills for Dividend Status */
+    tr.div-paid-row td { background-color: var(--pos-bg); }
+    tr.div-unpaid-row td { background-color: var(--warn-bg); }
+
+    /* Chart Legend Strip */
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .legend-line {
+      width: 18px;
+      height: 3px;
+      border-radius: 2px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .legend-dash {
+      width: 18px;
+      height: 0;
+      border-top: 2.5px dashed;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* Mini Summary Strip below charts */
+    .chart-stat-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .chart-stat-item {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+    .chart-stat-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .chart-stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(3px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-md);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-field label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    /* 3D Stage */
+    .canvas-3d-wrap {
+      width: 100%;
+      height: 340px;
+      background: var(--three-bg);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    #three-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+    }
+    .tooltip-3d {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #38bdf8;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #ffffff;
+      box-shadow: var(--shadow-md);
+      display: none;
+      z-index: 10;
+    }
+
+    /* Step-by-Step Guide Number Circle */
+    .step-badge {
+      display: inline-flex;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP EXECUTIVE NAVY HEADER -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">PSX</div>
+      <div>
+        <div class="brand-name">Pakistan Stock Exchange — Portfolio & Dividend Tracker</div>
+        <div class="brand-meta" id="sync-status-label">✓ Auto-saved to OneDrive & Local Database</div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-header" onclick="toggleTheme()" id="theme-toggle-btn">
+        <span id="theme-icon">🌙</span>
+        <span id="theme-text">Dark Mode</span>
+      </button>
+      <button class="btn btn-header" id="btn-refresh-psx" onclick="refreshLivePSXPrices()">
+        <span>↻ Sync Live PSX Prices</span>
+      </button>
+      <button class="btn btn-emerald" onclick="openTxModal()">+ Add Buy / Sell</button>
+      <button class="btn btn-amber" onclick="openDivModal()">+ Add Dividend</button>
+    </div>
+  </header>
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar">
+    <nav class="nav-links" id="main-nav">
+      <button class="nav-btn active" onclick="switchTab('overview')">Overview & Charts</button>
+      <button class="nav-btn" onclick="switchTab('holdings')">
+        <span>My Stocks (Prices)</span>
+        <span class="count-pill" id="pill-holdings">24</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('transactions')">
+        <span>Transactions</span>
+        <span class="count-pill" id="pill-tx">99</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('dividends')">
+        <span>Dividends</span>
+        <span class="count-pill" id="pill-div">34</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('monthly')">Monthly Summary</button>
+      <button class="nav-btn" onclick="switchTab('research')">PSX Stock Charts & Links</button>
+      <button class="nav-btn" onclick="switchTab('backup')">GitHub Pages & Backup</button>
+    </nav>
+  </div>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="container">
+
+    <!-- =====================================================================
+         TAB 1: OVERVIEW & CHARTS
+         ===================================================================== -->
+    <section class="tab-section active" id="tab-overview">
+      <!-- 5 Colored KPI Cards -->
+      <div class="kpi-row" id="overview-kpis"></div>
+
+      <!-- Row 1: Monthly Dividends Chart (with bottom stat strip so zero empty whitespace!) + Colored Sector Allocation -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Monthly Net Dividends & Cumulative Income (PKR)</div>
+              <div class="card-subtitle">Monthly dividend breakdown with cumulative growth curve</div>
+            </div>
+            <span class="status-pill pill-paid" id="total-div-pill">Rs. 31,322 Net Paid</span>
+          </div>
+          <div class="card-body">
+            <!-- Visual Chart Legend -->
+            <div class="chart-legend">
+              <span class="legend-item">
+                <span class="legend-swatch" style="background:#10b981;"></span>
+                <span>Net Dividend Cash Received (Left Axis, Rs.)</span>
+              </span>
+              <span class="legend-item">
+                <span class="legend-swatch" style="background:#f59e0b;"></span>
+                <span>WHT Tax & Zakat Deducted (Stacked on Top)</span>
+              </span>
+              <span class="legend-item">
+                <span class="legend-line" style="background:#2563eb;"></span>
+                <span class="legend-dot" style="background:#fff; border:2px solid #2563eb; margin-left:-11px;"></span>
+                <span style="color:#2563eb; font-weight:700;">Cumulative Net Dividends Collected (Right Axis, K)</span>
+              </span>
+            </div>
+            <div id="chart-monthly-dividends" style="flex:1; display:flex; align-items:center;"></div>
+            <div class="chart-stat-strip" id="monthly-div-stat-strip"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Portfolio Allocation by PSX Sector</div>
+              <div class="card-subtitle">Click any sector row to filter your holdings</div>
+            </div>
+            <select class="select" id="sector-sort-metric" onchange="renderSectorBreakdown()" style="padding:4px 8px; font-size:12px;">
+              <option value="marketValue">By Market Value</option>
+              <option value="activeCostBasis">By Cost Invested</option>
+              <option value="netDivPaid">By Dividends Received</option>
+            </select>
+          </div>
+          <div style="padding:10px 18px 0;">
+            <div class="chart-legend" style="margin-bottom:4px;">
+              <span class="legend-item">
+                <span class="legend-swatch" style="background:#2563eb;"></span>
+                <span>Bar Width = Sector Share (%)</span>
+              </span>
+              <span class="legend-item">
+                <span class="mono fw-700" style="color:var(--text-main);">Rs. Value</span>
+                <span>= Sector Total</span>
+              </span>
+              <span class="legend-item">
+                <span class="pos">+Rs.</span> / <span class="neg">-Rs.</span>
+                <span>= Sector Net Profit / Loss (Cap + Divs)</span>
+              </span>
+            </div>
+          </div>
+          <div class="card-body" id="sector-breakdown-box" style="padding:6px 18px 14px; justify-content:flex-start; gap:4px;"></div>
+        </div>
+      </div>
+
+      <!-- Row 2: Stock Return Leaderboard + 3D Portfolio Map -->
+      <div class="grid-equal">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Stock Profit / Loss & Dividend Leaderboard</div>
+              <div class="card-subtitle">Ranked by Total Net Return (Unrealized Capital P&L + Net Dividends)</div>
+            </div>
+            <button class="btn btn-sm" onclick="switchTab('holdings')">Full Holdings Table →</button>
+          </div>
+          <div style="padding:10px 16px 6px;">
+            <div class="chart-legend" style="margin-bottom:0;">
+              <span class="legend-item">
+                <span class="pnl-pill pnl-pos" style="font-size:10.5px; padding:1px 6px;">+Rs. Profit</span>
+                <span>= Net Profitable Stock</span>
+              </span>
+              <span class="legend-item">
+                <span class="pnl-pill pnl-neg" style="font-size:10.5px; padding:1px 6px;">-Rs. Loss</span>
+                <span>= Net Loss Stock</span>
+              </span>
+              <span class="legend-item">
+                <span class="pos">+Net Divs</span>
+                <span>= Cash Dividends Received</span>
+              </span>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0; max-height:345px; overflow-y:auto;" id="overview-stock-rank"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Interactive 3D Portfolio Value & Dividend Towers</div>
+              <div class="card-subtitle">Drag to rotate • Scroll wheel to zoom • Hover any tower for details</div>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-sm" onclick="set3DMode('city')">3D Stock Towers</button>
+              <button class="btn btn-sm" onclick="set3DMode('wave')">3D Monthly Wave</button>
+              <button class="btn btn-sm" onclick="toggle3DRotation()">Spin On/Off</button>
+            </div>
+          </div>
+          <div class="card-body" style="padding:12px 14px;">
+            <div class="chart-legend" style="margin-bottom:8px;">
+              <span class="legend-item">
+                <span class="legend-swatch" style="background:#10b981;"></span>
+                <span>Green Tower = Stock in Profit</span>
+              </span>
+              <span class="legend-item">
+                <span class="legend-swatch" style="background:#f43f5e;"></span>
+                <span>Red Tower = Stock in Loss</span>
+              </span>
+              <span class="legend-item">
+                <span class="legend-dot" style="background:transparent; border:2.5px solid #f59e0b;"></span>
+                <span>Gold Ring = Dividend Payer</span>
+              </span>
+              <span class="legend-item">
+                <span class="legend-swatch" style="background:#3b82f6;"></span>
+                <span>Tower Height = Market Value (Rs.)</span>
+              </span>
+            </div>
+            <div class="canvas-3d-wrap" id="stage-3d-container">
+              <canvas id="three-canvas"></canvas>
+              <div class="tooltip-3d" id="tooltip-3d"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 2: MY STOCKS (HOLDINGS & LIVE PRICES)
+         ===================================================================== -->
+    <section class="tab-section" id="tab-holdings">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">My Stock Holdings & Latest PSX Prices</div>
+            <div class="card-subtitle">Click any "Latest Price" cell to edit manually, or click "Sync Live PSX Prices" in the top bar.</div>
+          </div>
+          <div class="btn-group">
+            <input type="text" class="input" id="holdings-search" placeholder="Search ticker or company..." oninput="renderHoldingsTable()" />
+            <select class="select" id="holdings-sector-filter" onchange="renderHoldingsTable()">
+              <option value="ALL">All Sectors</option>
+            </select>
+            <select class="select" id="holdings-status-filter" onchange="renderHoldingsTable()">
+              <option value="ACTIVE">Active Holdings (24)</option>
+              <option value="ALL">All Tickers (Incl. Sold)</option>
+              <option value="CLOSED">Sold / Closed (ALTN, MCB)</option>
+            </select>
+            <button class="btn btn-primary" onclick="openCompanyModal()">+ Add New Company</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th onclick="sortHoldings('ticker')">Ticker ↕</th>
+                <th onclick="sortHoldings('name')">Company Name ↕</th>
+                <th onclick="sortHoldings('sector')">Sector ↕</th>
+                <th onclick="sortHoldings('frequency')">Div Freq</th>
+                <th class="right" onclick="sortHoldings('activeShares')">Shares Held ↕</th>
+                <th class="right" onclick="sortHoldings('wac')">Avg Buy Price ↕</th>
+                <th class="right" onclick="sortHoldings('price')">Latest Price ↕</th>
+                <th class="right" onclick="sortHoldings('changePct')">Day Chg ↕</th>
+                <th class="right" onclick="sortHoldings('activeCostBasis')">Total Cost ↕</th>
+                <th class="right" onclick="sortHoldings('marketValue')">Market Value ↕</th>
+                <th class="right" onclick="sortHoldings('weight')">Weight % ↕</th>
+                <th class="right" onclick="sortHoldings('unrealizedPnL')">Unrealized P&L ↕</th>
+                <th class="right" onclick="sortHoldings('netDivPaid')">Net Dividends ↕</th>
+                <th class="right" onclick="sortHoldings('totalReturn')">Total Return ↕</th>
+                <th class="center">Chart</th>
+              </tr>
+            </thead>
+            <tbody id="holdings-tbody"></tbody>
+            <tfoot id="holdings-tfoot"></tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 3: TRANSACTIONS REGISTER
+         ===================================================================== -->
+    <section class="tab-section" id="tab-transactions">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Stock Transaction Register (Buys, Sells & IPOs)</div>
+            <div class="card-subtitle">Complete trade history with Brokerage Fees, Sindh Sales Tax (SST 15%), Net Cash Flow, and Running Average Buy Price</div>
+          </div>
+          <div class="btn-group">
+            <input type="text" class="input" id="tx-search" placeholder="Search ticker, company, IPO..." oninput="renderTransactionsTable()" />
+            <select class="select" id="tx-action-filter" onchange="renderTransactionsTable()">
+              <option value="ALL">All Actions (Buy & Sell)</option>
+              <option value="Buy">Buy Only</option>
+              <option value="Sell">Sell Only</option>
+            </select>
+            <select class="select" id="tx-month-filter" onchange="renderTransactionsTable()">
+              <option value="ALL">All Months</option>
+            </select>
+            <button class="btn btn-emerald" onclick="openTxModal()">+ Add Buy / Sell</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Month</th>
+                <th>Ticker</th>
+                <th>Company</th>
+                <th>Action</th>
+                <th class="right">Shares</th>
+                <th class="right">Price / Share</th>
+                <th class="right">Gross Amount</th>
+                <th class="right">Brk Fees</th>
+                <th class="right">SST</th>
+                <th class="right">Net Cash Flow</th>
+                <th class="right">Avg Buy Price</th>
+                <th>Notes</th>
+                <th class="center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tx-tbody"></tbody>
+            <tfoot id="tx-tfoot"></tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 4: DIVIDENDS REGISTER
+         ===================================================================== -->
+    <section class="tab-section" id="tab-dividends">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Dividend Receipts Register</div>
+            <div class="card-subtitle">Green rows = Paid dividends • Amber rows = Unpaid / Announced dividends. Click any status pill to toggle Paid/Unpaid.</div>
+          </div>
+          <div class="btn-group">
+            <input type="text" class="input" id="div-search" placeholder="Search ticker, year, term..." oninput="renderDividendsTable()" />
+            <select class="select" id="div-status-filter" onchange="renderDividendsTable()">
+              <option value="ALL">All Statuses</option>
+              <option value="Paid">Paid Only</option>
+              <option value="Unpaid">Unpaid Only</option>
+            </select>
+            <select class="select" id="div-reinv-filter" onchange="renderDividendsTable()">
+              <option value="ALL">All Dividends</option>
+              <option value="Yes">Reinvested = Yes</option>
+              <option value="No">Reinvested = No</option>
+            </select>
+            <button class="btn btn-amber" onclick="openDivModal()">+ Add Dividend</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Payment Date</th>
+                <th>Month</th>
+                <th>Ticker</th>
+                <th>Company</th>
+                <th>Year</th>
+                <th>Term</th>
+                <th class="center">Status</th>
+                <th class="right">Eligible Shares</th>
+                <th class="right">Div / Share</th>
+                <th class="right">Gross Dividend</th>
+                <th class="right">WHT</th>
+                <th class="right">Zakat</th>
+                <th class="right">Net Dividend</th>
+                <th class="center">Reinvest?</th>
+                <th>Reinvestment Details</th>
+                <th class="center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="div-tbody"></tbody>
+            <tfoot id="div-tfoot"></tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 5: MONTHLY SUMMARY & DIVIDEND CALENDAR
+         ===================================================================== -->
+    <section class="tab-section" id="tab-monthly">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Monthly Investment & Dividend Summary</div>
+            <div class="card-subtitle">Automatically calculated from your Transactions and Dividends registers</div>
+          </div>
+          <label style="font-size:12.5px; color:var(--text-secondary); display:flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="toggle-legacy-mcb" checked onchange="toggleLegacyMcbSetting(this.checked)" />
+            <span>Include MCB Legacy Sale (+Rs. 78,315 on Nov 25, 2025) in Sell Cash Inflow</span>
+          </label>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Year-Month</th>
+                <th class="right">Buy Cash Outflow</th>
+                <th class="right">Sell Cash Inflow</th>
+                <th class="right">Net Invested Cash</th>
+                <th class="right">Gross Dividends</th>
+                <th class="right">WHT</th>
+                <th class="right">Zakat</th>
+                <th class="right">Net Dividends</th>
+                <th class="right">Monthly Div Yield</th>
+                <th class="right">Dividends Reinvested</th>
+              </tr>
+            </thead>
+            <tbody id="monthly-tbody"></tbody>
+            <tfoot id="monthly-tfoot"></tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Dividend Payout Calendar by Stock (Jan – Dec)</div>
+            <div class="card-subtitle">Shows which months each stock paid you net cash dividends (PKR)</div>
+          </div>
+        </div>
+        <div class="table-container" id="dividend-calendar-box"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 6: PSX STOCK CHARTS, POSITION VISUALIZER & EXTERNAL PORTALS
+         (Fixes the TradingView Apple fallback bug!)
+         ===================================================================== -->
+    <section class="tab-section" id="tab-research">
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <span class="card-title">Select PSX Stock:</span>
+            <select class="select" id="research-ticker-select" onchange="selectResearchTicker(this.value)" style="font-weight:700; min-width:280px;"></select>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-primary" id="btn-chart-mode-custom" onclick="setResearchChartMode('custom')">Position & Price Chart</button>
+              <button class="btn btn-sm" id="btn-chart-mode-psx" onclick="setResearchChartMode('psx')">Live Official PSX Portal Page</button>
+            </div>
+          </div>
+          <div class="btn-group" id="research-external-links"></div>
+        </div>
+        <div class="card-body">
+          <div id="research-position-strip" style="margin-bottom:18px;"></div>
+
+          <div class="grid-2" style="margin-bottom:0;">
+            <!-- Left: Interactive PSX Price, Avg Buy Price & Execution Chart OR Official PSX Portal Iframe -->
+            <div style="border:1px solid var(--border); border-radius:8px; padding:16px; background:var(--bg-card); min-height:460px; display:flex; flex-direction:column; justify-content:space-between;" id="psx-chart-panel">
+            </div>
+
+            <!-- Right: Complete Buy / Sell History & Dividend History for Selected Stock -->
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div style="border:1px solid var(--border); border-radius:8px; overflow:hidden; background:var(--bg-card);">
+                <div style="padding:10px 14px; background:var(--bg-subtle); border-bottom:1px solid var(--border); font-weight:700; font-size:13px;">
+                  Your Buy / Sell Orders vs. Current Market Price
+                </div>
+                <div id="stock-lot-chart-box" style="max-height:240px; overflow-y:auto;"></div>
+              </div>
+
+              <div style="border:1px solid var(--border); border-radius:8px; overflow:hidden; background:var(--bg-card);">
+                <div style="padding:10px 14px; background:var(--bg-subtle); border-bottom:1px solid var(--border); font-weight:700; font-size:13px;">
+                  Dividends Received from This Stock
+                </div>
+                <div id="stock-div-history-box" style="max-height:190px; overflow-y:auto;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 7: STEP-BY-STEP GITHUB PAGES GUIDE & BACKUP
+         ===================================================================== -->
+    <section class="tab-section" id="tab-backup">
+      <div class="grid-equal">
+        <!-- Step-by-Step GitHub Pages Visual Guide -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">How to Host on GitHub Pages (Free Website Link for Phone & Laptop)</div>
+              <div class="card-subtitle">Follow these 4 simple steps to get your own https://username.github.io/psx-portfolio/ link</div>
+            </div>
+          </div>
+          <div class="card-body" style="justify-content:flex-start; gap:14px; font-size:13px;">
+            <div style="padding:12px 14px; border-radius:8px; background:var(--bg-subtle); border:1px solid var(--border);">
+              <div class="fw-700" style="margin-bottom:4px;"><span class="step-badge">1</span>Create a Free GitHub Repository</div>
+              <div style="color:var(--text-secondary); padding-left:32px;">
+                Go to <a href="https://github.com/new" target="_blank" style="color:var(--primary); font-weight:600;">github.com/new</a>, type a Repository name like <code>psx-portfolio</code>, select <b>Public</b> (required for free GitHub Pages), and click <b>Create repository</b>.
+              </div>
+            </div>
+
+            <div style="padding:12px 14px; border-radius:8px; background:var(--bg-subtle); border:1px solid var(--border);">
+              <div class="fw-700" style="margin-bottom:4px;"><span class="step-badge">2</span>Upload ONLY <code>index.html</code> and <code>portfolio_data.json</code> (No <code>server.py</code> needed!)</div>
+              <div style="color:var(--text-secondary); padding-left:32px;">
+                On your new repository page, click <b>"uploading an existing file"</b>. Drag and drop <code>index.html</code> and <code>portfolio_data.json</code> from your <code>Desktop\Dividend</code> folder, then click <b>Commit changes</b>.<br/>
+                <span style="font-size:12px; color:var(--primary);"><b>Note about <code>server.py</code>:</b> GitHub Pages is a static website host (it doesn't run Python files). You do <b>not</b> need <code>server.py</code> on GitHub — <code>index.html</code> automatically switches to GitHub Cloud mode when hosted on GitHub Pages! (<code>server.py</code> is only for saving to SQLite/OneDrive when running on your own PC).</span>
+              </div>
+            </div>
+
+            <div style="padding:12px 14px; border-radius:8px; background:var(--bg-subtle); border:1px solid var(--border);">
+              <div class="fw-700" style="margin-bottom:4px;"><span class="step-badge">3</span>Turn On GitHub Pages (Takes 10 Seconds)</div>
+              <div style="color:var(--text-secondary); padding-left:32px;">
+                Inside your repository, click <b>Settings</b> (top tab) → click <b>Pages</b> (left sidebar). Under <b>Branch</b>, change <code>None</code> to <code>main</code> and click <b>Save</b>. After ~60 seconds, your live website URL will appear: <code>https://YOUR-USERNAME.github.io/psx-portfolio/</code>!
+              </div>
+            </div>
+
+            <div style="padding:12px 14px; border-radius:8px; background:var(--pos-bg); border:1px solid var(--pos-border);">
+              <div class="fw-700" style="color:var(--pos-strong); margin-bottom:4px;"><span class="step-badge" style="background:var(--pos);">4</span>Save Changes Remotely from Phone or Any PC</div>
+              <div style="color:var(--text-secondary); padding-left:32px;">
+                To allow your website to save new trades back to GitHub from your phone: go to <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--primary); font-weight:600;">GitHub Token Settings</a>, check the <b>repo</b> box, generate a token (`ghp_...`), and paste it into the box on the right!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Card: GitHub Cloud Sync + Local OneDrive & File Backup -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Cloud Sync & Local Backup Controls</div>
+              <div class="card-subtitle">Sync directly with your GitHub repository or download local backup files</div>
+            </div>
+          </div>
+          <div class="card-body" style="justify-content:flex-start; gap:18px;">
+            <div style="padding:16px; border-radius:8px; background:var(--bg-subtle); border:1px solid var(--border);">
+              <div class="fw-700" style="margin-bottom:10px;">GitHub Cloud Sync Connection</div>
+              <div class="form-grid">
+                <div class="form-field full">
+                  <label>Your GitHub Repository (<code>username/repo-name</code>)</label>
+                  <input type="text" class="input" id="gh-repo" placeholder="e.g. ali/psx-portfolio" />
+                </div>
+                <div class="form-field full">
+                  <label>Your GitHub Personal Access Token (<code>ghp_...</code>)</label>
+                  <input type="password" class="input" id="gh-token" placeholder="Paste your ghp_... token here" />
+                </div>
+              </div>
+              <div class="btn-group" style="margin-top:12px;">
+                <button class="btn btn-primary" onclick="pushToGitHub()">⬆ Save Current Data to GitHub</button>
+                <button class="btn" onclick="pullFromGitHub()">⬇ Load Latest Data from GitHub</button>
+              </div>
+              <div id="gh-sync-log" class="mono" style="margin-top:10px; font-size:12px; color:var(--pos);"></div>
+            </div>
+
+            <div style="padding:16px; border-radius:8px; background:var(--bg-subtle); border:1px solid var(--border);">
+              <div class="fw-700" style="margin-bottom:6px;">Local OneDrive & Spreadsheet Backups</div>
+              <div style="font-size:12.5px; color:var(--text-secondary); margin-bottom:12px;">
+                Your data is already auto-saved to <code>portfolio_data.json</code> and <code>portfolio.db</code> in your OneDrive folder. You can also download copies below:
+              </div>
+              <div class="btn-group">
+                <button class="btn btn-emerald" onclick="exportPortfolioJSON()">⬇ Download Backup (.json)</button>
+                <label class="btn" style="cursor:pointer;">
+                  <span>⬆ Restore Backup (.json)</span>
+                  <input type="file" accept=".json" style="display:none;" onchange="importPortfolioJSON(event)" />
+                </label>
+                <button class="btn" onclick="exportHoldingsCSV()">Holdings (.csv)</button>
+                <button class="btn" onclick="exportTransactionsCSV()">Transactions (.csv)</button>
+                <button class="btn" onclick="exportDividendsCSV()">Dividends (.csv)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================================================================
+       MODAL 1: ADD / EDIT BUY OR SELL TRANSACTION
+       ======================================================================= -->
+  <div class="modal-overlay" id="modal-tx">
+    <div class="modal-box">
+      <div class="card-header">
+        <div class="card-title" id="modal-tx-title">Add Buy / Sell Transaction</div>
+        <button class="btn btn-sm" onclick="closeModal('modal-tx')">✕</button>
+      </div>
+      <div class="card-body">
+        <input type="hidden" id="tx-edit-id" value="" />
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Date</label>
+            <input type="date" class="input" id="tx-date" />
+          </div>
+          <div class="form-field">
+            <label>Stock Ticker</label>
+            <select class="select" id="tx-ticker" onchange="onTxTickerChange()"></select>
+          </div>
+          <div class="form-field">
+            <label>Action</label>
+            <select class="select" id="tx-action" onchange="autoCalcTxFees()">
+              <option value="Buy">Buy</option>
+              <option value="Sell">Sell</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Notes (Type IPO for 0 fees)</label>
+            <input type="text" class="input" id="tx-notes" placeholder="e.g. IPO" oninput="autoCalcTxFees()" />
+          </div>
+          <div class="form-field">
+            <label>Shares</label>
+            <input type="number" step="any" class="input" id="tx-shares" placeholder="e.g. 500" oninput="autoCalcTxFees()" />
+          </div>
+          <div class="form-field">
+            <label>Price per Share (Rs.)</label>
+            <input type="number" step="any" class="input" id="tx-price" placeholder="e.g. 193.18" oninput="autoCalcTxFees()" />
+          </div>
+          <div class="form-field">
+            <label>Brokerage Fee (Rs.) <a href="javascript:void(0)" onclick="forceAutoCalcTxFees()" style="font-size:11px; color:var(--primary);">[Auto-Calculate]</a></label>
+            <input type="number" step="any" class="input" id="tx-brk" value="0" oninput="updateTxPreview()" />
+          </div>
+          <div class="form-field">
+            <label>SST Tax (15% of Brokerage)</label>
+            <input type="number" step="any" class="input" id="tx-sst" value="0" oninput="updateTxPreview()" />
+          </div>
+        </div>
+        <div id="tx-modal-preview" class="mono" style="margin-top:14px; padding:10px 12px; border-radius:6px; background:var(--bg-subtle); font-size:12px;"></div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+          <button class="btn" onclick="closeModal('modal-tx')">Cancel</button>
+          <button class="btn btn-emerald" onclick="saveTxForm()">Save Transaction</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 2: ADD / EDIT DIVIDEND
+       ======================================================================= -->
+  <div class="modal-overlay" id="modal-div">
+    <div class="modal-box">
+      <div class="card-header">
+        <div class="card-title" id="modal-div-title">Add Dividend Payment</div>
+        <button class="btn btn-sm" onclick="closeModal('modal-div')">✕</button>
+      </div>
+      <div class="card-body">
+        <input type="hidden" id="div-edit-id" value="" />
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Payment Date</label>
+            <input type="date" class="input" id="div-date" onchange="autoFillEligibleShares()" />
+          </div>
+          <div class="form-field">
+            <label>Stock Ticker</label>
+            <select class="select" id="div-ticker" onchange="autoFillEligibleShares()"></select>
+          </div>
+          <div class="form-field">
+            <label>Year</label>
+            <input type="text" class="input" id="div-year" value="2026" />
+          </div>
+          <div class="form-field">
+            <label>Term</label>
+            <select class="select" id="div-term">
+              <option value="1Q">1Q</option>
+              <option value="HYR">HYR</option>
+              <option value="3Q">3Q</option>
+              <option value="YR">YR</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Eligible Shares <a href="javascript:void(0)" onclick="autoFillEligibleShares(true)" style="font-size:11px; color:var(--primary);">[Auto-Fill]</a></label>
+            <input type="number" step="any" class="input" id="div-shares" oninput="updateDivPreview()" />
+          </div>
+          <div class="form-field">
+            <label>Dividend per Share (Rs.)</label>
+            <input type="number" step="any" class="input" id="div-dps" placeholder="e.g. 5.00" oninput="autoCalcDivWht(15)" />
+          </div>
+          <div class="form-field full">
+            <label>Quick Tax (WHT) Presets</label>
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm" onclick="autoCalcDivWht(15)">15% Standard Filer</button>
+              <button type="button" class="btn btn-sm" onclick="autoCalcDivWht(7.5)">7.5% IPP Power</button>
+              <button type="button" class="btn btn-sm" onclick="autoCalcDivWht(25)">25% REIT / Fund</button>
+              <button type="button" class="btn btn-sm" onclick="autoCalcDivWht(0)">0% Exempt</button>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Withholding Tax — WHT (Rs.)</label>
+            <input type="number" step="any" class="input" id="div-wht" value="0" oninput="updateDivPreview()" />
+          </div>
+          <div class="form-field">
+            <label>Zakat Deducted (Rs.)</label>
+            <input type="number" step="any" class="input" id="div-zakat" value="0" oninput="updateDivPreview()" />
+          </div>
+          <div class="form-field">
+            <label>Status</label>
+            <select class="select" id="div-status">
+              <option value="Paid">Paid</option>
+              <option value="Unpaid">Unpaid (Announced)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Reinvested Dividend?</label>
+            <select class="select" id="div-reinvest">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+        </div>
+        <div id="div-modal-preview" class="mono" style="margin-top:14px; padding:10px 12px; border-radius:6px; background:var(--bg-subtle); font-size:12px;"></div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+          <button class="btn" onclick="closeModal('modal-div')">Cancel</button>
+          <button class="btn btn-amber" onclick="saveDivForm()">Save Dividend</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 3: ADD NEW COMPANY TICKER
+       ======================================================================= -->
+  <div class="modal-overlay" id="modal-company">
+    <div class="modal-box" style="max-width:460px;">
+      <div class="card-header">
+        <div class="card-title">Add PSX Company</div>
+        <button class="btn btn-sm" onclick="closeModal('modal-company')">✕</button>
+      </div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Ticker Symbol</label>
+            <input type="text" class="input" id="comp-ticker" placeholder="e.g. LUCK" oninput="this.value=this.value.toUpperCase()" />
+          </div>
+          <div class="form-field">
+            <label>Dividend Frequency</label>
+            <select class="select" id="comp-freq">
+              <option value="Quarterly">Quarterly</option>
+              <option value="Semi-Annual">Semi-Annual</option>
+              <option value="Annual">Annual</option>
+              <option value="None">None</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label>Company Name</label>
+            <input type="text" class="input" id="comp-name" placeholder="e.g. Lucky Cement Limited" />
+          </div>
+          <div class="form-field">
+            <label>Sector</label>
+            <input type="text" class="input" id="comp-sector" placeholder="e.g. CEMENT" />
+          </div>
+          <div class="form-field">
+            <label>Latest Price (Rs.)</label>
+            <input type="number" step="any" class="input" id="comp-price" value="0" />
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:16px;">
+          <button class="btn btn-sm" onclick="autoFetchNewTickerInfo()">Auto-Fill from PSX</button>
+          <div class="btn-group">
+            <button class="btn" onclick="closeModal('modal-company')">Cancel</button>
+            <button class="btn btn-primary" onclick="saveCompanyForm()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const INITIAL_SEED_DATA = {"version": "2.0.0", "lastUpdated": "2026-10-31T17:19:36.810911", "currency": "PKR", "settings": {"defaultBrokerageRate": 0.0015, "minBrokeragePerShare": 0.05, "sstRate": 0.15, "defaultFilerWhtRate": 0.15, "includeLegacyMcbInCashflow": true}, "companies": [{"ticker": "ALTN", "name": "Altern Energy", "frequency": "None", "price": 6.16, "ldcp": 6.23, "change": -0.07, "changePct": -1.12, "sector": "POWER GENERATION & DISTRIBUTION", "pe": "N/A", "high52": "6.10 - 12.70", "dayRange": "6.11 - 6.49", "volume": "114,801", "asOf": "As of Fri, Oct 30, 2026 4:41 PM"}, {"ticker": "BAFL", "name": "Bank Alfalah Limited", "frequency": "Quarterly", "price": 57.77, "ldcp": 57.89, "change": -0.12, "changePct": -0.21, "sector": "COMMERCIAL BANKS", "pe": "2.90", "high52": "50.65 - 68.50", "dayRange": "57.53 - 58.03", "volume": "571,535", "asOf": "As of Fri, Oct 30, 2026 4:46 PM"}, {"ticker": "BOP", "name": "Bank of Punjab", "frequency": "Semi-Annual", "price": 28.35, "ldcp": 28.66, "change": -0.31, "changePct": -1.08, "sector": "COMMERCIAL BANKS", "pe": "5.01", "high52": "23.32 - 44.17", "dayRange": "28.26 - 28.90", "volume": "8,294,339", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}, {"ticker": "DCR", "name": "Dolmen City Riet", "frequency": "Quarterly", "price": 39.44, "ldcp": 39.23, "change": 0.21, "changePct": 0.54, "sector": "REAL ESTATE INVESTMENT TRUST", "pe": "6.92", "high52": "31.11 - 41.98", "dayRange": "39.24 - 39.50", "volume": "150,017", "asOf": "As of Fri, Oct 30, 2026 4:47 PM"}, {"ticker": "DOL", "name": "Descon Oxychem Limited", "frequency": "Semi-Annual", "price": 30.0, "ldcp": 30.11, "change": -0.11, "changePct": -0.37, "sector": "CHEMICAL", "pe": "17.34", "high52": "25.36 - 36.50", "dayRange": "29.90 - 30.20", "volume": "66,198", "asOf": "As of Fri, Oct 30, 2026 4:44 PM"}, {"ticker": "EFERT", "name": "Engro Fertilizer Limited", "frequency": "Quarterly", "price": 194.99, "ldcp": 192.57, "change": 2.42, "changePct": 1.26, "sector": "FERTILIZER", "pe": "10.58", "high52": "180.01 - 263.30", "dayRange": "191.43 - 195.87", "volume": "926,740", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}, {"ticker": "EPQL", "name": "Engro Powergen Qadirpur Limited", "frequency": "Semi-Annual", "price": 23.92, "ldcp": 23.59, "change": 0.33, "changePct": 1.4, "sector": "POWER GENERATION & DISTRIBUTION", "pe": "11.34", "high52": "22.30 - 34.98", "dayRange": "23.35 - 24.15", "volume": "233,668", "asOf": "As of Fri, Oct 30, 2026 4:40 PM"}, {"ticker": "FFC", "name": "Fauji Fertilizer Company Limited", "frequency": "Quarterly", "price": 559.49, "ldcp": 561.05, "change": -1.56, "changePct": -0.28, "sector": "FERTILIZER", "pe": "10.03", "high52": "470.06 - 685.00", "dayRange": "558.76 - 565.00", "volume": "838,433", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}, {"ticker": "GDL", "name": "Ghani Dairies Limited", "frequency": "None", "price": 17.04, "ldcp": 18.16, "change": -1.12, "changePct": -6.17, "sector": "FOOD & PERSONAL CARE PRODUCTS", "pe": "7.13", "high52": "16.01 - 33.00", "dayRange": "16.97 - 17.88", "volume": "1,518,229", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}, {"ticker": "HMB", "name": "Habib Metropolitan Bank Limited", "frequency": "Quarterly", "price": 96.68, "ldcp": 96.29, "change": 0.39, "changePct": 0.41, "sector": "COMMERCIAL BANKS", "pe": "5.32", "high52": "94.00 - 132.00", "dayRange": "96.00 - 97.70", "volume": "233,475", "asOf": "As of Fri, Oct 30, 2026 4:47 PM"}, {"ticker": "HUBC", "name": "Hub Power Company Limited", "frequency": "Quarterly", "price": 193.18, "ldcp": 194.04, "change": -0.86, "changePct": -0.44, "sector": "POWER GENERATION & DISTRIBUTION", "pe": "10.15", "high52": "186.10 - 249.99", "dayRange": "192.51 - 194.00", "volume": "1,785,410", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}, {"ticker": "JSMFETF", "name": "JS Momentum Factor ETF", "frequency": "Annual", "price": 10.23, "ldcp": 10.31, "change": -0.08, "changePct": -0.78, "sector": "EXCHANGE TRADED FUNDS", "pe": "N/A", "high52": "9.19 - 14.14", "dayRange": "9.31 - 10.35", "volume": "76,500", "asOf": "As of Fri, Oct 30, 2026 4:40 PM"}, {"ticker": "KAPCO", "name": "Kot Addu Power Company Ltd", "frequency": "Semi-Annual", "price": 24.17, "ldcp": 24.09, "change": 0.08, "changePct": 0.33, "sector": "POWER GENERATION & DISTRIBUTION", "pe": "7.07", "high52": "23.60 - 41.04", "dayRange": "24.10 - 24.44", "volume": "107,669", "asOf": "As of Fri, Oct 30, 2026 4:47 PM"}, {"ticker": "MARI", "name": "Mari Energies Limited", "frequency": "Semi-Annual", "price": 631.53, "ldcp": 636.22, "change": -4.69, "changePct": -0.74, "sector": "OIL & GAS EXPLORATION COMPANIES", "pe": "8.14", "high52": "544.56 - 755.00", "dayRange": "630.00 - 637.00", "volume": "461,191", "asOf": "As of Fri, Oct 30, 2026 4:47 PM"}, {"ticker": "MTL", "name": "Millat Tractors Limited", "frequency": "Semi-Annual", "price": 280.1, "ldcp": 284.35, "change": -4.25, "changePct": -1.49, "sector": "AUTOMOBILE ASSEMBLER", "pe": "14.33", "high52": "232.50 - 318.90", "dayRange": "279.40 - 285.00", "volume": "108,292", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}, {"ticker": "MZNPETF", "name": "Meezan Pakistan ETF", "frequency": "Annual", "price": 17.01, "ldcp": 17.04, "change": -0.03, "changePct": -0.18, "sector": "EXCHANGE TRADED FUNDS", "pe": "N/A", "high52": "16.45 - 25.29", "dayRange": "16.95 - 17.11", "volume": "418,000", "asOf": "As of Fri, Oct 30, 2026 4:47 PM"}, {"ticker": "MZSM", "name": "Mirza Sugar Mills Limited", "frequency": "None", "price": 5.02, "ldcp": 5.06, "change": -0.04, "changePct": -0.79, "sector": "SUGAR & ALLIED INDUSTRIES", "pe": "N/A", "high52": "0.00 - 0.00", "dayRange": "4.90 - 5.15", "volume": "44,000", "asOf": "As of Tue, May 8, 2018 3:50 PM"}, {"ticker": "NCPL", "name": "Nishat Chunian Power Limited", "frequency": "Semi-Annual", "price": 49.6, "ldcp": 49.01, "change": 0.59, "changePct": 1.2, "sector": "POWER GENERATION & DISTRIBUTION", "pe": "7.33", "high52": "25.00 - 89.48", "dayRange": "48.80 - 51.40", "volume": "4,181,190", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}, {"ticker": "NPL", "name": "Nishat Power Limited", "frequency": "Semi-Annual", "price": 51.8, "ldcp": 52.41, "change": -0.61, "changePct": -1.16, "sector": "POWER GENERATION & DISTRIBUTION", "pe": "7.52", "high52": "33.49 - 100.45", "dayRange": "51.53 - 54.14", "volume": "3,286,538", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}, {"ticker": "OGDC", "name": "Oil & Gas Development Company Limited", "frequency": "Quarterly", "price": 306.78, "ldcp": 306.21, "change": 0.57, "changePct": 0.19, "sector": "OIL & GAS EXPLORATION COMPANIES", "pe": "5.44", "high52": "238.20 - 352.00", "dayRange": "306.00 - 310.39", "volume": "3,088,936", "asOf": "As of Fri, Oct 30, 2026 4:46 PM"}, {"ticker": "PAKQATAR", "name": "Pak Qatar Family Takaful", "frequency": "Annual", "price": 15.55, "ldcp": 15.33, "change": 0.22, "changePct": 1.44, "sector": "INSURANCE", "pe": "23.56", "high52": "14.50 - 29.40", "dayRange": "15.34 - 15.99", "volume": "127,181", "asOf": "As of Fri, Oct 30, 2026 4:47 PM"}, {"ticker": "PQGTL", "name": "Pak Qatar General Takaful Limited", "frequency": "Annual", "price": 12.02, "ldcp": 12.1, "change": -0.08, "changePct": -0.66, "sector": "INSURANCE", "pe": "6.99", "high52": "10.25 - 19.80", "dayRange": "12.00 - 12.48", "volume": "30,460", "asOf": "As of Fri, Oct 30, 2026 4:42 PM"}, {"ticker": "SLM", "name": "Service Long March Tyres Limited", "frequency": "Semi-Annual", "price": 21.36, "ldcp": 21.21, "change": 0.15, "changePct": 0.71, "sector": "AUTOMOBILE PARTS & ACCESSORIES", "pe": "N/A", "high52": "21.05 - 26.25", "dayRange": "21.15 - 21.40", "volume": "554,189", "asOf": "As of Fri, Oct 30, 2026 4:46 PM"}, {"ticker": "SPSL", "name": "Sitara Petroleum Sevices Limited", "frequency": "Annual", "price": 12.58, "ldcp": 12.63, "change": -0.05, "changePct": -0.4, "sector": "OIL & GAS MARKETING COMPANIES", "pe": "4.07", "high52": "12.47 - 23.45", "dayRange": "12.50 - 12.85", "volume": "3,913,314", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}, {"ticker": "SRR", "name": "Signature Residency Riet", "frequency": "Annual", "price": 17.28, "ldcp": 17.1, "change": 0.18, "changePct": 1.05, "sector": "REAL ESTATE INVESTMENT TRUST", "pe": "5.09", "high52": "15.26 - 21.00", "dayRange": "17.11 - 17.38", "volume": "13,696", "asOf": "As of Fri, Oct 30, 2026 4:41 PM"}, {"ticker": "UBLPETF", "name": "UBL Pakistan Enterprise ETF", "frequency": "Annual", "price": 27.74, "ldcp": 27.79, "change": -0.05, "changePct": -0.18, "sector": "EXCHANGE TRADED FUNDS", "pe": "N/A", "high52": "26.01 - 47.34", "dayRange": "26.01 - 28.44", "volume": "71,000", "asOf": "As of Fri, Oct 30, 2026 4:41 PM"}, {"ticker": "MCB", "name": "Muslim Commercial Bank Ltd", "frequency": "Quarterly", "legacyShares": 225, "legacyCostPerShare": 0, "price": 397.52, "ldcp": 399.22, "change": -1.7, "changePct": -0.43, "sector": "COMMERCIAL BANKS", "pe": "8.64", "high52": "343.70 - 452.00", "dayRange": "395.55 - 399.00", "volume": "320,203", "asOf": "As of Fri, Oct 30, 2026 4:49 PM"}], "transactions": [{"id": 1, "date": "2025-11-24", "ticker": "KAPCO", "company": "Kot Addu Power Company Ltd", "action": "Buy", "shares": 200, "price": 29.8, "brkFees": 10.14, "sst": 1.52, "notes": ""}, {"id": 2, "date": "2025-11-24", "ticker": "KAPCO", "company": "Kot Addu Power Company Ltd", "action": "Buy", "shares": 600, "price": 29.93, "brkFees": 30.54, "sst": 4.58, "notes": ""}, {"id": 3, "date": "2025-11-24", "ticker": "KAPCO", "company": "Kot Addu Power Company Ltd", "action": "Buy", "shares": 200, "price": 29.84, "brkFees": 10.14, "sst": 1.52, "notes": ""}, {"id": 4, "date": "2025-11-25", "ticker": "ALTN", "company": "Altern Energy", "action": "Buy", "shares": 1000, "price": 11, "brkFees": 50, "sst": 7.5, "notes": ""}, {"id": 5, "date": "2025-11-25", "ticker": "ALTN", "company": "Altern Energy", "action": "Buy", "shares": 1000, "price": 10.96, "brkFees": 50, "sst": 7.5, "notes": ""}, {"id": 6, "date": "2025-11-25", "ticker": "EPQL", "company": "Engro Powergen Qadirpur Limited", "action": "Buy", "shares": 10, "price": 29.9, "brkFees": 0.51, "sst": 0.08, "notes": ""}, {"id": 7, "date": "2025-11-25", "ticker": "EPQL", "company": "Engro Powergen Qadirpur Limited", "action": "Buy", "shares": 5, "price": 29.9, "brkFees": 0.25, "sst": 0.04, "notes": ""}, {"id": 8, "date": "2025-11-25", "ticker": "EPQL", "company": "Engro Powergen Qadirpur Limited", "action": "Buy", "shares": 169, "price": 29.9, "brkFees": 8.59, "sst": 1.29, "notes": ""}, {"id": 9, "date": "2025-11-25", "ticker": "EPQL", "company": "Engro Powergen Qadirpur Limited", "action": "Buy", "shares": 5, "price": 29.9, "brkFees": 0.26, "sst": 0.04, "notes": ""}, {"id": 10, "date": "2025-11-25", "ticker": "EPQL", "company": "Engro Powergen Qadirpur Limited", "action": "Buy", "shares": 495, "price": 29.9, "brkFees": 25.25, "sst": 3.79, "notes": ""}, {"id": 11, "date": "2025-11-25", "ticker": "EPQL", "company": "Engro Powergen Qadirpur Limited", "action": "Buy", "shares": 500, "price": 29.91, "brkFees": 25.4, "sst": 3.81, "notes": ""}, {"id": 12, "date": "2025-11-25", "ticker": "MCB", "company": "Muslim Commercial Bank Ltd", "action": "Sell", "shares": 225, "price": 348.75, "brkFees": 133.41, "sst": 20.01, "notes": ""}, {"id": 13, "date": "2025-11-26", "ticker": "EPQL", "company": "Engro Powergen Qadirpur Limited", "action": "Buy", "shares": 116, "price": 30.05, "brkFees": 5.93, "sst": 0.89, "notes": ""}, {"id": 14, "date": "2025-11-26", "ticker": "NPL", "company": "Nishat Power Limited", "action": "Buy", "shares": 700, "price": 35.21, "brkFees": 41.93, "sst": 6.29, "notes": ""}, {"id": 15, "date": "2025-11-26", "ticker": "NPL", "company": "Nishat Power Limited", "action": "Buy", "shares": 2, "price": 35.21, "brkFees": 0.12, "sst": 0.02, "notes": ""}, {"id": 16, "date": "2025-11-27", "ticker": "NPL", "company": "Nishat Power Limited", "action": "Buy", "shares": 10, "price": 35.58, "brkFees": 0.61, "sst": 0.09, "notes": ""}, {"id": 17, "date": "2025-11-27", "ticker": "NPL", "company": "Nishat Power Limited", "action": "Buy", "shares": 25, "price": 35.58, "brkFees": 1.51, "sst": 0.23, "notes": ""}, {"id": 18, "date": "2025-11-27", "ticker": "NPL", "company": "Nishat Power Limited", "action": "Buy", "shares": 602, "price": 35.58, "brkFees": 36.42, "sst": 5.46, "notes": ""}, {"id": 19, "date": "2025-11-27", "ticker": "NPL", "company": "Nishat Power Limited", "action": "Buy", "shares": 50, "price": 35.58, "brkFees": 3.03, "sst": 0.45, "notes": ""}, {"id": 20, "date": "2025-12-02", "ticker": "DCR", "company": "Dolmen City Riet", "action": "Buy", "shares": 500, "price": 32.6, "brkFees": 27.7, "sst": 4.16, "notes": ""}, {"id": 21, "date": "2025-12-02", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 10, "price": 221.35, "brkFees": 3.76, "sst": 0.56, "notes": ""}, {"id": 22, "date": "2025-12-02", "ticker": "MARI", "company": "Mari Energies Limited", "action": "Buy", "shares": 10, "price": 703.2, "brkFees": 11.95, "sst": 1.79, "notes": ""}, {"id": 23, "date": "2025-12-02", "ticker": "MZNPETF", "company": "Meezan Pakistan ETF", "action": "Buy", "shares": 1000, "price": 20.08, "brkFees": 50, "sst": 7.5, "notes": ""}, {"id": 24, "date": "2025-12-02", "ticker": "OGDC", "company": "Oil & Gas Development Company Limited", "action": "Buy", "shares": 15, "price": 264.7, "brkFees": 6.75, "sst": 1.01, "notes": ""}, {"id": 25, "date": "2025-12-10", "ticker": "DCR", "company": "Dolmen City Riet", "action": "Buy", "shares": 100, "price": 33.9, "brkFees": 5.76, "sst": 0.86, "notes": ""}, {"id": 26, "date": "2025-12-10", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 50, "price": 224.02, "brkFees": 19.04, "sst": 2.86, "notes": ""}, {"id": 27, "date": "2025-12-10", "ticker": "MARI", "company": "Mari Energies Limited", "action": "Buy", "shares": 10, "price": 707, "brkFees": 12.02, "sst": 1.8, "notes": ""}, {"id": 28, "date": "2025-12-10", "ticker": "OGDC", "company": "Oil & Gas Development Company Limited", "action": "Buy", "shares": 104, "price": 274.2, "brkFees": 48.49, "sst": 7.27, "notes": ""}, {"id": 29, "date": "2025-12-16", "ticker": "BOP", "company": "Bank of Punjab", "action": "Buy", "shares": 500, "price": 35.15, "brkFees": 29.9, "sst": 4.49, "notes": ""}, {"id": 30, "date": "2025-12-16", "ticker": "HMB", "company": "Habib Metropolitan Bank Limited", "action": "Buy", "shares": 100, "price": 111.9, "brkFees": 19.02, "sst": 2.85, "notes": ""}, {"id": 31, "date": "2025-12-16", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 10, "price": 223.69, "brkFees": 3.8, "sst": 0.57, "notes": ""}, {"id": 32, "date": "2025-12-16", "ticker": "MARI", "company": "Mari Energies Limited", "action": "Buy", "shares": 2, "price": 707.01, "brkFees": 2.4, "sst": 0.36, "notes": ""}, {"id": 33, "date": "2025-12-16", "ticker": "NCPL", "company": "Nishat Chunian Power Limited", "action": "Buy", "shares": 300, "price": 48, "brkFees": 24.48, "sst": 3.67, "notes": ""}, {"id": 34, "date": "2025-12-16", "ticker": "OGDC", "company": "Oil & Gas Development Company Limited", "action": "Buy", "shares": 10, "price": 273.1, "brkFees": 4.65, "sst": 0.7, "notes": ""}, {"id": 35, "date": "2025-12-18", "ticker": "PAKQATAR", "company": "Pak Qatar Family Takaful", "action": "Buy", "shares": 1000, "price": 18.02, "brkFees": 0, "sst": 0, "notes": "IPO"}, {"id": 36, "date": "2026-01-09", "ticker": "BOP", "company": "Bank of Punjab", "action": "Buy", "shares": 500, "price": 42.9, "brkFees": 36.45, "sst": 5.47, "notes": ""}, {"id": 37, "date": "2026-01-09", "ticker": "DCR", "company": "Dolmen City Riet", "action": "Buy", "shares": 400, "price": 37.7, "brkFees": 25.64, "sst": 3.85, "notes": ""}, {"id": 38, "date": "2026-01-09", "ticker": "EFERT", "company": "Engro Fertilizer Limited", "action": "Buy", "shares": 100, "price": 253.6, "brkFees": 43.11, "sst": 6.47, "notes": ""}, {"id": 39, "date": "2026-01-09", "ticker": "HMB", "company": "Habib Metropolitan Bank Limited", "action": "Buy", "shares": 30, "price": 119.85, "brkFees": 6.11, "sst": 0.92, "notes": ""}, {"id": 40, "date": "2026-01-09", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 100, "price": 239.4, "brkFees": 40.7, "sst": 6.11, "notes": ""}, {"id": 41, "date": "2026-01-09", "ticker": "MARI", "company": "Mari Energies Limited", "action": "Buy", "shares": 10, "price": 731.99, "brkFees": 12.44, "sst": 1.87, "notes": ""}, {"id": 42, "date": "2026-01-20", "ticker": "SRR", "company": "Signature Residency Riet", "action": "Buy", "shares": 1500, "price": 14, "brkFees": 0, "sst": 0, "notes": "IPO"}, {"id": 43, "date": "2026-01-29", "ticker": "PQGTL", "company": "Pak Qatar General Takaful Limited", "action": "Buy", "shares": 1500, "price": 14, "brkFees": 0, "sst": 0, "notes": "IPO"}, {"id": 44, "date": "2026-02-10", "ticker": "GDL", "company": "Ghani Diaries Limited", "action": "Buy", "shares": 500, "price": 33, "brkFees": 0, "sst": 0, "notes": "IPO"}, {"id": 45, "date": "2026-02-11", "ticker": "EFERT", "company": "Engro Fertilizer Limited", "action": "Buy", "shares": 100, "price": 233.91, "brkFees": 39.76, "sst": 5.96, "notes": ""}, {"id": 46, "date": "2026-02-11", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 100, "price": 226.19, "brkFees": 38.45, "sst": 5.77, "notes": ""}, {"id": 47, "date": "2026-02-11", "ticker": "JSMFETF", "company": "JS Momentum Factor ETF", "action": "Buy", "shares": 2000, "price": 12.26, "brkFees": 100, "sst": 15, "notes": ""}, {"id": 48, "date": "2026-02-11", "ticker": "MARI", "company": "Mari Energies Limited", "action": "Buy", "shares": 2, "price": 692.17, "brkFees": 2.35, "sst": 0.35, "notes": ""}, {"id": 49, "date": "2026-02-11", "ticker": "MTL", "company": "Millat Tractors Limited", "action": "Buy", "shares": 20, "price": 569, "brkFees": 19.35, "sst": 2.9, "notes": ""}, {"id": 50, "date": "2026-04-15", "ticker": "EFERT", "company": "Engro Fertilizer Limited", "action": "Buy", "shares": 25, "price": 207.36, "brkFees": 8.81, "sst": 1.32, "notes": ""}, {"id": 51, "date": "2026-04-15", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 50, "price": 212.71, "brkFees": 18.08, "sst": 2.71, "notes": ""}, {"id": 52, "date": "2026-04-15", "ticker": "MTL", "company": "Millat Tractors Limited", "action": "Buy", "shares": 8, "price": 510.3, "brkFees": 6.94, "sst": 1.01, "notes": ""}, {"id": 53, "date": "2026-05-04", "ticker": "BAFL", "company": "Bank Alfalah Limited", "action": "Buy", "shares": 500, "price": 59.5, "brkFees": 50.6, "sst": 7.59, "notes": ""}, {"id": 54, "date": "2026-05-04", "ticker": "EFERT", "company": "Engro Fertilizer Limited", "action": "Buy", "shares": 100, "price": 199.99, "brkFees": 34, "sst": 5.1, "notes": ""}, {"id": 55, "date": "2026-05-04", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 180, "price": 217.85, "brkFees": 66.65, "sst": 10, "notes": ""}, {"id": 56, "date": "2026-05-05", "ticker": "DCR", "company": "Dolmen City Riet", "action": "Buy", "shares": 8, "price": 36.09, "brkFees": 0.49, "sst": 0.07, "notes": ""}, {"id": 57, "date": "2026-05-05", "ticker": "DOL", "company": "Descon Oxychem Limited", "action": "Buy", "shares": 250, "price": 28.4, "brkFees": 12.5, "sst": 1.88, "notes": ""}, {"id": 58, "date": "2026-05-05", "ticker": "HMB", "company": "Habib Metropolitan Bank Limited", "action": "Buy", "shares": 30, "price": 116.5, "brkFees": 5.94, "sst": 0.89, "notes": ""}, {"id": 59, "date": "2026-05-06", "ticker": "FFC", "company": "Fauji Fertilizer Company Ltd", "action": "Buy", "shares": 10, "price": 513.9, "brkFees": 8.74, "sst": 1.31, "notes": ""}, {"id": 60, "date": "2026-05-06", "ticker": "HMB", "company": "Habib Metropolitan Bank Limited", "action": "Buy", "shares": 23, "price": 114.9, "brkFees": 4.49, "sst": 0.67, "notes": ""}, {"id": 61, "date": "2026-05-06", "ticker": "MARI", "company": "Mari Energies Limited", "action": "Buy", "shares": 5, "price": 631.4, "brkFees": 5.37, "sst": 0.81, "notes": ""}, {"id": 62, "date": "2026-05-06", "ticker": "OGDC", "company": "Oil & Gas Development Company Limited", "action": "Buy", "shares": 10, "price": 309.5, "brkFees": 5.26, "sst": 0.79, "notes": ""}, {"id": 63, "date": "2026-05-06", "ticker": "OGDC", "company": "Oil & Gas Development Company Limited", "action": "Buy", "shares": 10, "price": 309.25, "brkFees": 5.26, "sst": 0.79, "notes": ""}, {"id": 64, "date": "2026-05-06", "ticker": "ALTN", "company": "Altern Energy", "action": "Sell", "shares": 2000, "price": 8.65, "brkFees": 100, "sst": 15, "notes": ""}, {"id": 65, "date": "2026-05-12", "ticker": "SPSL", "company": "Sitara Petroleum Services Limited", "action": "Buy", "shares": 2000, "price": 18.9, "brkFees": 0, "sst": 0, "notes": "IPO"}, {"id": 66, "date": "2026-05-14", "ticker": "EFERT", "company": "Engro Fertilizer Limited", "action": "Buy", "shares": 3, "price": 198, "brkFees": 1.01, "sst": 0.15, "notes": ""}, {"id": 67, "date": "2026-05-14", "ticker": "HMB", "company": "Habib Metropolitan Bank Limited", "action": "Buy", "shares": 3, "price": 117, "brkFees": 0.6, "sst": 0.09, "notes": ""}, {"id": 68, "date": "2026-05-14", "ticker": "PAKQATAR", "company": "Pak Qatar Family Takaful", "action": "Buy", "shares": 50, "price": 17.4, "brkFees": 2.5, "sst": 0.38, "notes": ""}, {"id": 69, "date": "2026-05-14", "ticker": "PQGTL", "company": "Pak Qatar General Takaful Limited", "action": "Buy", "shares": 97, "price": 13.05, "brkFees": 4.85, "sst": 0.73, "notes": ""}, {"id": 70, "date": "2026-05-18", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 10, "price": 208.99, "brkFees": 3.55, "sst": 0.53, "notes": ""}, {"id": 71, "date": "2026-05-18", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 1, "price": 209, "brkFees": 0.36, "sst": 0.05, "notes": ""}, {"id": 72, "date": "2026-05-22", "ticker": "BAFL", "company": "Bank Alfalah Limited", "action": "Buy", "shares": 11, "price": 57.25, "brkFees": 1.07, "sst": 0.16, "notes": ""}, {"id": 73, "date": "2026-05-22", "ticker": "NCPL", "company": "Nishat Chunian Power Limited", "action": "Buy", "shares": 2, "price": 65.74, "brkFees": 0.22, "sst": 0.03, "notes": ""}, {"id": 74, "date": "2026-05-22", "ticker": "NCPL", "company": "Nishat Chunian Power Limited", "action": "Buy", "shares": 25, "price": 65.75, "brkFees": 2.8, "sst": 0.42, "notes": ""}, {"id": 75, "date": "2026-05-22", "ticker": "OGDC", "company": "Oil & Gas Development Company Limited", "action": "Buy", "shares": 1, "price": 322.73, "brkFees": 0.55, "sst": 0.08, "notes": ""}, {"id": 76, "date": "2026-06-04", "ticker": "SLM", "company": "Service Long March Tyres Limited", "action": "Buy", "shares": 1500, "price": 19.95, "brkFees": 0, "sst": 0, "notes": "IPO"}, {"id": 77, "date": "2026-07-07", "ticker": "DOL", "company": "Descon Oxychem Limited", "action": "Buy", "shares": 100, "price": 33, "brkFees": 5.61, "sst": 0.84, "notes": ""}, {"id": 78, "date": "2026-07-07", "ticker": "EFERT", "company": "Engro Fertilizer Limited", "action": "Buy", "shares": 20, "price": 198.54, "brkFees": 6.75, "sst": 1.01, "notes": ""}, {"id": 79, "date": "2026-07-07", "ticker": "HMB", "company": "Habib Metropolitan Bank Limited", "action": "Buy", "shares": 100, "price": 118.7, "brkFees": 20.18, "sst": 3.03, "notes": ""}, {"id": 80, "date": "2026-07-07", "ticker": "UBLPETF", "company": "UBL Pakistan Enterprise ETF", "action": "Buy", "shares": 1000, "price": 30.97, "brkFees": 52.6, "sst": 7.89, "notes": ""}, {"id": 81, "date": "2026-08-03", "ticker": "BAFL", "company": "Bank Alfalah Limited", "action": "Buy", "shares": 500, "price": 58.55, "brkFees": 49.75, "sst": 7.46, "notes": ""}, {"id": 82, "date": "2026-08-03", "ticker": "DOL", "company": "Descon Oxychem Limited", "action": "Buy", "shares": 400, "price": 30, "brkFees": 20.4, "sst": 3.06, "notes": ""}, {"id": 83, "date": "2026-08-03", "ticker": "EFERT", "company": "Engro Fertilizer Limited", "action": "Buy", "shares": 100, "price": 189.16, "brkFees": 32.16, "sst": 4.82, "notes": ""}, {"id": 84, "date": "2026-08-03", "ticker": "EFERT", "company": "Engro Fertilizer Limited", "action": "Buy", "shares": 52, "price": 188.76, "brkFees": 16.69, "sst": 2.5, "notes": ""}, {"id": 85, "date": "2026-08-03", "ticker": "FFC", "company": "Fauji Fertilizer Company Ltd", "action": "Buy", "shares": 10, "price": 565.5, "brkFees": 9.61, "sst": 1.44, "notes": ""}, {"id": 86, "date": "2026-08-03", "ticker": "HMB", "company": "Habib Metropolitan Bank Limited", "action": "Buy", "shares": 214, "price": 113.05, "brkFees": 41.13, "sst": 6.17, "notes": ""}, {"id": 87, "date": "2026-09-01", "ticker": "BAFL", "company": "Bank Alfalah Limited", "action": "Buy", "shares": 25, "price": 58.2, "brkFees": 2.47, "sst": 0.37, "notes": ""}, {"id": 88, "date": "2026-09-01", "ticker": "HMB", "company": "Habib Metropolitan Bank Limited", "action": "Buy", "shares": 10, "price": 102.6, "brkFees": 1.74, "sst": 0.26, "notes": ""}, {"id": 89, "date": "2026-09-04", "ticker": "DCR", "company": "Dolmen City Riet", "action": "Buy", "shares": 9, "price": 40.7, "brkFees": 0.62, "sst": 0.09, "notes": ""}, {"id": 90, "date": "2026-09-04", "ticker": "DOL", "company": "Descon Oxychem Limited", "action": "Buy", "shares": 250, "price": 30.1, "brkFees": 12.8, "sst": 1.92, "notes": ""}, {"id": 91, "date": "2026-09-04", "ticker": "FFC", "company": "Fauji Fertilizer Company Ltd", "action": "Buy", "shares": 4, "price": 549.2, "brkFees": 3.73, "sst": 0.56, "notes": ""}, {"id": 92, "date": "2026-09-30", "ticker": "BOP", "company": "Bank of Punjab", "action": "Buy", "shares": 44, "price": 30.35, "brkFees": 2.27, "sst": 0.34, "notes": ""}, {"id": 93, "date": "2026-09-30", "ticker": "MARI", "company": "Mari Energies Limited", "action": "Buy", "shares": 1, "price": 629.9, "brkFees": 1.07, "sst": 0.16, "notes": ""}, {"id": 94, "date": "2026-09-30", "ticker": "SLM", "company": "Service Long March Tyres Limited", "action": "Buy", "shares": 46, "price": 22.89, "brkFees": 2.3, "sst": 0.35, "notes": ""}, {"id": 95, "date": "2026-10-08", "ticker": "MARI", "company": "Mari Energies Limited", "action": "Buy", "shares": 10, "price": 647.49, "brkFees": 11.01, "sst": 1.65, "notes": ""}, {"id": 96, "date": "2026-10-08", "ticker": "MTL", "company": "Millat Tractors Limited", "action": "Buy", "shares": 100, "price": 298.05, "brkFees": 50.67, "sst": 7.6, "notes": ""}, {"id": 97, "date": "2026-10-08", "ticker": "OGDC", "company": "Oil & Gas Development Company Limited", "action": "Buy", "shares": 43, "price": 317.79, "brkFees": 23.23, "sst": 3.48, "notes": ""}, {"id": 98, "date": "2026-10-30", "ticker": "DCR", "company": "Dolmen City Riet", "action": "Buy", "shares": 15, "price": 39.45, "brkFees": 1.01, "sst": 0.15, "notes": ""}, {"id": 99, "date": "2026-10-30", "ticker": "HUBC", "company": "Hub Power Company Limited", "action": "Buy", "shares": 10, "price": 194.72, "brkFees": 3.31, "sst": 0.5, "notes": ""}], "dividends": [{"id": 1, "paymentDate": "2026-01-07", "ticker": "DCR", "year": "2025-26", "term": "HYR", "sharesEligible": 600, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 0.63, "wht": 57, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 2, "paymentDate": "2026-02-06", "ticker": "MARI", "year": "2025-26", "term": "HYR", "sharesEligible": 32, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 8.3, "wht": 40, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 3, "paymentDate": "2026-03-12", "ticker": "MTL", "year": "2025-26", "term": "HYR", "sharesEligible": 20, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 20, "wht": 60, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 4, "paymentDate": "2026-03-17", "ticker": "OGDC", "year": "2025-26", "term": "HYR", "sharesEligible": 129, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 4.25, "wht": 82, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 5, "paymentDate": "2026-03-20", "ticker": "HUBC", "year": "2025-26", "term": "HYR", "sharesEligible": 270, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 5, "wht": 203, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 6, "paymentDate": "2026-03-30", "ticker": "EPQL", "year": "2025", "term": "YR", "sharesEligible": 1300, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1.25, "wht": 122, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 7, "paymentDate": "2026-03-30", "ticker": "KAPCO", "year": "2025-26", "term": "HYR", "sharesEligible": 1000, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1.5, "wht": 225, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 8, "paymentDate": "2026-04-01", "ticker": "HMB", "year": "2025", "term": "YR", "sharesEligible": 130, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 4.5, "wht": 88, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 9, "paymentDate": "2026-04-02", "ticker": "EFERT", "year": "2025", "term": "YR", "sharesEligible": 200, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 4, "wht": 120, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 10, "paymentDate": "2026-04-07", "ticker": "BOP", "year": "2025", "term": "YR", "sharesEligible": 1000, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1.5, "wht": 225, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 11, "paymentDate": "2026-04-20", "ticker": "DCR", "year": "2025-26", "term": "3Q", "sharesEligible": 1000, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 0.66, "wht": 99, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 12, "paymentDate": "2026-05-11", "ticker": "HMB", "year": "2026", "term": "1Q", "sharesEligible": 160, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 2.5, "wht": 60, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 13, "paymentDate": "2026-05-13", "ticker": "EFERT", "year": "2026", "term": "1Q", "sharesEligible": 325, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 2, "wht": 98, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 14, "paymentDate": "2026-05-13", "ticker": "PQGTL", "year": "2025", "term": "YR", "sharesEligible": 1500, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1, "wht": 225, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 15, "paymentDate": "2026-05-13", "ticker": "PAKQATAR", "year": "2025", "term": "YR", "sharesEligible": 1000, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1, "wht": 150, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 16, "paymentDate": "2026-05-15", "ticker": "HUBC", "year": "2025-26", "term": "3Q", "sharesEligible": 500, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 5, "wht": 375, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 17, "paymentDate": "2026-05-18", "ticker": "BAFL", "year": "2026", "term": "1Q", "sharesEligible": 500, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1.5, "wht": 113, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 18, "paymentDate": "2026-05-20", "ticker": "FFC", "year": "2026", "term": "1Q", "sharesEligible": 10, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 8.5, "wht": 13, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 19, "paymentDate": "2026-05-20", "ticker": "NPL", "year": "2025-26", "term": "3Q", "sharesEligible": 1389, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1.5, "wht": 156.26, "zakat": 347.25, "reinvest": "No", "reinvestPrice": 0}, {"id": 20, "paymentDate": "2026-05-22", "ticker": "OGDC", "year": "2025-26", "term": "3Q", "sharesEligible": 149, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 3.25, "wht": 73, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 21, "paymentDate": "2026-06-04", "ticker": "NCPL", "year": "2025-26", "term": "3Q", "sharesEligible": 300, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1.5, "wht": 34, "zakat": 75, "reinvest": "No", "reinvestPrice": 0}, {"id": 22, "paymentDate": "2026-07-07", "ticker": "MZNPETF", "year": "2025-26", "term": "YR", "sharesEligible": 1000, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 3.5, "wht": 526, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 23, "paymentDate": "2026-08-04", "ticker": "DCR", "year": "2025-26", "term": "YR", "sharesEligible": 1008, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 0.66, "wht": 100, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 24, "paymentDate": "2026-08-18", "ticker": "EPQL", "year": "2026", "term": "HYR", "sharesEligible": 1300, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1, "wht": 98, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 25, "paymentDate": "2026-08-19", "ticker": "FFC", "year": "2026", "term": "HYR", "sharesEligible": 20, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 14.5, "wht": 44, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 26, "paymentDate": "2026-08-21", "ticker": "EFERT", "year": "2026", "term": "HYR", "sharesEligible": 500, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1.75, "wht": 131, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 27, "paymentDate": "2026-08-25", "ticker": "BAFL", "year": "2026", "term": "HYR", "sharesEligible": 1011, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1.5, "wht": 227, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 28, "paymentDate": "2026-08-31", "ticker": "HMB", "year": "2026", "term": "HYR", "sharesEligible": 500, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 2.5, "wht": 188, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 29, "paymentDate": "2026-09-22", "ticker": "BOP", "year": "2026", "term": "HYR", "sharesEligible": 1000, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 1.6, "wht": 240, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 30, "paymentDate": "2026-09-24", "ticker": "SLM", "year": "2025-26", "term": "YR", "sharesEligible": 1500, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 0.83, "wht": 187, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 31, "paymentDate": "2026-09-25", "ticker": "MARI", "year": "2025-26", "term": "YR", "sharesEligible": 39, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 18.7, "wht": 109, "zakat": 0, "reinvest": "Yes", "reinvestPrice": 0}, {"id": 32, "paymentDate": "2026-10-27", "ticker": "DCR", "year": "2026-27", "term": "1Q", "sharesEligible": 1017, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 0.66, "wht": 100, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 33, "paymentDate": "2026-10-28", "ticker": "HUBC", "year": "2025-26", "term": "YR", "sharesEligible": 511, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 5, "wht": 383, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}, {"id": 34, "paymentDate": "2026-10-29", "ticker": "OGDC", "year": "2025-26", "term": "YR", "sharesEligible": 193, "status": "Paid", "announcementDate": "", "expectedPaymentDate": "", "dps": 6, "wht": 174, "zakat": 0, "reinvest": "No", "reinvestPrice": 0}], "quotes": {"ALTN": {"ticker": "ALTN", "officialName": "Altern Energy Limited", "price": 6.16, "ldcp": 6.23, "change": -0.07, "changePct": -1.12, "sector": "POWER GENERATION & DISTRIBUTION", "asOf": "As of Fri, Oct 30, 2026 4:41 PM", "high52": "6.10 - 12.70", "dayRange": "6.11 - 6.49", "pe": "N/A", "ytd": "-47.62%", "oneYr": "-45.58%", "volume": "114,801"}, "BAFL": {"ticker": "BAFL", "officialName": "Bank Alfalah Limited", "price": 57.77, "ldcp": 57.89, "change": -0.12, "changePct": -0.21, "sector": "COMMERCIAL BANKS", "asOf": "As of Fri, Oct 30, 2026 4:46 PM", "high52": "50.65 - 68.50", "dayRange": "57.53 - 58.03", "pe": "2.90", "ytd": "5.95%", "oneYr": "12.51%", "volume": "571,535"}, "BOP": {"ticker": "BOP", "officialName": "The Bank of Punjab", "price": 28.35, "ldcp": 28.66, "change": -0.31, "changePct": -1.08, "sector": "COMMERCIAL BANKS", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "23.32 - 44.17", "dayRange": "28.26 - 28.90", "pe": "5.01", "ytd": "-26.48%", "oneYr": "-15.37%", "volume": "8,294,339"}, "DCR": {"ticker": "DCR", "officialName": "Dolmen City REIT", "price": 39.44, "ldcp": 39.23, "change": 0.21, "changePct": 0.54, "sector": "REAL ESTATE INVESTMENT TRUST", "asOf": "As of Fri, Oct 30, 2026 4:47 PM", "high52": "31.11 - 41.98", "dayRange": "39.24 - 39.50", "pe": "6.92", "ytd": "2.57%", "oneYr": "25.85%", "volume": "150,017"}, "DOL": {"ticker": "DOL", "officialName": "Descon Oxychem Limited", "price": 30.0, "ldcp": 30.11, "change": -0.11, "changePct": -0.37, "sector": "CHEMICAL", "asOf": "As of Fri, Oct 30, 2026 4:44 PM", "high52": "25.36 - 36.50", "dayRange": "29.90 - 30.20", "pe": "17.34", "ytd": "-10.85%", "oneYr": "-5.81%", "volume": "66,198"}, "EFERT": {"ticker": "EFERT", "officialName": "Engro Fertilizers Limited", "price": 194.99, "ldcp": 192.57, "change": 2.42, "changePct": 1.26, "sector": "FERTILIZER", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "180.01 - 263.30", "dayRange": "191.43 - 195.87", "pe": "10.58", "ytd": "-13.85%", "oneYr": "-4.21%", "volume": "926,740"}, "EPQL": {"ticker": "EPQL", "officialName": "Engro Powergen Qadirpur Limited", "price": 23.92, "ldcp": 23.59, "change": 0.33, "changePct": 1.4, "sector": "POWER GENERATION & DISTRIBUTION", "asOf": "As of Fri, Oct 30, 2026 4:40 PM", "high52": "22.30 - 34.98", "dayRange": "23.35 - 24.15", "pe": "11.34", "ytd": "-26.08%", "oneYr": "-18.03%", "volume": "233,668"}, "FFC": {"ticker": "FFC", "officialName": "Fauji Fertilizer Company Limited", "price": 559.49, "ldcp": 561.05, "change": -1.56, "changePct": -0.28, "sector": "FERTILIZER", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "470.06 - 685.00", "dayRange": "558.76 - 565.00", "pe": "10.03", "ytd": "-5.29%", "oneYr": "17.36%", "volume": "838,433"}, "GDL": {"ticker": "GDL", "officialName": "Ghani Dairies Limited", "price": 17.04, "ldcp": 18.16, "change": -1.12, "changePct": -6.17, "sector": "FOOD & PERSONAL CARE PRODUCTS", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "16.01 - 33.00", "dayRange": "16.97 - 17.88", "pe": "7.13", "ytd": "-6.17%", "oneYr": "-6.17%", "volume": "1,518,229"}, "HMB": {"ticker": "HMB", "officialName": "Habib Metropolitan Bank Limited", "price": 96.68, "ldcp": 96.29, "change": 0.39, "changePct": 0.41, "sector": "COMMERCIAL BANKS", "asOf": "As of Fri, Oct 30, 2026 4:47 PM", "high52": "94.00 - 132.00", "dayRange": "96.00 - 97.70", "pe": "5.32", "ytd": "-13.13%", "oneYr": "-20.05%", "volume": "233,475"}, "HUBC": {"ticker": "HUBC", "officialName": "The Hub Power Company Limited", "price": 193.18, "ldcp": 194.04, "change": -0.86, "changePct": -0.44, "sector": "POWER GENERATION & DISTRIBUTION", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "186.10 - 249.99", "dayRange": "192.51 - 194.00", "pe": "10.15", "ytd": "-12.74%", "oneYr": "-9.94%", "volume": "1,785,410"}, "JSMFETF": {"ticker": "JSMFETF", "officialName": "JS Momentum Factor Exchange Traded Fund", "price": 10.23, "ldcp": 10.31, "change": -0.08, "changePct": -0.78, "sector": "EXCHANGE TRADED FUNDS", "asOf": "As of Fri, Oct 30, 2026 4:40 PM", "high52": "9.19 - 14.14", "dayRange": "9.31 - 10.35", "pe": "N/A", "ytd": "0%", "oneYr": "0%", "volume": "76,500"}, "KAPCO": {"ticker": "KAPCO", "officialName": "Kot Addu Power Company Limited", "price": 24.17, "ldcp": 24.09, "change": 0.08, "changePct": 0.33, "sector": "POWER GENERATION & DISTRIBUTION", "asOf": "As of Fri, Oct 30, 2026 4:47 PM", "high52": "23.60 - 41.04", "dayRange": "24.10 - 24.44", "pe": "7.07", "ytd": "-35.58%", "oneYr": "-16.40%", "volume": "107,669"}, "MARI": {"ticker": "MARI", "officialName": "Mari Energies Limited", "price": 631.53, "ldcp": 636.22, "change": -4.69, "changePct": -0.74, "sector": "OIL & GAS EXPLORATION COMPANIES", "asOf": "As of Fri, Oct 30, 2026 4:47 PM", "high52": "544.56 - 755.00", "dayRange": "630.00 - 637.00", "pe": "8.14", "ytd": "-11.78%", "oneYr": "-8.67%", "volume": "461,191"}, "MTL": {"ticker": "MTL", "officialName": "Millat Tractors Limited", "price": 280.1, "ldcp": 284.35, "change": -4.25, "changePct": -1.49, "sector": "AUTOMOBILE ASSEMBLER", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "232.50 - 318.90", "dayRange": "279.40 - 285.00", "pe": "14.33", "ytd": "6.67%", "oneYr": "14.33%", "volume": "108,292"}, "MZNPETF": {"ticker": "MZNPETF", "officialName": "Meezan Pakistan ETF", "price": 17.01, "ldcp": 17.04, "change": -0.03, "changePct": -0.18, "sector": "EXCHANGE TRADED FUNDS", "asOf": "As of Fri, Oct 30, 2026 4:47 PM", "high52": "16.45 - 25.29", "dayRange": "16.95 - 17.11", "pe": "N/A", "ytd": "0%", "oneYr": "0%", "volume": "418,000"}, "MZSM": {"ticker": "MZSM", "officialName": "Mirza Sugar Mills Limited", "price": 5.02, "ldcp": 5.06, "change": -0.04, "changePct": -0.79, "sector": "SUGAR & ALLIED INDUSTRIES", "asOf": "As of Tue, May 8, 2018 3:50 PM", "high52": "0.00 - 0.00", "dayRange": "4.90 - 5.15", "pe": "N/A", "ytd": "0.00%", "oneYr": "0.00%", "volume": "44,000"}, "NCPL": {"ticker": "NCPL", "officialName": "Nishat Chunian Power Limited", "price": 49.6, "ldcp": 49.01, "change": 0.59, "changePct": 1.2, "sector": "POWER GENERATION & DISTRIBUTION", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "25.00 - 89.48", "dayRange": "48.80 - 51.40", "pe": "7.33", "ytd": "-1.61%", "oneYr": "93.75%", "volume": "4,181,190"}, "NPL": {"ticker": "NPL", "officialName": "Nishat Power Limited", "price": 51.8, "ldcp": 52.41, "change": -0.61, "changePct": -1.16, "sector": "POWER GENERATION & DISTRIBUTION", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "33.49 - 100.45", "dayRange": "51.53 - 54.14", "pe": "7.52", "ytd": "-22.29%", "oneYr": "53.25%", "volume": "3,286,538"}, "OGDC": {"ticker": "OGDC", "officialName": "Oil &amp; Gas Development Company Limited", "price": 306.78, "ldcp": 306.21, "change": 0.57, "changePct": 0.19, "sector": "OIL & GAS EXPLORATION COMPANIES", "asOf": "As of Fri, Oct 30, 2026 4:46 PM", "high52": "238.20 - 352.00", "dayRange": "306.00 - 310.39", "pe": "5.44", "ytd": "9.14%", "oneYr": "20.87%", "volume": "3,088,936"}, "PAKQATAR": {"ticker": "PAKQATAR", "officialName": "Pak Qatar Family Takaful Limited", "price": 15.55, "ldcp": 15.33, "change": 0.22, "changePct": 1.44, "sector": "INSURANCE", "asOf": "As of Fri, Oct 30, 2026 4:47 PM", "high52": "14.50 - 29.40", "dayRange": "15.34 - 15.99", "pe": "23.56", "ytd": "-21.54%", "oneYr": "1.44%", "volume": "127,181"}, "PQGTL": {"ticker": "PQGTL", "officialName": "Pak Qatar General Takaful Limited", "price": 12.02, "ldcp": 12.1, "change": -0.08, "changePct": -0.66, "sector": "INSURANCE", "asOf": "As of Fri, Oct 30, 2026 4:42 PM", "high52": "10.25 - 19.80", "dayRange": "12.00 - 12.48", "pe": "6.99", "ytd": "-0.66%", "oneYr": "-0.66%", "volume": "30,460"}, "SLM": {"ticker": "SLM", "officialName": "Service Long March Tyres Limited", "price": 21.36, "ldcp": 21.21, "change": 0.15, "changePct": 0.71, "sector": "AUTOMOBILE PARTS & ACCESSORIES", "asOf": "As of Fri, Oct 30, 2026 4:46 PM", "high52": "21.05 - 26.25", "dayRange": "21.15 - 21.40", "pe": "N/A", "ytd": "0.71%", "oneYr": "0.71%", "volume": "554,189"}, "SPSL": {"ticker": "SPSL", "officialName": "Sitara Petroleum Service Limited", "price": 12.58, "ldcp": 12.63, "change": -0.05, "changePct": -0.4, "sector": "OIL & GAS MARKETING COMPANIES", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "12.47 - 23.45", "dayRange": "12.50 - 12.85", "pe": "4.07", "ytd": "-0.40%", "oneYr": "-0.40%", "volume": "3,913,314"}, "SRR": {"ticker": "SRR", "officialName": "Signature Residency REIT", "price": 17.28, "ldcp": 17.1, "change": 0.18, "changePct": 1.05, "sector": "REAL ESTATE INVESTMENT TRUST", "asOf": "As of Fri, Oct 30, 2026 4:41 PM", "high52": "15.26 - 21.00", "dayRange": "17.11 - 17.38", "pe": "5.09", "ytd": "1.05%", "oneYr": "1.05%", "volume": "13,696"}, "UBLPETF": {"ticker": "UBLPETF", "officialName": "UBLPakistan Enterprise ETF", "price": 27.74, "ldcp": 27.79, "change": -0.05, "changePct": -0.18, "sector": "EXCHANGE TRADED FUNDS", "asOf": "As of Fri, Oct 30, 2026 4:41 PM", "high52": "26.01 - 47.34", "dayRange": "26.01 - 28.44", "pe": "N/A", "ytd": "0%", "oneYr": "0%", "volume": "71,000"}, "MCB": {"ticker": "MCB", "officialName": "MCB Bank Limited", "price": 397.52, "ldcp": 399.22, "change": -1.7, "changePct": -0.43, "sector": "COMMERCIAL BANKS", "asOf": "As of Fri, Oct 30, 2026 4:49 PM", "high52": "343.70 - 452.00", "dayRange": "395.55 - 399.00", "pe": "8.64", "ytd": "4.78%", "oneYr": "12.56%", "volume": "320,203"}}};
+    const STORAGE_KEY = "psx_nexus_portfolio_state_v2";
+    const THEME_KEY = "psx_portfolio_theme_pref";
+    const GH_CONFIG_KEY = "psx_nexus_github_config_v1";
+
+    let appState = null;
+    let computed = null;
+    let holdingsSort = { col: "marketValue", asc: false };
+    let currentResearchTicker = "HUBC";
+    let researchChartMode = "custom";
+
+    // Distinct, professional sector colors
+    const SECTOR_COLORS = {
+      "POWER GENERATION & DISTRIBUTION": "#0284c7",
+      "COMMERCIAL BANKS": "#2563eb",
+      "FERTILIZER": "#059669",
+      "OIL & GAS EXPLORATION COMPANIES": "#d97706",
+      "REAL ESTATE INVESTMENT TRUST": "#7c3aed",
+      "EXCHANGE TRADED FUNDS": "#db2777",
+      "AUTOMOBILE ASSEMBLER": "#4f46e5",
+      "INSURANCE": "#0d9488",
+      "OIL & GAS MARKETING COMPANIES": "#ea580c",
+      "AUTOMOBILE PARTS & ACCESSORIES": "#65a30d",
+      "CHEMICAL": "#0891b2",
+      "FOOD & PERSONAL CARE PRODUCTS": "#e11d48",
+      "SUGAR & ALLIED INDUSTRIES": "#64748b",
+      "OTHER": "#475569"
+    };
+
+    function getSectorColor(sec) {
+      return SECTOR_COLORS[sec] || "#2563eb";
+    }
+
+    function fmtPKR(val, decimals = 2) {
+      const num = Number(val) || 0;
+      const sign = num < 0 ? "-" : "";
+      return sign + "Rs. " + Math.abs(num).toLocaleString("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function fmtSignedPKR(val, decimals = 0) {
+      const num = Number(val) || 0;
+      const sign = num > 0 ? "+" : (num < 0 ? "-" : "");
+      return sign + "Rs. " + Math.abs(num).toLocaleString("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function fmtNum(val, decimals = 0) {
+      const num = Number(val) || 0;
+      return num.toLocaleString("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    // Theme Switcher
+    function initTheme() {
+      const saved = localStorage.getItem(THEME_KEY) || "light";
+      setTheme(saved);
+    }
+
+    function toggleTheme() {
+      const cur = document.documentElement.getAttribute("data-theme") || "light";
+      setTheme(cur === "light" ? "dark" : "light");
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem(THEME_KEY, theme);
+      document.getElementById("theme-icon").textContent = theme === "light" ? "🌙" : "☀️";
+      document.getElementById("theme-text").textContent = theme === "light" ? "Dark Mode" : "Light Mode";
+      if (computed) {
+        selectResearchTicker(currentResearchTicker);
+      }
+    }
+
+    async function initApp() {
+      initTheme();
+      try {
+        const ghConf = JSON.parse(localStorage.getItem(GH_CONFIG_KEY) || "{}");
+        if (ghConf.token) document.getElementById("gh-token").value = ghConf.token;
+        if (ghConf.repo) document.getElementById("gh-repo").value = ghConf.repo;
+      } catch (e) {}
+
+      let loadedFromServer = false;
+      try {
+        const res = await fetch("/api/data", { cache: "no-store" });
+        if (res.ok) {
+          const srv = await res.json();
+          if (srv && srv.companies && srv.transactions) {
+            appState = srv;
+            loadedFromServer = true;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+          }
+        }
+      } catch (e) {}
+
+      if (!loadedFromServer) {
+        // When hosted on GitHub Pages (without server.py), check ./portfolio_data.json first
+        try {
+          const resJson = await fetch("./portfolio_data.json?t=" + Date.now(), { cache: "no-store" });
+          if (resJson.ok) {
+            const remoteData = await resJson.json();
+            const localRaw = localStorage.getItem(STORAGE_KEY);
+            if (!localRaw) {
+              appState = remoteData;
+              loadedFromServer = true;
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            } else {
+              const localObj = JSON.parse(localRaw);
+              if ((remoteData.lastUpdated || "") > (localObj.lastUpdated || "")) {
+                appState = remoteData;
+              } else {
+                appState = localObj;
+              }
+              loadedFromServer = true;
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (!loadedFromServer) {
+        const localRaw = localStorage.getItem(STORAGE_KEY);
+        if (localRaw) {
+          try { appState = JSON.parse(localRaw); }
+          catch (e) { appState = JSON.parse(JSON.stringify(INITIAL_SEED_DATA)); }
+        } else {
+          appState = JSON.parse(JSON.stringify(INITIAL_SEED_DATA));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        }
+      }
+
+      document.getElementById("toggle-legacy-mcb").checked =
+        appState.settings?.includeLegacyMcbInCashflow !== false;
+
+      recomputeAndRenderAll();
+      init3DScene();
+      selectResearchTicker(currentResearchTicker);
+    }
+
+    async function persistState(reason = "Update") {
+      appState.lastUpdated = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      const lbl = document.getElementById("sync-status-label");
+      let savedLocalServer = false;
+      try {
+        const payload = Object.assign({}, appState, { _reason: reason });
+        const res = await fetch("/api/data", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          savedLocalServer = true;
+          if (lbl) lbl.textContent = "✓ Synced: portfolio.db + portfolio_data.json (" + new Date().toLocaleTimeString() + ")";
+        }
+      } catch (e) {}
+
+      // If GitHub repo & token are configured, auto-sync portfolio_data.json to GitHub as well
+      try {
+        const ghConf = JSON.parse(localStorage.getItem(GH_CONFIG_KEY) || "{}");
+        if (ghConf.token && ghConf.repo && reason !== "Loaded from GitHub") {
+          const apiUrl = `https://api.github.com/repos/${ghConf.repo}/contents/portfolio_data.json`;
+          let sha;
+          const getRes = await fetch(apiUrl, { headers: { Authorization: `Bearer ${ghConf.token}` } });
+          if (getRes.ok) sha = (await getRes.json()).sha;
+          const putRes = await fetch(apiUrl, {
+            method: "PUT",
+            headers: { Authorization: `Bearer ${ghConf.token}`, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              message: `${reason} (${appState.lastUpdated})`,
+              content: btoa(unescape(encodeURIComponent(JSON.stringify(appState, null, 2)))),
+              sha
+            })
+          });
+          if (putRes.ok && lbl) {
+            lbl.textContent = "✓ Synced: portfolio.db + portfolio_data.json + GitHub (" + new Date().toLocaleTimeString() + ")";
+            return;
+          }
+        }
+      } catch (e) {}
+
+      if (!savedLocalServer && lbl) {
+        lbl.textContent = "✓ Saved in Browser (" + new Date().toLocaleTimeString() + ")";
+      }
+    }
+
+    // =========================================================================
+    // ZERO-BUG ACCOUNTING ENGINE
+    // =========================================================================
+    function runAccountingEngine(state) {
+      const compMap = {};
+      (state.companies || []).forEach(c => {
+        const sym = (c.ticker || "").trim().toUpperCase();
+        if (!sym) return;
+        compMap[sym] = {
+          ticker: sym,
+          name: c.name || sym,
+          frequency: c.frequency || "None",
+          sector: c.sector || "OTHER",
+          price: Number(c.price) || 0,
+          ldcp: Number(c.ldcp) || Number(c.price) || 0,
+          change: Number(c.change) || 0,
+          changePct: Number(c.changePct) || 0,
+          pe: c.pe || "N/A",
+          high52: c.high52 || "",
+          dayRange: c.dayRange || "",
+          volume: c.volume || "0",
+          legacyShares: Number(c.legacyShares) || (sym === "MCB" ? 225 : 0),
+          activeShares: Number(c.legacyShares) || (sym === "MCB" ? 225 : 0),
+          activeCostBasis: 0,
+          totalBuyShares: 0,
+          totalBuyCost: 0,
+          totalSellShares: 0,
+          totalSellNet: 0,
+          realizedPnL: 0,
+          isLegacyLiquidation: false,
+          grossDivPaid: 0,
+          whtPaid: 0,
+          zakatPaid: 0,
+          netDivPaid: 0,
+          reinvestedDivNet: 0,
+          trailingAnnualDps: 0,
+          lots: [],
+          divRecords: []
+        };
+      });
+
+      [...(state.transactions || []), ...(state.dividends || [])].forEach(item => {
+        const sym = (item.ticker || "").trim().toUpperCase();
+        if (sym && !compMap[sym]) {
+          compMap[sym] = {
+            ticker: sym, name: item.company || sym, frequency: "None", sector: "OTHER",
+            price: 0, ldcp: 0, change: 0, changePct: 0, pe: "N/A", high52: "", dayRange: "", volume: "0",
+            legacyShares: sym === "MCB" ? 225 : 0, activeShares: sym === "MCB" ? 225 : 0,
+            activeCostBasis: 0, totalBuyShares: 0, totalBuyCost: 0, totalSellShares: 0,
+            totalSellNet: 0, realizedPnL: 0, isLegacyLiquidation: false,
+            grossDivPaid: 0, whtPaid: 0, zakatPaid: 0, netDivPaid: 0,
+            reinvestedDivNet: 0, trailingAnnualDps: 0, lots: [], divRecords: []
+          };
+        }
+      });
+
+      const sortedTxs = [...(state.transactions || [])].sort((a, b) => {
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return (a.id || 0) - (b.id || 0);
+      });
+
+      const monthlyMap = {};
+      function ensureMonth(ym) {
+        if (!ym) return null;
+        if (!monthlyMap[ym]) {
+          monthlyMap[ym] = {
+            ym, buyOutflow: 0, sellInflow: 0, sellInflowExLegacy: 0,
+            grossDiv: 0, wht: 0, zakat: 0, netDiv: 0, reinvValue: 0
+          };
+        }
+        return monthlyMap[ym];
+      }
+      ["2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09","2026-10"].forEach(ensureMonth);
+
+      const enrichedTxs = [];
+      sortedTxs.forEach(t => {
+        const sym = (t.ticker || "").trim().toUpperCase();
+        const p = compMap[sym];
+        const sh = Math.abs(Number(t.shares) || 0);
+        const pr = Number(t.price) || 0;
+        const gross = sh * pr;
+        const brk = Number(t.brkFees) || 0;
+        const sst = Number(t.sst) || 0;
+        const fees = brk + sst;
+        const ym = (t.date || "").slice(0, 7);
+        const mObj = ensureMonth(ym);
+        let netCashFlow = 0;
+
+        if (t.action === "Buy") {
+          const totalCost = gross + fees;
+          netCashFlow = -totalCost;
+          p.activeShares += sh;
+          p.activeCostBasis += totalCost;
+          p.totalBuyShares += sh;
+          p.totalBuyCost += totalCost;
+          if (mObj) mObj.buyOutflow += totalCost;
+        } else if (t.action === "Sell") {
+          const netProceeds = gross - fees;
+          netCashFlow = netProceeds;
+          p.totalSellShares += sh;
+          p.totalSellNet += netProceeds;
+          if (mObj) mObj.sellInflow += netProceeds;
+
+          if (p.totalBuyShares === 0 && p.legacyShares >= sh) {
+            p.isLegacyLiquidation = true;
+            p.activeShares = Math.max(0, p.activeShares - sh);
+          } else {
+            if (mObj) mObj.sellInflowExLegacy += netProceeds;
+            const currentWac = p.activeShares > 0 ? (p.activeCostBasis / p.activeShares) : 0;
+            const costRemoved = currentWac * sh;
+            p.realizedPnL += (netProceeds - costRemoved);
+            p.activeShares = Math.max(0, p.activeShares - sh);
+            p.activeCostBasis = Math.max(0, p.activeCostBasis - costRemoved);
+          }
+        }
+
+        const runningWac = p.activeShares > 0 ? (p.activeCostBasis / p.activeShares) : 0;
+        const rec = {
+          ...t, ticker: sym, company: p.name, shares: sh, price: pr,
+          grossAmount: gross, brkFees: brk, sst, netCashFlow, ym, runningWac, runningShares: p.activeShares
+        };
+        p.lots.push(rec);
+        enrichedTxs.push(rec);
+      });
+
+      const sortedDivs = [...(state.dividends || [])].sort((a, b) => {
+        if (a.paymentDate !== b.paymentDate) return a.paymentDate.localeCompare(b.paymentDate);
+        return (a.id || 0) - (b.id || 0);
+      });
+
+      const enrichedDivs = [];
+      sortedDivs.forEach(d => {
+        const sym = (d.ticker || "").trim().toUpperCase();
+        const p = compMap[sym];
+        const sh = Number(d.sharesEligible) || 0;
+        const dps = Number(d.dps) || 0;
+        const gross = sh * dps;
+        const wht = Number(d.wht) || 0;
+        const zakat = Number(d.zakat) || 0;
+        const net = gross - wht - zakat;
+        const ym = (d.paymentDate || "").slice(0, 7);
+        const status = d.status || "Paid";
+        const reinvest = d.reinvest || "No";
+
+        let matchedDripTx = null;
+        if (reinvest === "Yes") {
+          const payTime = new Date(d.paymentDate).getTime();
+          matchedDripTx = enrichedTxs.find(tx => {
+            if (tx.ticker !== sym || tx.action !== "Buy") return false;
+            const diffDays = (new Date(tx.date).getTime() - payTime) / (1000 * 3600 * 24);
+            return diffDays >= -2 && diffDays <= 35 && Math.abs(tx.grossAmount - net) <= Math.max(net * 0.65, 500);
+          });
+        }
+
+        if (status === "Paid") {
+          p.grossDivPaid += gross;
+          p.whtPaid += wht;
+          p.zakatPaid += zakat;
+          p.netDivPaid += net;
+          p.trailingAnnualDps += dps;
+          if (reinvest === "Yes") p.reinvestedDivNet += net;
+          const mObj = ensureMonth(ym);
+          if (mObj) {
+            mObj.grossDiv += gross;
+            mObj.wht += wht;
+            mObj.zakat += zakat;
+            mObj.netDiv += net;
+            if (reinvest === "Yes") mObj.reinvValue += net;
+          }
+        }
+
+        const rec = {
+          ...d, ticker: sym, company: p.name, sharesEligible: sh, dps,
+          grossDividend: gross, wht, zakat, netDividend: net, ym, status, reinvest, matchedDripTx
+        };
+        p.divRecords.push(rec);
+        enrichedDivs.push(rec);
+      });
+
+      let totalMarketValue = 0;
+      let totalActiveCostBasis = 0;
+      let totalActiveShares = 0;
+      let totalBuyOutflow = 0;
+      let totalSellInflowAll = 0;
+      let totalSellInflowExLegacy = 0;
+      let totalGrossDivPaid = 0;
+      let totalWhtPaid = 0;
+      let totalZakatPaid = 0;
+      let totalNetDivPaid = 0;
+      let totalReinvestedDivNet = 0;
+      let totalRealizedPnL = 0;
+
+      const holdingsList = Object.values(compMap).map(p => {
+        const wac = p.activeShares > 0 ? (p.activeCostBasis / p.activeShares) : 0;
+        const marketValue = p.activeShares * p.price;
+        const unrealizedPnL = marketValue - p.activeCostBasis;
+        const unrealizedPct = p.activeCostBasis > 0 ? (unrealizedPnL / p.activeCostBasis) * 100 : 0;
+        const totalReturn = unrealizedPnL + p.realizedPnL + p.netDivPaid;
+        const totalReturnPct = p.activeCostBasis > 0 ? (totalReturn / p.activeCostBasis) * 100 : 0;
+        const yoc = p.activeCostBasis > 0 ? (p.netDivPaid / p.activeCostBasis) * 100 : 0;
+
+        totalMarketValue += marketValue;
+        totalActiveCostBasis += p.activeCostBasis;
+        totalActiveShares += p.activeShares;
+        totalBuyOutflow += p.totalBuyCost;
+        totalSellInflowAll += p.totalSellNet;
+        if (!p.isLegacyLiquidation) totalSellInflowExLegacy += p.totalSellNet;
+        totalGrossDivPaid += p.grossDivPaid;
+        totalWhtPaid += p.whtPaid;
+        totalZakatPaid += p.zakatPaid;
+        totalNetDivPaid += p.netDivPaid;
+        totalReinvestedDivNet += p.reinvestedDivNet;
+        totalRealizedPnL += p.realizedPnL;
+
+        Object.assign(p, { wac, marketValue, unrealizedPnL, unrealizedPct, totalReturn, totalReturnPct, yoc, weight: 0 });
+        return p;
+      });
+
+      holdingsList.forEach(h => {
+        h.weight = totalMarketValue > 0 ? (h.marketValue / totalMarketValue) * 100 : 0;
+      });
+
+      const includeLegacy = state.settings?.includeLegacyMcbInCashflow !== false;
+      const effectiveSellInflow = includeLegacy ? totalSellInflowAll : totalSellInflowExLegacy;
+      const netCashInvested = totalBuyOutflow - effectiveSellInflow;
+      const totalUnrealizedPnL = totalMarketValue - totalActiveCostBasis;
+      const totalUnrealizedPct = totalActiveCostBasis > 0 ? (totalUnrealizedPnL / totalActiveCostBasis) * 100 : 0;
+      const allInNetProfit = totalUnrealizedPnL + totalRealizedPnL + totalNetDivPaid;
+      const allInRoiPct = totalActiveCostBasis > 0 ? (allInNetProfit / totalActiveCostBasis) * 100 : 0;
+
+      return {
+        holdings: holdingsList,
+        compMap,
+        transactions: enrichedTxs,
+        dividends: enrichedDivs,
+        monthly: Object.values(monthlyMap).sort((a, b) => a.ym.localeCompare(b.ym)),
+        totals: {
+          totalActiveShares,
+          totalMarketValue,
+          totalActiveCostBasis,
+          totalUnrealizedPnL,
+          totalUnrealizedPct,
+          totalRealizedPnL,
+          totalBuyOutflow,
+          effectiveSellInflow,
+          netCashInvested,
+          totalGrossDivPaid,
+          totalWhtPaid,
+          totalZakatPaid,
+          totalTaxWithheld: totalWhtPaid + totalZakatPaid,
+          totalNetDivPaid,
+          totalReinvestedDivNet,
+          allInNetProfit,
+          allInRoiPct,
+          activeHoldingsCount: holdingsList.filter(h => h.activeShares > 0).length
+        }
+      };
+    }
+
+    // =========================================================================
+    // RENDER ALL SECTIONS
+    // =========================================================================
+    function recomputeAndRenderAll() {
+      computed = runAccountingEngine(appState);
+
+      document.getElementById("pill-holdings").textContent = computed.totals.activeHoldingsCount;
+      document.getElementById("pill-tx").textContent = computed.transactions.length;
+      document.getElementById("pill-div").textContent = computed.dividends.length;
+      document.getElementById("total-div-pill").textContent = "+" + fmtPKR(computed.totals.totalNetDivPaid, 0) + " Net Paid";
+
+      renderOverviewKPIs();
+      renderMonthlyDividendsChart();
+      renderSectorBreakdown();
+      renderOverviewStockRank();
+      populateFilterSelects();
+      renderHoldingsTable();
+      renderTransactionsTable();
+      renderDividendsTable();
+      renderMonthlySummaryTable();
+      renderDividendCalendar();
+      update3DSceneData();
+    }
+
+    function renderOverviewKPIs() {
+      const t = computed.totals;
+      const cards = [
+        {
+          title: "Current Portfolio Value",
+          main: fmtPKR(t.totalMarketValue, 0),
+          left: `${t.activeHoldingsCount} Active Stocks (${fmtNum(t.totalActiveShares)} sh)`,
+          right: `Cost: ${fmtPKR(t.totalActiveCostBasis, 0)}`,
+          cls: "",
+          color: "#2563eb"
+        },
+        {
+          title: "Net Cash Invested",
+          main: fmtPKR(t.netCashInvested, 0),
+          left: `Buys: ${fmtPKR(t.totalBuyOutflow, 0)}`,
+          right: `Sells: +${fmtPKR(t.effectiveSellInflow, 0)}`,
+          cls: "",
+          color: "#4f46e5"
+        },
+        {
+          title: "Net Dividends Received",
+          main: "+" + fmtPKR(t.totalNetDivPaid, 2),
+          left: `Gross: ${fmtPKR(t.totalGrossDivPaid, 0)}`,
+          right: `Tax/Zakat: -${fmtPKR(t.totalTaxWithheld, 0)}`,
+          cls: "pos",
+          color: "#059669"
+        },
+        {
+          title: "Unrealized Capital P&L",
+          main: fmtSignedPKR(t.totalUnrealizedPnL, 0),
+          left: `Realized (ALTN): ${fmtSignedPKR(t.totalRealizedPnL, 0)}`,
+          right: `<span class="pnl-pill ${t.totalUnrealizedPnL >= 0 ? 'pnl-pos' : 'pnl-neg'}">${t.totalUnrealizedPct >= 0 ? '+' : ''}${t.totalUnrealizedPct.toFixed(2)}%</span>`,
+          cls: t.totalUnrealizedPnL >= 0 ? "pos" : "neg",
+          color: t.totalUnrealizedPnL >= 0 ? "#059669" : "#dc2626"
+        },
+        {
+          title: "Total Net Return (Cap + Divs)",
+          main: fmtSignedPKR(t.allInNetProfit, 0),
+          left: `Reinvested: ${fmtPKR(t.totalReinvestedDivNet, 0)}`,
+          right: `<span class="pnl-pill ${t.allInNetProfit >= 0 ? 'pnl-pos' : 'pnl-neg'}">${t.allInRoiPct >= 0 ? '+' : ''}${t.allInRoiPct.toFixed(2)}% ROI</span>`,
+          cls: t.allInNetProfit >= 0 ? "pos" : "neg",
+          color: t.allInNetProfit >= 0 ? "#059669" : "#e11d48"
+        }
+      ];
+
+      document.getElementById("overview-kpis").innerHTML = cards.map(c => `
+        <div class="kpi-box" style="--kpi-color: ${c.color}">
+          <div class="kpi-title"><span>${c.title}</span></div>
+          <div class="kpi-main ${c.cls}">${c.main}</div>
+          <div class="kpi-foot">
+            <span>${c.left}</span>
+            <span class="mono">${c.right}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderMonthlyDividendsChart() {
+      const mList = computed.monthly;
+      const w = 680, h = 290, padL = 52, padR = 48, padT = 28, padB = 34;
+      const plotW = w - padL - padR;
+      const plotH = h - padT - padB;
+      const maxVal = Math.max(...mList.map(m => m.grossDiv), 8500);
+
+      let runningCum = 0;
+      const cumArr = mList.map(m => { runningCum += m.netDiv; return runningCum; });
+      const maxCum = Math.max(...cumArr, 32000);
+
+      const colW = plotW / mList.length;
+      const barW = Math.min(32, colW * 0.58);
+      const pts = [];
+
+      const bars = mList.map((m, i) => {
+        const cx = padL + i * colW + colW / 2;
+        const x = cx - barW / 2;
+        const netH = (m.netDiv / maxVal) * plotH;
+        const taxH = ((m.wht + m.zakat) / maxVal) * plotH;
+        const yNet = padT + plotH - netH;
+        const yTax = yNet - taxH;
+
+        const cyCum = padT + plotH - (cumArr[i] / maxCum) * plotH;
+        pts.push(`${cx},${cyCum}`);
+
+        return `
+          <g>
+            <rect x="${x}" y="${yNet}" width="${barW}" height="${Math.max(netH, 1)}" rx="4" fill="#10b981">
+              <title>${m.ym} Net Dividend: ${fmtPKR(m.netDiv, 2)}</title>
+            </rect>
+            ${taxH > 0 ? `<rect x="${x}" y="${yTax}" width="${barW}" height="${taxH}" rx="2" fill="#f59e0b"><title>${m.ym} WHT & Zakat: ${fmtPKR(m.wht + m.zakat, 2)}</title></rect>` : ''}
+            ${m.netDiv > 0 ? `<text x="${cx}" y="${yTax - 6}" text-anchor="middle" fill="var(--text-main)" font-size="10" font-weight="700" font-family="JetBrains Mono">${Math.round(m.netDiv).toLocaleString()}</text>` : ''}
+            <text x="${cx}" y="${h - 10}" text-anchor="middle" fill="var(--text-muted)" font-size="10.5" font-weight="600" font-family="JetBrains Mono">${m.ym.slice(2)}</text>
+          </g>
+        `;
+      }).join("");
+
+      const gridLines = [0, 0.25, 0.5, 0.75, 1].map(f => {
+        const y = padT + plotH * (1 - f);
+        const val = Math.round(maxVal * f);
+        const cVal = Math.round((maxCum * f) / 1000);
+        return `
+          <line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="var(--border)" stroke-dasharray="3 3" />
+          <text x="${padL - 8}" y="${y + 3}" text-anchor="end" fill="var(--text-muted)" font-size="10" font-family="JetBrains Mono">${val.toLocaleString()}</text>
+          <text x="${w - padR + 6}" y="${y + 3}" text-anchor="start" fill="#2563eb" font-size="10" font-family="JetBrains Mono">${cVal}K</text>
+        `;
+      }).join("");
+
+      const cumLine = `<polyline fill="none" stroke="#2563eb" stroke-width="2.5" points="${pts.join(' ')}" />`;
+      const cumDots = pts.map((p, idx) => {
+        const [px, py] = p.split(",");
+        return `<circle cx="${px}" cy="${py}" r="3.5" fill="#ffffff" stroke="#2563eb" stroke-width="2"><title>Cumulative Net Divs (${mList[idx].ym}): ${fmtPKR(cumArr[idx], 0)}</title></circle>`;
+      }).join("");
+
+      document.getElementById("chart-monthly-dividends").innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" width="100%" height="295">
+          ${gridLines}
+          ${bars}
+          ${cumLine}
+          ${cumDots}
+        </svg>
+      `;
+
+      // Populate bottom 4-stat summary strip inside the card so there is zero empty whitespace
+      const bestMonth = [...mList].sort((a, b) => b.netDiv - a.netDiv)[0];
+      const activeDivMonths = mList.filter(m => m.netDiv > 0).length || 1;
+      const t = computed.totals;
+      document.getElementById("monthly-div-stat-strip").innerHTML = `
+        <div class="chart-stat-item">
+          <div class="chart-stat-lbl">Peak Dividend Month</div>
+          <div class="chart-stat-val pos">${bestMonth.ym} (+${fmtPKR(bestMonth.netDiv, 0)})</div>
+        </div>
+        <div class="chart-stat-item">
+          <div class="chart-stat-lbl">Avg Per Paying Month</div>
+          <div class="chart-stat-val pos">+${fmtPKR(t.totalNetDivPaid / activeDivMonths, 0)} / mo</div>
+        </div>
+        <div class="chart-stat-item">
+          <div class="chart-stat-lbl">Total Gross Dividends</div>
+          <div class="chart-stat-val">${fmtPKR(t.totalGrossDivPaid, 0)}</div>
+        </div>
+        <div class="chart-stat-item">
+          <div class="chart-stat-lbl">WHT & Zakat Deducted</div>
+          <div class="chart-stat-val neg">-${fmtPKR(t.totalTaxWithheld, 0)}</div>
+        </div>
+      `;
+    }
+
+    function renderSectorBreakdown() {
+      const metric = document.getElementById("sector-sort-metric")?.value || "marketValue";
+      const map = {};
+      computed.holdings.filter(h => h.activeShares > 0).forEach(h => {
+        const sec = h.sector || "OTHER";
+        if (!map[sec]) map[sec] = { sector: sec, marketValue: 0, activeCostBasis: 0, netDivPaid: 0, totalReturn: 0, count: 0 };
+        map[sec].marketValue += h.marketValue;
+        map[sec].activeCostBasis += h.activeCostBasis;
+        map[sec].netDivPaid += h.netDivPaid;
+        map[sec].totalReturn += h.totalReturn;
+        map[sec].count += 1;
+      });
+      const list = Object.values(map).sort((a, b) => b[metric] - a[metric]);
+      const total = list.reduce((s, x) => s + x[metric], 0) || 1;
+
+      document.getElementById("sector-breakdown-box").innerHTML = list.map(s => {
+        const val = s[metric];
+        const pct = (val / total) * 100;
+        const col = getSectorColor(s.sector);
+        const retCls = s.totalReturn >= 0 ? "pos" : "neg";
+        return `
+          <div style="padding:6px 0; border-bottom:1px solid var(--border); cursor:pointer;" onclick="filterHoldingsBySector('${s.sector.replace(/'/g, "\\'")}')">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; margin-bottom:4px;">
+              <span style="display:inline-flex; align-items:center; gap:7px; font-weight:600;">
+                <span style="width:10px; height:10px; border-radius:3px; background:${col}; display:inline-block;"></span>
+                <span>${s.sector}</span>
+                <span class="muted">(${s.count})</span>
+              </span>
+              <span class="mono">
+                <b>${fmtPKR(val, 0)}</b>
+                <span class="muted">(${pct.toFixed(1)}%)</span>
+                <span class="${retCls}" style="margin-left:6px;">${fmtSignedPKR(s.totalReturn, 0)}</span>
+              </span>
+            </div>
+            <div style="height:6px; background:var(--bg-subtle); border-radius:99px; overflow:hidden;">
+              <div style="width:${pct}%; height:100%; background:${col}; border-radius:99px;"></div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderOverviewStockRank() {
+      const list = [...computed.holdings]
+        .filter(h => h.activeShares > 0)
+        .sort((a, b) => b.totalReturn - a.totalReturn);
+
+      document.getElementById("overview-stock-rank").innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Company</th>
+              <th class="right">Market Value</th>
+              <th class="right">Unrealized P&L</th>
+              <th class="right">Net Dividends</th>
+              <th class="right">Total Return</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.map(h => `
+              <tr onclick="openStockResearch('${h.ticker}')" style="cursor:pointer;">
+                <td class="mono fw-700" style="color:var(--primary);">${h.ticker}</td>
+                <td class="fw-600">${h.name}</td>
+                <td class="mono right fw-600">${fmtPKR(h.marketValue, 0)}</td>
+                <td class="mono right ${h.unrealizedPnL >= 0 ? 'pos' : 'neg'}">${fmtSignedPKR(h.unrealizedPnL, 0)}</td>
+                <td class="mono right pos">${h.netDivPaid > 0 ? '+' + fmtPKR(h.netDivPaid, 0) : '—'}</td>
+                <td class="mono right">
+                  <span class="pnl-pill ${h.totalReturn >= 0 ? 'pnl-pos' : 'pnl-neg'}">
+                    ${fmtSignedPKR(h.totalReturn, 0)} (${h.totalReturnPct >= 0 ? '+' : ''}${h.totalReturnPct.toFixed(1)}%)
+                  </span>
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // =========================================================================
+    // HOLDINGS, TRANSACTIONS, DIVIDENDS, MONTHLY TABLES
+    // =========================================================================
+    function populateFilterSelects() {
+      const sectors = Array.from(new Set(computed.holdings.map(h => h.sector).filter(Boolean))).sort();
+      const secSel = document.getElementById("holdings-sector-filter");
+      const curSec = secSel.value || "ALL";
+      secSel.innerHTML = `<option value="ALL">All Sectors (${sectors.length})</option>` +
+        sectors.map(s => `<option value="${s}">${s}</option>`).join("");
+      secSel.value = curSec;
+
+      const months = computed.monthly.map(m => m.ym);
+      const moSel = document.getElementById("tx-month-filter");
+      const curMo = moSel.value || "ALL";
+      moSel.innerHTML = `<option value="ALL">All Months</option>` +
+        months.map(m => `<option value="${m}">${m}</option>`).join("");
+      moSel.value = curMo;
+
+      const sortedTickers = [...computed.holdings].sort((a, b) => a.ticker.localeCompare(b.ticker));
+      const opts = sortedTickers.map(h => `<option value="${h.ticker}">${h.ticker} — ${h.name}</option>`).join("");
+      document.getElementById("tx-ticker").innerHTML = opts;
+      document.getElementById("div-ticker").innerHTML = opts;
+      const rSel = document.getElementById("research-ticker-select");
+      if (rSel) {
+        rSel.innerHTML = opts;
+        rSel.value = currentResearchTicker;
+      }
+    }
+
+    function filterHoldingsBySector(sector) {
+      switchTab("holdings");
+      document.getElementById("holdings-sector-filter").value = sector;
+      renderHoldingsTable();
+    }
+
+    function sortHoldings(col) {
+      if (holdingsSort.col === col) holdingsSort.asc = !holdingsSort.asc;
+      else {
+        holdingsSort.col = col;
+        holdingsSort.asc = col === "ticker" || col === "name" || col === "sector";
+      }
+      renderHoldingsTable();
+    }
+
+    function renderHoldingsTable() {
+      const q = (document.getElementById("holdings-search")?.value || "").toLowerCase().trim();
+      const sec = document.getElementById("holdings-sector-filter")?.value || "ALL";
+      const st = document.getElementById("holdings-status-filter")?.value || "ACTIVE";
+
+      const rows = computed.holdings.filter(h => {
+        if (st === "ACTIVE" && h.activeShares <= 0) return false;
+        if (st === "CLOSED" && h.activeShares > 0) return false;
+        if (sec !== "ALL" && h.sector !== sec) return false;
+        if (q && !(`${h.ticker} ${h.name} ${h.sector}`.toLowerCase().includes(q))) return false;
+        return true;
+      }).sort((a, b) => {
+        const va = a[holdingsSort.col], vb = b[holdingsSort.col];
+        if (typeof va === "string") return holdingsSort.asc ? va.localeCompare(vb) : vb.localeCompare(va);
+        return holdingsSort.asc ? (va - vb) : (vb - va);
+      });
+
+      document.getElementById("holdings-tbody").innerHTML = rows.map(h => {
+        const secCol = getSectorColor(h.sector);
+        const dayCls = h.change > 0 ? "pos" : (h.change < 0 ? "neg" : "muted");
+        const priceVsWacCls = h.wac > 0 ? (h.price >= h.wac ? "pos" : "neg") : "";
+        return `
+          <tr>
+            <td class="mono fw-700" style="cursor:pointer; color:var(--primary);" onclick="openStockResearch('${h.ticker}')">${h.ticker}</td>
+            <td class="fw-600">${h.name}</td>
+            <td>
+              <span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; background:${secCol}18; color:${secCol}; border:1px solid ${secCol}40;">
+                ${h.sector}
+              </span>
+            </td>
+            <td>${h.frequency}</td>
+            <td class="mono right fw-600">${fmtNum(h.activeShares)}</td>
+            <td class="mono right">${h.wac > 0 ? 'Rs. ' + h.wac.toFixed(2) : '—'}</td>
+            <td class="mono right fw-700 ${priceVsWacCls}" style="cursor:pointer;" onclick="promptInlinePriceUpdate('${h.ticker}', ${h.price})" title="Click to edit price">
+              Rs. ${h.price.toFixed(2)} ✎
+            </td>
+            <td class="mono right ${dayCls}">${h.change >= 0 ? '+' : ''}${h.changePct.toFixed(2)}%</td>
+            <td class="mono right">${fmtPKR(h.activeCostBasis, 0)}</td>
+            <td class="mono right fw-700">${fmtPKR(h.marketValue, 0)}</td>
+            <td class="mono right">${h.weight.toFixed(1)}%</td>
+            <td class="mono right ${h.unrealizedPnL >= 0 ? 'pos' : 'neg'}">
+              ${fmtSignedPKR(h.unrealizedPnL, 0)} (${h.unrealizedPct >= 0 ? '+' : ''}${h.unrealizedPct.toFixed(1)}%)
+            </td>
+            <td class="mono right pos">${h.netDivPaid > 0 ? '+' + fmtPKR(h.netDivPaid, 0) : '—'}</td>
+            <td class="mono right">
+              <span class="pnl-pill ${h.totalReturn >= 0 ? 'pnl-pos' : 'pnl-neg'}">
+                ${fmtSignedPKR(h.totalReturn, 0)} (${h.totalReturnPct >= 0 ? '+' : ''}${h.totalReturnPct.toFixed(1)}%)
+              </span>
+            </td>
+            <td class="center">
+              <button class="btn btn-sm btn-primary" onclick="openStockResearch('${h.ticker}')">Chart</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      const sumSh = rows.reduce((s, r) => s + r.activeShares, 0);
+      const sumCost = rows.reduce((s, r) => s + r.activeCostBasis, 0);
+      const sumMV = rows.reduce((s, r) => s + r.marketValue, 0);
+      const sumUnreal = rows.reduce((s, r) => s + r.unrealizedPnL, 0);
+      const sumDiv = rows.reduce((s, r) => s + r.netDivPaid, 0);
+      const sumRet = rows.reduce((s, r) => s + r.totalReturn, 0);
+
+      document.getElementById("holdings-tfoot").innerHTML = `
+        <tr>
+          <td colspan="4">Total (${rows.length} Stocks)</td>
+          <td class="mono right">${fmtNum(sumSh)}</td>
+          <td colspan="3"></td>
+          <td class="mono right">${fmtPKR(sumCost, 0)}</td>
+          <td class="mono right">${fmtPKR(sumMV, 0)}</td>
+          <td class="mono right">100%</td>
+          <td class="mono right ${sumUnreal >= 0 ? 'pos' : 'neg'}">${fmtSignedPKR(sumUnreal, 0)}</td>
+          <td class="mono right pos">+${fmtPKR(sumDiv, 0)}</td>
+          <td class="mono right ${sumRet >= 0 ? 'pos' : 'neg'}">${fmtSignedPKR(sumRet, 0)}</td>
+          <td></td>
+        </tr>
+      `;
+    }
+
+    function promptInlinePriceUpdate(ticker, curPrice) {
+      const val = prompt(`Enter latest price (Rs.) for ${ticker}:`, curPrice);
+      if (val === null) return;
+      const num = parseFloat(val);
+      if (isNaN(num) || num < 0) return;
+      const comp = appState.companies.find(c => c.ticker === ticker);
+      if (comp) comp.price = num;
+      recomputeAndRenderAll();
+      persistState(`Updated price for ${ticker}`);
+    }
+
+    function renderTransactionsTable() {
+      const q = (document.getElementById("tx-search")?.value || "").toLowerCase().trim();
+      const act = document.getElementById("tx-action-filter")?.value || "ALL";
+      const mo = document.getElementById("tx-month-filter")?.value || "ALL";
+
+      const list = [...computed.transactions].reverse().filter(t => {
+        if (act !== "ALL" && t.action !== act) return false;
+        if (mo !== "ALL" && t.ym !== mo) return false;
+        if (q && !(`${t.ticker} ${t.company} ${t.notes || ''} ${t.date}`.toLowerCase().includes(q))) return false;
+        return true;
+      });
+
+      document.getElementById("tx-tbody").innerHTML = list.map(t => `
+        <tr>
+          <td class="mono">${t.date}</td>
+          <td class="mono muted">${t.ym}</td>
+          <td class="mono fw-700" style="color:var(--primary); cursor:pointer;" onclick="openStockResearch('${t.ticker}')">${t.ticker}</td>
+          <td class="fw-600">${t.company}</td>
+          <td><span class="status-pill ${t.action === 'Buy' ? 'pill-buy' : 'pill-sell'}">${t.action}</span></td>
+          <td class="mono right fw-600">${fmtNum(t.shares)}</td>
+          <td class="mono right">Rs. ${t.price.toFixed(2)}</td>
+          <td class="mono right">${fmtPKR(t.grossAmount, 2)}</td>
+          <td class="mono right muted">${t.brkFees.toFixed(2)}</td>
+          <td class="mono right muted">${t.sst.toFixed(2)}</td>
+          <td class="mono right ${t.netCashFlow >= 0 ? 'pos' : 'neg'}">${fmtSignedPKR(t.netCashFlow, 2)}</td>
+          <td class="mono right">Rs. ${t.runningWac.toFixed(2)}</td>
+          <td>${t.notes ? `<span class="status-pill pill-drip">${t.notes}</span>` : ''}</td>
+          <td class="center">
+            <button class="btn btn-sm" onclick="openTxModal(${t.id})">Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteTransaction(${t.id})">Del</button>
+          </td>
+        </tr>
+      `).join("");
+
+      const sumGross = list.reduce((s, t) => s + t.grossAmount, 0);
+      const sumBrk = list.reduce((s, t) => s + t.brkFees, 0);
+      const sumSst = list.reduce((s, t) => s + t.sst, 0);
+      const sumNet = list.reduce((s, t) => s + t.netCashFlow, 0);
+
+      document.getElementById("tx-tfoot").innerHTML = `
+        <tr>
+          <td colspan="7">Total (${list.length} Transactions)</td>
+          <td class="mono right">${fmtPKR(sumGross, 2)}</td>
+          <td class="mono right">${fmtPKR(sumBrk, 2)}</td>
+          <td class="mono right">${fmtPKR(sumSst, 2)}</td>
+          <td class="mono right ${sumNet >= 0 ? 'pos' : 'neg'}">${fmtSignedPKR(sumNet, 2)}</td>
+          <td colspan="3"></td>
+        </tr>
+      `;
+    }
+
+    function renderDividendsTable() {
+      const q = (document.getElementById("div-search")?.value || "").toLowerCase().trim();
+      const st = document.getElementById("div-status-filter")?.value || "ALL";
+      const reinv = document.getElementById("div-reinv-filter")?.value || "ALL";
+
+      const list = [...computed.dividends].reverse().filter(d => {
+        if (st !== "ALL" && d.status !== st) return false;
+        if (reinv !== "ALL" && d.reinvest !== reinv) return false;
+        if (q && !(`${d.ticker} ${d.company} ${d.year} ${d.term}`.toLowerCase().includes(q))) return false;
+        return true;
+      });
+
+      document.getElementById("div-tbody").innerHTML = list.map(d => {
+        const rowCls = d.status === "Paid" ? "div-paid-row" : "div-unpaid-row";
+        const pillCls = d.status === "Paid" ? "pill-paid" : "pill-unpaid";
+        const dripNote = d.reinvest === "Yes"
+          ? (d.matchedDripTx ? `<span class="status-pill pill-drip">Bought ${d.matchedDripTx.shares} sh @ Rs.${d.matchedDripTx.price} (${d.matchedDripTx.date})</span>` : `<span class="status-pill pill-drip">Reinvested</span>`)
+          : `<span class="muted">Cash Retained</span>`;
+        return `
+          <tr class="${rowCls}">
+            <td class="mono">${d.paymentDate}</td>
+            <td class="mono muted">${d.ym}</td>
+            <td class="mono fw-700" style="color:var(--primary); cursor:pointer;" onclick="openStockResearch('${d.ticker}')">${d.ticker}</td>
+            <td class="fw-600">${d.company}</td>
+            <td class="mono">${d.year}</td>
+            <td class="mono">${d.term}</td>
+            <td class="center">
+              <span class="status-pill ${pillCls}" style="cursor:pointer;" onclick="toggleDividendStatus(${d.id})" title="Click to toggle Paid / Unpaid">${d.status}</span>
+            </td>
+            <td class="mono right">${fmtNum(d.sharesEligible)}</td>
+            <td class="mono right">Rs. ${d.dps.toFixed(2)}</td>
+            <td class="mono right fw-600">${fmtPKR(d.grossDividend, 2)}</td>
+            <td class="mono right neg">-${fmtPKR(d.wht, 2)}</td>
+            <td class="mono right ${d.zakat > 0 ? 'neg' : 'muted'}">${d.zakat > 0 ? '-' + fmtPKR(d.zakat, 2) : '0.00'}</td>
+            <td class="mono right pos">+${fmtPKR(d.netDividend, 2)}</td>
+            <td class="center">${d.reinvest === 'Yes' ? '<span class="status-pill pill-drip">Yes</span>' : 'No'}</td>
+            <td>${dripNote}</td>
+            <td class="center">
+              <button class="btn btn-sm" onclick="openDivModal(${d.id})">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteDividend(${d.id})">Del</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      const sumGross = list.reduce((s, d) => s + d.grossDividend, 0);
+      const sumWht = list.reduce((s, d) => s + d.wht, 0);
+      const sumZakat = list.reduce((s, d) => s + d.zakat, 0);
+      const sumNet = list.reduce((s, d) => s + d.netDividend, 0);
+
+      document.getElementById("div-tfoot").innerHTML = `
+        <tr>
+          <td colspan="9">Total (${list.length} Dividend Records)</td>
+          <td class="mono right">${fmtPKR(sumGross, 2)}</td>
+          <td class="mono right neg">-${fmtPKR(sumWht, 2)}</td>
+          <td class="mono right neg">-${fmtPKR(sumZakat, 2)}</td>
+          <td class="mono right pos">+${fmtPKR(sumNet, 2)}</td>
+          <td colspan="3"></td>
+        </tr>
+      `;
+    }
+
+    function renderMonthlySummaryTable() {
+      const mList = computed.monthly;
+      const totMV = computed.totals.totalMarketValue || 1;
+      const includeLegacy = appState.settings?.includeLegacyMcbInCashflow !== false;
+
+      document.getElementById("monthly-tbody").innerHTML = mList.map(m => {
+        const sellIn = includeLegacy ? m.sellInflow : m.sellInflowExLegacy;
+        const netInv = m.buyOutflow - sellIn;
+        const yld = (m.netDiv / totMV) * 100;
+        return `
+          <tr>
+            <td class="mono fw-700" style="color:var(--primary);">${m.ym}</td>
+            <td class="mono right ${m.buyOutflow > 0 ? 'neg' : 'muted'}">${m.buyOutflow > 0 ? '-' + fmtPKR(m.buyOutflow, 2) : 'Rs. 0.00'}</td>
+            <td class="mono right ${sellIn > 0 ? 'pos' : 'muted'}">${sellIn > 0 ? '+' + fmtPKR(sellIn, 2) : 'Rs. 0.00'}</td>
+            <td class="mono right fw-600">${fmtPKR(netInv, 2)}</td>
+            <td class="mono right">${fmtPKR(m.grossDiv, 2)}</td>
+            <td class="mono right ${m.wht > 0 ? 'neg' : 'muted'}">${m.wht > 0 ? '-' + fmtPKR(m.wht, 2) : 'Rs. 0.00'}</td>
+            <td class="mono right ${m.zakat > 0 ? 'neg' : 'muted'}">${m.zakat > 0 ? '-' + fmtPKR(m.zakat, 2) : 'Rs. 0.00'}</td>
+            <td class="mono right ${m.netDiv > 0 ? 'pos' : 'muted'}">${m.netDiv > 0 ? '+' + fmtPKR(m.netDiv, 2) : 'Rs. 0.00'}</td>
+            <td class="mono right">${yld.toFixed(2)}%</td>
+            <td class="mono right" style="color:var(--purple); font-weight:600;">${m.reinvValue > 0 ? fmtPKR(m.reinvValue, 2) : 'Rs. 0.00'}</td>
+          </tr>
+        `;
+      }).join("");
+
+      const t = computed.totals;
+      document.getElementById("monthly-tfoot").innerHTML = `
+        <tr>
+          <td>Total</td>
+          <td class="mono right neg">-${fmtPKR(t.totalBuyOutflow, 2)}</td>
+          <td class="mono right pos">+${fmtPKR(t.effectiveSellInflow, 2)}</td>
+          <td class="mono right">${fmtPKR(t.netCashInvested, 2)}</td>
+          <td class="mono right">${fmtPKR(t.totalGrossDivPaid, 2)}</td>
+          <td class="mono right neg">-${fmtPKR(t.totalWhtPaid, 2)}</td>
+          <td class="mono right neg">-${fmtPKR(t.totalZakatPaid, 2)}</td>
+          <td class="mono right pos">+${fmtPKR(t.totalNetDivPaid, 2)}</td>
+          <td class="mono right">${((t.totalNetDivPaid / totMV) * 100).toFixed(2)}%</td>
+          <td class="mono right" style="color:var(--purple);">${fmtPKR(t.totalReinvestedDivNet, 2)}</td>
+        </tr>
+      `;
+    }
+
+    function renderDividendCalendar() {
+      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      const stocks = computed.holdings.filter(h => h.netDivPaid > 0 || h.frequency !== "None");
+      document.getElementById("dividend-calendar-box").innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Company</th>
+              <th>Frequency</th>
+              ${months.map(m => `<th class="right">${m}</th>`).join("")}
+              <th class="right">Total Net Div</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${stocks.map(h => {
+              const mVals = new Array(12).fill(0);
+              h.divRecords.filter(d => d.status === "Paid").forEach(d => {
+                const idx = parseInt(d.paymentDate.slice(5, 7), 10) - 1;
+                if (idx >= 0 && idx < 12) mVals[idx] += d.netDividend;
+              });
+              return `
+                <tr>
+                  <td class="mono fw-700" style="color:var(--primary);">${h.ticker}</td>
+                  <td class="fw-600">${h.name}</td>
+                  <td>${h.frequency}</td>
+                  ${mVals.map(v => `<td class="mono right ${v > 0 ? 'pos' : 'muted'}">${v > 0 ? '+' + Math.round(v).toLocaleString() : '—'}</td>`).join("")}
+                  <td class="mono right pos">+${fmtPKR(h.netDivPaid, 0)}</td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // =========================================================================
+    // PSX STOCK CHARTS, POSITION VISUALIZER & EXTERNAL PORTALS
+    // (100% Native PSX Chart + Official PSX Portal Embed — Never shows Apple!)
+    // =========================================================================
+    function openStockResearch(ticker) {
+      currentResearchTicker = ticker;
+      switchTab("research");
+      const sel = document.getElementById("research-ticker-select");
+      if (sel) sel.value = ticker;
+      selectResearchTicker(ticker);
+    }
+
+    function setResearchChartMode(mode) {
+      researchChartMode = mode;
+      document.getElementById("btn-chart-mode-custom").className = mode === "custom" ? "btn btn-sm btn-primary" : "btn btn-sm";
+      document.getElementById("btn-chart-mode-psx").className = mode === "psx" ? "btn btn-sm btn-primary" : "btn btn-sm";
+      selectResearchTicker(currentResearchTicker);
+    }
+
+    function selectResearchTicker(ticker) {
+      currentResearchTicker = ticker;
+      const h = computed.compMap[ticker];
+      if (!h) return;
+
+      const mv = h.activeShares * h.price;
+      const wac = h.activeShares > 0 ? (h.activeCostBasis / h.activeShares) : 0;
+      const unreal = mv - h.activeCostBasis;
+      const totRet = unreal + h.realizedPnL + h.netDivPaid;
+
+      document.getElementById("research-external-links").innerHTML = `
+        <a class="btn btn-sm btn-primary" href="https://www.tradingview.com/chart/?symbol=PSX%3A${ticker}" target="_blank" rel="noopener">📈 Open PSX:${ticker} on TradingView.com ↗</a>
+        <a class="btn btn-sm" href="https://dps.psx.com.pk/company/${ticker}" target="_blank" rel="noopener">🏛️ Official PSX Page (${ticker}) ↗</a>
+        <a class="btn btn-sm" href="https://sarmaya.pk/psx/stock/${ticker}" target="_blank" rel="noopener">💎 Sarmaya.pk ↗</a>
+      `;
+
+      document.getElementById("research-position-strip").innerHTML = `
+        <div class="kpi-row" style="margin-bottom:0;">
+          <div class="kpi-box" style="padding:12px 16px; --kpi-color:#2563eb;">
+            <div class="kpi-title">Live PSX Price</div>
+            <div class="kpi-main" style="font-size:19px;">Rs. ${h.price.toFixed(2)}</div>
+            <div class="kpi-foot"><span>LDCP: Rs.${h.ldcp.toFixed(2)}</span><span class="${h.change >= 0 ? 'pos' : 'neg'}">${h.change >= 0 ? '+' : ''}${h.changePct.toFixed(2)}%</span></div>
+          </div>
+          <div class="kpi-box" style="padding:12px 16px; --kpi-color:#d97706;">
+            <div class="kpi-title">Your Avg Buy Price</div>
+            <div class="kpi-main" style="font-size:19px;">Rs. ${wac.toFixed(2)}</div>
+            <div class="kpi-foot"><span>Shares Held</span><span class="mono fw-700">${fmtNum(h.activeShares)} sh</span></div>
+          </div>
+          <div class="kpi-box" style="padding:12px 16px; --kpi-color:#4f46e5;">
+            <div class="kpi-title">Market Value</div>
+            <div class="kpi-main" style="font-size:19px;">${fmtPKR(mv, 0)}</div>
+            <div class="kpi-foot"><span>Cost Basis</span><span class="mono">${fmtPKR(h.activeCostBasis, 0)}</span></div>
+          </div>
+          <div class="kpi-box" style="padding:12px 16px; --kpi-color:${unreal >= 0 ? '#059669' : '#dc2626'};">
+            <div class="kpi-title">Unrealized P&L</div>
+            <div class="kpi-main ${unreal >= 0 ? 'pos' : 'neg'}" style="font-size:19px;">${fmtSignedPKR(unreal, 0)}</div>
+            <div class="kpi-foot"><span>Return %</span><span class="${unreal >= 0 ? 'pos' : 'neg'}">${h.unrealizedPct >= 0 ? '+' : ''}${h.unrealizedPct.toFixed(2)}%</span></div>
+          </div>
+          <div class="kpi-box" style="padding:12px 16px; --kpi-color:#059669;">
+            <div class="kpi-title">Net Dividends + Cap P&L</div>
+            <div class="kpi-main ${totRet >= 0 ? 'pos' : 'neg'}" style="font-size:19px;">${fmtSignedPKR(totRet, 0)}</div>
+            <div class="kpi-foot"><span>Net Divs Paid</span><span class="pos">+${fmtPKR(h.netDivPaid, 0)}</span></div>
+          </div>
+        </div>
+      `;
+
+      const chartPanel = document.getElementById("psx-chart-panel");
+      if (researchChartMode === "psx") {
+        chartPanel.style.padding = "0";
+        chartPanel.innerHTML = `<iframe src="https://dps.psx.com.pk/company/${ticker}" style="width:100%; height:460px; border:none;"></iframe>`;
+      } else {
+        chartPanel.style.padding = "16px";
+        renderCustomPSXStockChart(h, chartPanel);
+      }
+
+      // Render Trade Lots table with vivid green/red P&L per lot!
+      const lots = h.lots || [];
+      document.getElementById("stock-lot-chart-box").innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Action</th>
+              <th class="right">Shares</th>
+              <th class="right">Trade Price</th>
+              <th class="right">Current vs Trade</th>
+              <th class="right">Net Cash Flow</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${lots.map(l => {
+              const diffPerSh = h.price - l.price;
+              const lotPnl = l.action === "Buy" ? (diffPerSh * l.shares) : 0;
+              const lotPnlCls = lotPnl >= 0 ? "pos" : "neg";
+              return `
+                <tr>
+                  <td class="mono">${l.date}</td>
+                  <td><span class="status-pill ${l.action === 'Buy' ? 'pill-buy' : 'pill-sell'}">${l.action}</span></td>
+                  <td class="mono right fw-600">${fmtNum(l.shares)}</td>
+                  <td class="mono right">Rs. ${l.price.toFixed(2)}</td>
+                  <td class="mono right ${lotPnlCls}">${l.action === 'Buy' ? fmtSignedPKR(lotPnl, 0) : '—'}</td>
+                  <td class="mono right ${l.netCashFlow >= 0 ? 'pos' : 'neg'}">${fmtSignedPKR(l.netCashFlow, 2)}</td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+        </table>
+      `;
+
+      // Render Dividends received for this stock
+      const divs = h.divRecords || [];
+      document.getElementById("stock-div-history-box").innerHTML = divs.length ? `
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Period</th><th class="right">Shares</th><th class="right">DPS</th><th class="right">WHT/Zakat</th><th class="right">Net Dividend</th></tr>
+          </thead>
+          <tbody>
+            ${divs.map(d => `
+              <tr>
+                <td class="mono">${d.paymentDate}</td>
+                <td class="mono">${d.year} ${d.term}</td>
+                <td class="mono right">${fmtNum(d.sharesEligible)}</td>
+                <td class="mono right">Rs. ${d.dps.toFixed(2)}</td>
+                <td class="mono right neg">-${fmtPKR(d.wht + d.zakat, 0)}</td>
+                <td class="mono right pos">+${fmtPKR(d.netDividend, 2)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      ` : `<div style="padding:18px; color:var(--text-muted); text-align:center;">No dividend payouts recorded yet for ${ticker}.</div>`;
+    }
+
+    function renderCustomPSXStockChart(h, container) {
+      // Build a chronological price series combining 52W range, trade lots, LDCP, and Live Price
+      const lots = h.lots || [];
+      let low52 = h.price * 0.85, high52 = h.price * 1.15;
+      if (h.high52 && h.high52.includes("-")) {
+        const parts = h.high52.split("-").map(x => parseFloat(x.replace(/,/g, "").trim()));
+        if (parts.length === 2 && parts[1] > 0) { low52 = parts[0]; high52 = parts[1]; }
+      }
+
+      const points = [];
+      lots.forEach(l => {
+        points.push({ date: l.date, price: l.price, label: `${l.action} ${l.shares}sh @ Rs.${l.price}`, type: l.action });
+      });
+      if (h.ldcp > 0) {
+        points.push({ date: "Prev Close", price: h.ldcp, label: `LDCP: Rs.${h.ldcp}`, type: "LDCP" });
+      }
+      if (h.price > 0) {
+        points.push({ date: "Live PSX", price: h.price, label: `Live: Rs.${h.price}`, type: "LIVE" });
+      }
+
+      const allPrices = [...points.map(p => p.price), h.wac, low52, high52].filter(v => v > 0);
+      const minP = Math.min(...allPrices) * 0.94;
+      const maxP = Math.max(...allPrices) * 1.06;
+
+      const w = 680, ch = 310, padL = 58, padR = 65, padT = 26, padB = 38;
+      const plotW = w - padL - padR;
+      const plotH = ch - padT - padB;
+
+      function getY(val) {
+        return padT + plotH - ((val - minP) / Math.max(maxP - minP, 1)) * plotH;
+      }
+
+      const coords = points.map((pt, i) => {
+        const x = padL + (i / Math.max(points.length - 1, 1)) * plotW;
+        const y = getY(pt.price);
+        return { ...pt, x, y };
+      });
+
+      const linePath = coords.map(c => `${c.x},${c.y}`).join(" ");
+      const areaPath = coords.length > 1
+        ? `M ${coords[0].x},${padT + plotH} L ` + coords.map(c => `${c.x},${c.y}`).join(" L ") + ` L ${coords[coords.length-1].x},${padT + plotH} Z`
+        : "";
+
+      const isUpOverall = h.wac > 0 ? h.price >= h.wac : true;
+      const mainColor = isUpOverall ? "#10b981" : "#ef4444";
+      const yWac = h.wac > 0 ? getY(h.wac) : null;
+      const yLive = h.price > 0 ? getY(h.price) : null;
+
+      const gridSvg = [0, 0.25, 0.5, 0.75, 1].map(f => {
+        const y = padT + plotH * (1 - f);
+        const pVal = minP + (maxP - minP) * f;
+        return `
+          <line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="var(--border)" stroke-dasharray="3 3" />
+          <text x="${padL - 8}" y="${y + 4}" text-anchor="end" fill="var(--text-muted)" font-size="10" font-family="JetBrains Mono">Rs.${pVal.toFixed(1)}</text>
+        `;
+      }).join("");
+
+      const dotsSvg = coords.map(c => {
+        const dotColor = c.type === "Buy" ? "#2563eb" : (c.type === "Sell" ? "#dc2626" : (c.type === "LIVE" ? mainColor : "#64748b"));
+        return `
+          <g>
+            <circle cx="${c.x}" cy="${c.y}" r="5.5" fill="${dotColor}" stroke="#ffffff" stroke-width="2">
+              <title>${c.date}: ${c.label}</title>
+            </circle>
+            <text x="${c.x}" y="${c.y - 10}" text-anchor="middle" fill="var(--text-main)" font-size="10" font-weight="600" font-family="JetBrains Mono">${c.price.toFixed(1)}</text>
+            <text x="${c.x}" y="${ch - 12}" text-anchor="middle" fill="var(--text-muted)" font-size="9.5" font-family="JetBrains Mono">${c.date.slice(-5)}</text>
+          </g>
+        `;
+      }).join("");
+
+      container.innerHTML = `
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div>
+              <span class="fw-700" style="font-size:15px;">PSX:${h.ticker} — ${h.name}</span>
+              <span class="muted" style="font-size:12px; margin-left:8px;">(${h.sector})</span>
+            </div>
+          </div>
+          <div class="chart-legend" style="margin-bottom:8px;">
+            <span class="legend-item">
+              <span class="legend-dot" style="background:#2563eb; border:2px solid #fff; box-shadow:0 0 0 1px #2563eb;"></span>
+              <span>Your Buy Order Price</span>
+            </span>
+            <span class="legend-item">
+              <span class="legend-dot" style="background:#dc2626; border:2px solid #fff; box-shadow:0 0 0 1px #dc2626;"></span>
+              <span>Your Sell Order Price</span>
+            </span>
+            <span class="legend-item">
+              <span class="legend-dot" style="background:#64748b; border:2px solid #fff; box-shadow:0 0 0 1px #64748b;"></span>
+              <span>Prev Day Close (LDCP)</span>
+            </span>
+            <span class="legend-item">
+              <span class="legend-dash" style="border-color:#d97706;"></span>
+              <span style="color:#d97706; font-weight:700;">Your Avg Buy Price (WAC: Rs.${h.wac.toFixed(2)})</span>
+            </span>
+            <span class="legend-item">
+              <span class="legend-line" style="background:${mainColor};"></span>
+              <span style="color:${mainColor}; font-weight:700;">Live PSX Price (NOW: Rs.${h.price.toFixed(2)})</span>
+            </span>
+          </div>
+          <svg viewBox="0 0 ${w} ${ch}" width="100%" height="315">
+            <defs>
+              <linearGradient id="stockGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="${mainColor}" stop-opacity="0.28"/>
+                <stop offset="100%" stop-color="${mainColor}" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            ${gridSvg}
+            ${areaPath ? `<path d="${areaPath}" fill="url(#stockGrad)" />` : ''}
+            ${coords.length > 1 ? `<polyline fill="none" stroke="${mainColor}" stroke-width="2.5" points="${linePath}" />` : ''}
+            ${yWac !== null ? `
+              <line x1="${padL}" y1="${yWac}" x2="${w - padR}" y2="${yWac}" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4" />
+              <rect x="${w - padR + 2}" y="${yWac - 9}" width="60" height="18" rx="3" fill="#d97706" />
+              <text x="${w - padR + 32}" y="${yWac + 3}" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="JetBrains Mono">WAC ${h.wac.toFixed(1)}</text>
+            ` : ''}
+            ${yLive !== null ? `
+              <line x1="${padL}" y1="${yLive}" x2="${w - padR}" y2="${yLive}" stroke="${mainColor}" stroke-width="1.5" stroke-dasharray="2 2" />
+              <rect x="${w - padR + 2}" y="${yLive - 9}" width="60" height="18" rx="3" fill="${mainColor}" />
+              <text x="${w - padR + 32}" y="${yLive + 3}" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="JetBrains Mono">NOW ${h.price.toFixed(1)}</text>
+            ` : ''}
+            ${dotsSvg}
+          </svg>
+        </div>
+
+        <div class="chart-stat-strip" style="margin-top:8px;">
+          <div class="chart-stat-item">
+            <div class="chart-stat-lbl">52-Week Range</div>
+            <div class="chart-stat-val">${h.high52 || 'N/A'}</div>
+          </div>
+          <div class="chart-stat-item">
+            <div class="chart-stat-lbl">Day Range</div>
+            <div class="chart-stat-val">${h.dayRange || 'N/A'}</div>
+          </div>
+          <div class="chart-stat-item">
+            <div class="chart-stat-lbl">P/E Ratio (TTM)</div>
+            <div class="chart-stat-val">${h.pe || 'N/A'}</div>
+          </div>
+          <div class="chart-stat-item">
+            <div class="chart-stat-lbl">Volume Traded</div>
+            <div class="chart-stat-val">${h.volume || '0'}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // THREE.JS 3D PORTFOLIO VIEW
+    // =========================================================================
+    let threeScene, threeCamera, threeRenderer, threeGroup;
+    let threeObjects = [];
+    let threeMode = "city";
+    let threeAutoRotate = true;
+    let isDragging3D = false;
+    let prevMouse3D = { x: 0, y: 0 };
+    let cameraSpherical = { radius: 32, theta: 0.6, phi: 1.05 };
+
+    function init3DScene() {
+      const container = document.getElementById("stage-3d-container");
+      const canvas = document.getElementById("three-canvas");
+      if (!container || !canvas || typeof THREE === "undefined") return;
+
+      threeScene = new THREE.Scene();
+      threeCamera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 500);
+      updateCameraPosition();
+
+      threeRenderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      threeRenderer.setSize(container.clientWidth, container.clientHeight);
+      threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      threeScene.add(new THREE.AmbientLight(0xffffff, 0.75));
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      dirLight.position.set(18, 30, 22);
+      threeScene.add(dirLight);
+
+      const grid = new THREE.GridHelper(32, 16, 0x334155, 0x1e293b);
+      threeScene.add(grid);
+
+      threeGroup = new THREE.Group();
+      threeScene.add(threeGroup);
+
+      update3DSceneData();
+
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2();
+      const tooltip = document.getElementById("tooltip-3d");
+
+      canvas.addEventListener("mousedown", e => {
+        isDragging3D = true;
+        prevMouse3D = { x: e.clientX, y: e.clientY };
+      });
+      window.addEventListener("mouseup", () => { isDragging3D = false; });
+      window.addEventListener("mousemove", e => {
+        const rect = canvas.getBoundingClientRect();
+        if (isDragging3D) {
+          cameraSpherical.theta -= (e.clientX - prevMouse3D.x) * 0.008;
+          cameraSpherical.phi = Math.max(0.35, Math.min(1.42, cameraSpherical.phi - (e.clientY - prevMouse3D.y) * 0.008));
+          prevMouse3D = { x: e.clientX, y: e.clientY };
+          updateCameraPosition();
+        }
+        if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
+          mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+          mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+          raycaster.setFromCamera(mouse, threeCamera);
+          const hits = raycaster.intersectObjects(threeObjects);
+          if (hits.length > 0 && hits[0].object.userData?.ticker) {
+            const d = hits[0].object.userData;
+            tooltip.style.display = "block";
+            tooltip.style.left = Math.min(rect.width - 200, e.clientX - rect.left + 12) + "px";
+            tooltip.style.top = Math.max(10, e.clientY - rect.top - 15) + "px";
+            tooltip.innerHTML = `
+              <div class="fw-700" style="color:#38bdf8;">${d.ticker} — ${d.name}</div>
+              <div class="mono">Value: ${fmtPKR(d.marketValue, 0)}</div>
+              <div class="mono" style="color:${d.totalReturn >= 0 ? '#34d399' : '#fb7185'};">Total Return: ${fmtSignedPKR(d.totalReturn, 0)}</div>
+            `;
+          } else {
+            tooltip.style.display = "none";
+          }
+        } else {
+          tooltip.style.display = "none";
+        }
+      });
+
+      canvas.addEventListener("wheel", e => {
+        e.preventDefault();
+        cameraSpherical.radius = Math.max(15, Math.min(60, cameraSpherical.radius + e.deltaY * 0.02));
+        updateCameraPosition();
+      }, { passive: false });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        if (threeAutoRotate && !isDragging3D && threeGroup) {
+          threeGroup.rotation.y += 0.0022;
+        }
+        threeRenderer.render(threeScene, threeCamera);
+      }
+      animate();
+    }
+
+    function updateCameraPosition() {
+      if (!threeCamera) return;
+      const { radius, theta, phi } = cameraSpherical;
+      threeCamera.position.set(
+        radius * Math.sin(phi) * Math.sin(theta),
+        radius * Math.cos(phi),
+        radius * Math.sin(phi) * Math.cos(theta)
+      );
+      threeCamera.lookAt(0, 2, 0);
+    }
+
+    function set3DMode(m) {
+      threeMode = m;
+      update3DSceneData();
+    }
+
+    function toggle3DRotation() {
+      threeAutoRotate = !threeAutoRotate;
+    }
+
+    function update3DSceneData() {
+      if (!threeGroup || typeof THREE === "undefined") return;
+      while (threeGroup.children.length > 0) threeGroup.remove(threeGroup.children[0]);
+      threeObjects = [];
+
+      const active = [...computed.holdings].filter(h => h.activeShares > 0).sort((a, b) => b.marketValue - a.marketValue);
+      if (threeMode === "city") {
+        const cols = 6, spacing = 3.4;
+        const maxMV = Math.max(...active.map(h => h.marketValue), 10000);
+        active.forEach((h, idx) => {
+          const r = Math.floor(idx / cols), c = idx % cols;
+          const x = (c - (cols - 1) / 2) * spacing;
+          const z = (r - 1.5) * spacing;
+          const height = Math.max(0.7, (h.marketValue / maxMV) * 10.5);
+          const colorHex = h.totalReturn >= 0 ? 0x10b981 : 0xf43f5e;
+          const geom = new THREE.BoxGeometry(1.6, height, 1.6);
+          const mat = new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.3, metalness: 0.2 });
+          const mesh = new THREE.Mesh(geom, mat);
+          mesh.position.set(x, height / 2, z);
+          mesh.userData = h;
+          threeGroup.add(mesh);
+          threeObjects.push(mesh);
+
+          if (h.netDivPaid > 0) {
+            const ringGeom = new THREE.TorusGeometry(1.15, 0.07, 10, 28);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b });
+            const ring = new THREE.Mesh(ringGeom, ringMat);
+            ring.rotation.x = Math.PI / 2;
+            ring.position.set(x, height + 0.35, z);
+            threeGroup.add(ring);
+          }
+        });
+      } else {
+        const mList = computed.monthly;
+        const maxDiv = Math.max(...mList.map(m => m.netDiv), 5000);
+        mList.forEach((m, idx) => {
+          const x = (idx - (mList.length - 1) / 2) * 2.0;
+          const height = Math.max(0.3, (m.netDiv / maxDiv) * 9.5);
+          const geom = new THREE.BoxGeometry(1.2, height, 1.2);
+          const mat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, roughness: 0.3 });
+          const mesh = new THREE.Mesh(geom, mat);
+          mesh.position.set(x, height / 2, 0);
+          mesh.userData = { ticker: m.ym, name: "Monthly Net Dividends", marketValue: m.netDiv, totalReturn: m.netDiv };
+          threeGroup.add(mesh);
+          threeObjects.push(mesh);
+        });
+      }
+    }
+
+    // =========================================================================
+    // NAVIGATION, CRUD MODALS & LIVE PRICE REFRESH
+    // =========================================================================
+    function switchTab(tabId) {
+      document.querySelectorAll(".tab-section").forEach(s => s.classList.remove("active"));
+      document.getElementById("tab-" + tabId)?.classList.add("active");
+      const order = ["overview","holdings","transactions","dividends","monthly","research","backup"];
+      document.querySelectorAll("#main-nav .nav-btn").forEach((btn, idx) => {
+        btn.classList.toggle("active", order[idx] === tabId);
+      });
+      if (tabId === "research") selectResearchTicker(currentResearchTicker);
+    }
+
+    function closeModal(id) { document.getElementById(id)?.classList.remove("open"); }
+
+    function openTxModal(editId = null) {
+      populateFilterSelects();
+      document.getElementById("modal-tx").classList.add("open");
+      if (editId) {
+        const t = appState.transactions.find(x => x.id === editId);
+        if (!t) return;
+        document.getElementById("modal-tx-title").textContent = "Edit Transaction";
+        document.getElementById("tx-edit-id").value = editId;
+        document.getElementById("tx-date").value = t.date;
+        document.getElementById("tx-ticker").value = t.ticker;
+        document.getElementById("tx-action").value = t.action;
+        document.getElementById("tx-notes").value = t.notes || "";
+        document.getElementById("tx-shares").value = t.shares;
+        document.getElementById("tx-price").value = t.price;
+        document.getElementById("tx-brk").value = t.brkFees;
+        document.getElementById("tx-sst").value = t.sst;
+      } else {
+        document.getElementById("modal-tx-title").textContent = "Add Buy / Sell Transaction";
+        document.getElementById("tx-edit-id").value = "";
+        document.getElementById("tx-date").value = new Date().toISOString().slice(0, 10);
+        document.getElementById("tx-action").value = "Buy";
+        document.getElementById("tx-notes").value = "";
+        document.getElementById("tx-shares").value = "";
+        onTxTickerChange();
+      }
+      updateTxPreview();
+    }
+
+    function onTxTickerChange() {
+      const sym = document.getElementById("tx-ticker").value;
+      const h = computed?.compMap?.[sym];
+      if (h && h.price > 0) document.getElementById("tx-price").value = h.price;
+      autoCalcTxFees();
+    }
+
+    function autoCalcTxFees() {
+      if (document.getElementById("tx-edit-id").value) { updateTxPreview(); return; }
+      forceAutoCalcTxFees();
+    }
+
+    function forceAutoCalcTxFees() {
+      const sh = Number(document.getElementById("tx-shares").value) || 0;
+      const pr = Number(document.getElementById("tx-price").value) || 0;
+      const notes = (document.getElementById("tx-notes").value || "").toUpperCase();
+      if (notes.includes("IPO") || sh <= 0) {
+        document.getElementById("tx-brk").value = 0;
+        document.getElementById("tx-sst").value = 0;
+      } else {
+        const brk = Math.max(sh * 0.05, sh * pr * 0.0017);
+        document.getElementById("tx-brk").value = brk.toFixed(2);
+        document.getElementById("tx-sst").value = (brk * 0.15).toFixed(2);
+      }
+      updateTxPreview();
+    }
+
+    function updateTxPreview() {
+      const act = document.getElementById("tx-action").value;
+      const sh = Number(document.getElementById("tx-shares").value) || 0;
+      const pr = Number(document.getElementById("tx-price").value) || 0;
+      const brk = Number(document.getElementById("tx-brk").value) || 0;
+      const sst = Number(document.getElementById("tx-sst").value) || 0;
+      const gross = sh * pr;
+      const net = act === "Buy" ? -(gross + brk + sst) : (gross - brk - sst);
+      document.getElementById("tx-modal-preview").innerHTML =
+        `Gross: <b>${fmtPKR(gross, 2)}</b> | Fees: <b>${fmtPKR(brk + sst, 2)}</b> | Net Cash Flow: <b class="${net >= 0 ? 'pos' : 'neg'}">${fmtSignedPKR(net, 2)}</b>`;
+    }
+
+    function saveTxForm() {
+      const editId = document.getElementById("tx-edit-id").value;
+      const date = document.getElementById("tx-date").value;
+      const ticker = document.getElementById("tx-ticker").value;
+      const action = document.getElementById("tx-action").value;
+      const shares = Math.abs(Number(document.getElementById("tx-shares").value) || 0);
+      const price = Number(document.getElementById("tx-price").value) || 0;
+      const brkFees = Number(document.getElementById("tx-brk").value) || 0;
+      const sst = Number(document.getElementById("tx-sst").value) || 0;
+      const notes = document.getElementById("tx-notes").value.trim();
+
+      if (!date || !ticker || shares <= 0 || price <= 0) {
+        alert("Please fill in Date, Ticker, Shares, and Price.");
+        return;
+      }
+      const company = computed.compMap[ticker]?.name || ticker;
+      if (editId) {
+        const idx = appState.transactions.findIndex(x => x.id === Number(editId));
+        if (idx >= 0) appState.transactions[idx] = { id: Number(editId), date, ticker, company, action, shares, price, brkFees, sst, notes };
+      } else {
+        const nextId = appState.transactions.reduce((m, x) => Math.max(m, x.id || 0), 0) + 1;
+        appState.transactions.push({ id: nextId, date, ticker, company, action, shares, price, brkFees, sst, notes });
+      }
+      closeModal("modal-tx");
+      recomputeAndRenderAll();
+      persistState(`Saved ${action} transaction for ${ticker}`);
+    }
+
+    function deleteTransaction(id) {
+      if (!confirm("Delete this transaction?")) return;
+      appState.transactions = appState.transactions.filter(x => x.id !== id);
+      recomputeAndRenderAll();
+      persistState("Deleted transaction");
+    }
+
+    function openDivModal(editId = null) {
+      populateFilterSelects();
+      document.getElementById("modal-div").classList.add("open");
+      if (editId) {
+        const d = appState.dividends.find(x => x.id === editId);
+        if (!d) return;
+        document.getElementById("modal-div-title").textContent = "Edit Dividend";
+        document.getElementById("div-edit-id").value = editId;
+        document.getElementById("div-date").value = d.paymentDate;
+        document.getElementById("div-ticker").value = d.ticker;
+        document.getElementById("div-year").value = d.year;
+        document.getElementById("div-term").value = d.term;
+        document.getElementById("div-shares").value = d.sharesEligible;
+        document.getElementById("div-dps").value = d.dps;
+        document.getElementById("div-wht").value = d.wht;
+        document.getElementById("div-zakat").value = d.zakat || 0;
+        document.getElementById("div-status").value = d.status || "Paid";
+        document.getElementById("div-reinvest").value = d.reinvest || "No";
+      } else {
+        document.getElementById("modal-div-title").textContent = "Add Dividend Payment";
+        document.getElementById("div-edit-id").value = "";
+        document.getElementById("div-date").value = new Date().toISOString().slice(0, 10);
+        document.getElementById("div-dps").value = "";
+        document.getElementById("div-wht").value = 0;
+        document.getElementById("div-zakat").value = 0;
+        document.getElementById("div-status").value = "Paid";
+        document.getElementById("div-reinvest").value = "No";
+        autoFillEligibleShares(true);
+      }
+      updateDivPreview();
+    }
+
+    function autoFillEligibleShares(force = false) {
+      if (document.getElementById("div-edit-id").value && !force) return;
+      const sym = document.getElementById("div-ticker").value;
+      const dt = document.getElementById("div-date").value || "9999-12-31";
+      let sh = 0;
+      (appState.transactions || []).forEach(t => {
+        if (t.ticker === sym && t.date <= dt) sh += (t.action === "Buy" ? Number(t.shares) : -Number(t.shares));
+      });
+      document.getElementById("div-shares").value = Math.max(0, sh);
+      updateDivPreview();
+    }
+
+    function autoCalcDivWht(ratePct) {
+      const sh = Number(document.getElementById("div-shares").value) || 0;
+      const dps = Number(document.getElementById("div-dps").value) || 0;
+      document.getElementById("div-wht").value = Math.round(sh * dps * (ratePct / 100));
+      updateDivPreview();
+    }
+
+    function updateDivPreview() {
+      const sh = Number(document.getElementById("div-shares").value) || 0;
+      const dps = Number(document.getElementById("div-dps").value) || 0;
+      const wht = Number(document.getElementById("div-wht").value) || 0;
+      const zakat = Number(document.getElementById("div-zakat").value) || 0;
+      const gross = sh * dps;
+      const net = gross - wht - zakat;
+      document.getElementById("div-modal-preview").innerHTML =
+        `Gross Dividend: <b>${fmtPKR(gross, 2)}</b> | Tax + Zakat: <b class="neg">-${fmtPKR(wht + zakat, 2)}</b> | Net Dividend: <b class="pos">+${fmtPKR(net, 2)}</b>`;
+    }
+
+    function saveDivForm() {
+      const editId = document.getElementById("div-edit-id").value;
+      const paymentDate = document.getElementById("div-date").value;
+      const ticker = document.getElementById("div-ticker").value;
+      const year = document.getElementById("div-year").value.trim();
+      const term = document.getElementById("div-term").value;
+      const sharesEligible = Number(document.getElementById("div-shares").value) || 0;
+      const dps = Number(document.getElementById("div-dps").value) || 0;
+      const wht = Number(document.getElementById("div-wht").value) || 0;
+      const zakat = Number(document.getElementById("div-zakat").value) || 0;
+      const status = document.getElementById("div-status").value;
+      const reinvest = document.getElementById("div-reinvest").value;
+
+      if (!paymentDate || !ticker || sharesEligible <= 0 || dps <= 0) {
+        alert("Please fill in Date, Ticker, Eligible Shares, and Dividend per Share.");
+        return;
+      }
+
+      if (editId) {
+        const idx = appState.dividends.findIndex(x => x.id === Number(editId));
+        if (idx >= 0) {
+          appState.dividends[idx] = { ...appState.dividends[idx], id: Number(editId), paymentDate, ticker, year, term, sharesEligible, status, dps, wht, zakat, reinvest };
+        }
+      } else {
+        const nextId = appState.dividends.reduce((m, x) => Math.max(m, x.id || 0), 0) + 1;
+        appState.dividends.push({ id: nextId, paymentDate, ticker, year, term, sharesEligible, status, dps, wht, zakat, reinvest, reinvestPrice: 0 });
+      }
+      closeModal("modal-div");
+      recomputeAndRenderAll();
+      persistState(`Saved dividend for ${ticker}`);
+    }
+
+    function toggleDividendStatus(id) {
+      const d = appState.dividends.find(x => x.id === id);
+      if (!d) return;
+      d.status = d.status === "Paid" ? "Unpaid" : "Paid";
+      recomputeAndRenderAll();
+      persistState(`Marked dividend #${id} as ${d.status}`);
+    }
+
+    function deleteDividend(id) {
+      if (!confirm("Delete this dividend record?")) return;
+      appState.dividends = appState.dividends.filter(x => x.id !== id);
+      recomputeAndRenderAll();
+      persistState("Deleted dividend");
+    }
+
+    function openCompanyModal() { document.getElementById("modal-company").classList.add("open"); }
+
+    async function autoFetchNewTickerInfo() {
+      const sym = document.getElementById("comp-ticker").value.trim().toUpperCase();
+      if (!sym) return;
+      try {
+        const res = await fetch(`/api/quote/${sym}`);
+        if (res.ok) {
+          const q = await res.json();
+          if (q.officialName) document.getElementById("comp-name").value = q.officialName;
+          if (q.sector) document.getElementById("comp-sector").value = q.sector;
+          if (q.price) document.getElementById("comp-price").value = q.price;
+        }
+      } catch (e) {}
+    }
+
+    function saveCompanyForm() {
+      const ticker = document.getElementById("comp-ticker").value.trim().toUpperCase();
+      const name = document.getElementById("comp-name").value.trim() || ticker;
+      const frequency = document.getElementById("comp-freq").value;
+      const sector = document.getElementById("comp-sector").value.trim().toUpperCase() || "OTHER";
+      const price = Number(document.getElementById("comp-price").value) || 0;
+      if (!ticker) return;
+      const ex = appState.companies.find(c => c.ticker === ticker);
+      if (ex) { ex.name = name; ex.frequency = frequency; ex.sector = sector; if (price > 0) ex.price = price; }
+      else appState.companies.push({ ticker, name, frequency, sector, price, ldcp: price, change: 0, changePct: 0 });
+      closeModal("modal-company");
+      recomputeAndRenderAll();
+      persistState(`Saved company ${ticker}`);
+    }
+
+    function toggleLegacyMcbSetting(checked) {
+      appState.settings = appState.settings || {};
+      appState.settings.includeLegacyMcbInCashflow = checked;
+      recomputeAndRenderAll();
+      persistState("Updated MCB setting");
+    }
+
+    async function refreshLivePSXPrices() {
+      const btn = document.getElementById("btn-refresh-psx");
+      const orig = btn.innerHTML;
+      btn.innerHTML = "<span>Updating Prices...</span>";
+      btn.disabled = true;
+      try {
+        const res = await fetch("/api/refresh-prices", { method: "POST" });
+        if (res.ok) {
+          const d = await res.json();
+          if (d.ok && d.state) {
+            appState = d.state;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            recomputeAndRenderAll();
+          }
+        }
+      } catch (e) {}
+      btn.innerHTML = orig;
+      btn.disabled = false;
+    }
+
+    // Export / Import / GitHub
+    function exportPortfolioJSON() {
+      const blob = new Blob([JSON.stringify(appState, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `PSX_Portfolio_Backup_${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+    }
+
+    function importPortfolioJSON(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async e => {
+        try {
+          const d = JSON.parse(e.target.result);
+          if (d && d.companies && d.transactions) {
+            appState = d;
+            recomputeAndRenderAll();
+            await persistState("Restored backup");
+            alert("Backup restored successfully!");
+          }
+        } catch (err) { alert("Invalid JSON file"); }
+      };
+      reader.readAsText(file);
+    }
+
+    function downloadCSV(filename, headers, rows) {
+      const csv = [headers.join(","), ...rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(","))].join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+    }
+
+    function exportHoldingsCSV() {
+      downloadCSV("PSX_Holdings.csv",
+        ["Ticker","Company","Sector","Shares","AvgBuyPrice","LatestPrice","TotalCost","MarketValue","UnrealizedPnL","NetDividends","TotalReturn"],
+        computed.holdings.map(h => [h.ticker, h.name, h.sector, h.activeShares, h.wac.toFixed(2), h.price.toFixed(2), h.activeCostBasis.toFixed(2), h.marketValue.toFixed(2), h.unrealizedPnL.toFixed(2), h.netDivPaid.toFixed(2), h.totalReturn.toFixed(2)])
+      );
+    }
+
+    function exportTransactionsCSV() {
+      downloadCSV("PSX_Transactions.csv",
+        ["Date","Month","Ticker","Company","Action","Shares","Price","Gross","BrkFees","SST","NetCashFlow","Notes"],
+        computed.transactions.map(t => [t.date, t.ym, t.ticker, t.company, t.action, t.shares, t.price, t.grossAmount.toFixed(2), t.brkFees.toFixed(2), t.sst.toFixed(2), t.netCashFlow.toFixed(2), t.notes || ""])
+      );
+    }
+
+    function exportDividendsCSV() {
+      downloadCSV("PSX_Dividends.csv",
+        ["PaymentDate","Month","Ticker","Company","Year","Term","Status","EligibleShares","DPS","GrossDividend","WHT","Zakat","NetDividend","Reinvest"],
+        computed.dividends.map(d => [d.paymentDate, d.ym, d.ticker, d.company, d.year, d.term, d.status, d.sharesEligible, d.dps, d.grossDividend.toFixed(2), d.wht.toFixed(2), d.zakat.toFixed(2), d.netDividend.toFixed(2), d.reinvest])
+      );
+    }
+
+    async function pushToGitHub() {
+      const token = document.getElementById("gh-token").value.trim();
+      const repo = document.getElementById("gh-repo").value.trim();
+      const logEl = document.getElementById("gh-sync-log");
+      localStorage.setItem(GH_CONFIG_KEY, JSON.stringify({ token, repo }));
+      if (!token || !repo) { logEl.textContent = "Please enter your GitHub Repo and Token."; return; }
+      logEl.textContent = "Saving to GitHub...";
+      try {
+        const apiUrl = `https://api.github.com/repos/${repo}/contents/portfolio_data.json`;
+        let sha;
+        const getRes = await fetch(apiUrl, { headers: { Authorization: `Bearer ${token}` } });
+        if (getRes.ok) sha = (await getRes.json()).sha;
+        const putRes = await fetch(apiUrl, {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: "Update portfolio_data.json",
+            content: btoa(unescape(encodeURIComponent(JSON.stringify(appState, null, 2)))),
+            sha
+          })
+        });
+        logEl.textContent = putRes.ok ? "✓ Saved to GitHub!" : "Failed to save to GitHub.";
+      } catch (e) { logEl.textContent = "Error: " + e.message; }
+    }
+
+    async function pullFromGitHub() {
+      const token = document.getElementById("gh-token").value.trim();
+      const repo = document.getElementById("gh-repo").value.trim();
+      const logEl = document.getElementById("gh-sync-log");
+      if (!token || !repo) { logEl.textContent = "Please enter your GitHub Repo and Token."; return; }
+      logEl.textContent = "Loading from GitHub...";
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/portfolio_data.json`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const j = await res.json();
+          appState = JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g, "")))));
+          recomputeAndRenderAll();
+          await persistState("Loaded from GitHub");
+          logEl.textContent = "✓ Loaded latest data from GitHub!";
+        } else logEl.textContent = "Could not load file from GitHub.";
+      } catch (e) { logEl.textContent = "Error: " + e.message; }
+    }
+
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
