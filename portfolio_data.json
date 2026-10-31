@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T17:02:17.875Z",
+  "lastUpdated": "2026-10-31T17:06:08.813Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2207,7 +2207,7 @@
     },
     {
       "id": 37,
-      "paymentDate": "2026-10-31",
+      "paymentDate": "2026-09-11",
       "ticker": "KAPCO",
       "year": "2026",
       "term": "YR",
@@ -2738,5 +2738,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 36
+  "revision": 37
 }
