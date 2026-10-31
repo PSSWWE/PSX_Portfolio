@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T16:41:19.869Z",
+  "lastUpdated": "2026-10-31T16:46:01.673Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2218,6 +2218,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 38,
+      "paymentDate": "2026-10-31",
+      "ticker": "NCPL",
+      "year": "2026",
+      "term": "YR",
+      "sharesEligible": 327,
+      "status": "Unpaid",
+      "dps": 1,
+      "wht": 25,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2654,5 +2668,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 27
+  "revision": 28
 }
