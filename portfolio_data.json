@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T14:34:05.395Z",
+  "lastUpdated": "2026-10-31T14:34:32.279Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1618,18 +1618,6 @@
       "brkFees": 250,
       "sst": 37.5,
       "notes": ""
-    },
-    {
-      "id": 101,
-      "date": "2026-10-31",
-      "ticker": "BAFL",
-      "company": "Bank Alfalah Limited",
-      "action": "Buy",
-      "shares": 100,
-      "price": 57.77,
-      "brkFees": 9.82,
-      "sst": 1.47,
-      "notes": ""
     }
   ],
   "dividends": [
@@ -2612,5 +2600,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 7
+  "revision": 8
 }
