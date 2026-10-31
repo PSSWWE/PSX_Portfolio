@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T16:53:55.496Z",
+  "lastUpdated": "2026-10-31T16:56:58.453Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2260,6 +2260,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 41,
+      "paymentDate": "2026-10-23",
+      "ticker": "HMB",
+      "year": "2026",
+      "term": "3Q",
+      "sharesEligible": 510,
+      "status": "Unpaid",
+      "dps": 2.5,
+      "wht": 191,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2696,5 +2710,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 33
+  "revision": 34
 }
