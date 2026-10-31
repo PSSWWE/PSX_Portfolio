@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T17:14:46.191Z",
+  "lastUpdated": "2026-10-31T17:25:00.599Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2302,6 +2302,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 44,
+      "paymentDate": "2026-10-08",
+      "ticker": "SRR",
+      "year": "2026",
+      "term": "YR",
+      "sharesEligible": 1500,
+      "status": "Unpaid",
+      "dps": 0.5,
+      "wht": 113,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2738,5 +2752,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 39
+  "revision": 40
 }
