@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T14:07:04.954Z",
+  "lastUpdated": "2026-10-31T14:07:52.055Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1615,6 +1615,30 @@
       "price": 194.72,
       "brkFees": 3.31,
       "sst": 0.5,
+      "notes": ""
+    },
+    {
+      "id": 100,
+      "date": "2026-10-31",
+      "ticker": "ALTN",
+      "company": "Altern Energy",
+      "action": "Buy",
+      "shares": 100,
+      "price": 6.16,
+      "brkFees": 5,
+      "sst": 0.75,
+      "notes": ""
+    },
+    {
+      "id": 101,
+      "date": "2026-10-31",
+      "ticker": "LUCK",
+      "company": "Lucky Cement Company",
+      "action": "Buy",
+      "shares": 100,
+      "price": 500,
+      "brkFees": 85,
+      "sst": 12.75,
       "notes": ""
     }
   ],
