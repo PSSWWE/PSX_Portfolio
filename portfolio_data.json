@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T17:11:03.055Z",
+  "lastUpdated": "2026-10-31T17:14:46.191Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2295,7 +2295,7 @@
       "ticker": "MTL",
       "year": "2026",
       "term": "YR",
-      "sharesEligible": 28,
+      "sharesEligible": 128,
       "status": "Unpaid",
       "dps": 11,
       "wht": 46,
@@ -2738,5 +2738,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 38
+  "revision": 39
 }
