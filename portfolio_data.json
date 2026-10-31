@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T14:34:49.727Z",
+  "lastUpdated": "2026-10-31T14:35:36.908Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1606,18 +1606,6 @@
       "brkFees": 3.31,
       "sst": 0.5,
       "notes": ""
-    },
-    {
-      "id": 100,
-      "date": "2026-10-31",
-      "ticker": "MCB",
-      "company": "Muslim Commercial Bank Ltd",
-      "action": "Buy",
-      "shares": 100,
-      "price": 397.52,
-      "brkFees": 67.58,
-      "sst": 10.14,
-      "notes": ""
     }
   ],
   "dividends": [
@@ -2600,5 +2588,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 10
+  "revision": 11
 }
