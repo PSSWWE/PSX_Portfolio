@@ -1168,8 +1168,12 @@
               <div class="btn-group" style="margin-top:12px;">
                 <button class="btn btn-primary" onclick="pushToGitHub()">⬆ Save Current Data to GitHub</button>
                 <button class="btn" onclick="pullFromGitHub()">⬇ Load Latest Data from GitHub</button>
+                <button class="btn btn-emerald" onclick="copyPhoneSetupLink()" title="Generate a 1-click link to pair your phone instantly">📱 Copy 1-Click Phone Setup Link</button>
               </div>
               <div id="gh-sync-log" class="mono" style="margin-top:10px; font-size:12px; color:var(--pos);"></div>
+              <div style="font-size:11.5px; color:var(--text-muted); margin-top:8px;">
+                💡 <b>Instant Real-Time Cloud:</b> When your GitHub token is saved, the app queries GitHub's REST API directly (0.3s real-time) rather than waiting 1-2 minutes for GitHub Pages static site builds!
+              </div>
             </div>
 
             <div style="padding:16px; border-radius:8px; background:var(--bg-subtle); border:1px solid var(--border);">
@@ -1500,8 +1504,24 @@
 
     async function initApp() {
       initTheme();
+
+      // Check if opened via 1-Click Phone Link (#sync=...)
+      if (typeof window !== "undefined" && window.location && window.location.hash && window.location.hash.startsWith("#sync=")) {
+        try {
+          const rawHash = window.location.hash.slice(6);
+          const creds = JSON.parse(decodeURIComponent(escape(atob(rawHash))));
+          if (creds.token && creds.repo) {
+            localStorage.setItem(GH_CONFIG_KEY, JSON.stringify(creds));
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState(null, null, window.location.pathname + window.location.search);
+            }
+          }
+        } catch (e) {}
+      }
+
+      let ghConf = {};
       try {
-        const ghConf = JSON.parse(localStorage.getItem(GH_CONFIG_KEY) || "{}");
+        ghConf = JSON.parse(localStorage.getItem(GH_CONFIG_KEY) || "{}");
         if (ghConf.token) document.getElementById("gh-token").value = ghConf.token;
         if (ghConf.repo) document.getElementById("gh-repo").value = ghConf.repo;
       } catch (e) {}
@@ -1515,7 +1535,7 @@
       let remoteObj = null;
       let isLocalServer = false;
 
-      // 1. Try local server endpoint (/api/data)
+      // 1. Try local server endpoint (/api/data) if running locally
       try {
         const res = await fetch("/api/data", { cache: "no-store" });
         if (res.ok) {
@@ -1527,7 +1547,31 @@
         }
       } catch (e) {}
 
-      // 2. If not local server, check static ./portfolio_data.json (for GitHub Pages)
+      // 2. Real-Time Cloud: If GitHub token & repo configured, query GitHub REST API DIRECTLY
+      // (This is INSTANT ~0.3s, completely bypassing the 1-2 minute GitHub Pages static build queue!)
+      if (!remoteObj && ghConf.token && ghConf.repo) {
+        try {
+          const apiUrl = `https://api.github.com/repos/${ghConf.repo}/contents/portfolio_data.json?t=${Date.now()}`;
+          const ghRes = await fetch(apiUrl, {
+            headers: {
+              "Authorization": `Bearer ${ghConf.token}`,
+              "Accept": "application/vnd.github.v3+json"
+            },
+            cache: "no-store"
+          });
+          if (ghRes.ok) {
+            const ghJson = await ghRes.json();
+            if (ghJson && ghJson.content) {
+              const parsed = JSON.parse(decodeURIComponent(escape(atob(ghJson.content.replace(/\n/g, "")))));
+              if (parsed && parsed.transactions) {
+                remoteObj = parsed;
+              }
+            }
+          }
+        } catch (e) {}
+      }
+
+      // 3. Fallback: Static ./portfolio_data.json (for offline or unauthenticated public visitors)
       if (!remoteObj) {
         try {
           const resJson = await fetch("./portfolio_data.json?t=" + Date.now(), { cache: "no-store" });
@@ -1540,7 +1584,7 @@
         } catch (e) {}
       }
 
-      // 3. Choose best state between incoming remote and local browser storage
+      // 4. Choose best state between incoming remote and local browser storage
       let best = chooseBestState(remoteObj, localObj);
       if (!best) {
         best = JSON.parse(JSON.stringify(INITIAL_SEED_DATA));
@@ -3266,6 +3310,27 @@
           logEl.textContent = "✓ Loaded latest data from GitHub!";
         } else logEl.textContent = "Could not load file from GitHub.";
       } catch (e) { logEl.textContent = "Error: " + e.message; }
+    }
+
+    function copyPhoneSetupLink() {
+      const token = document.getElementById("gh-token").value.trim();
+      const repo = document.getElementById("gh-repo").value.trim();
+      if (!token || !repo) {
+        alert("Please enter your GitHub Repo and Token first.");
+        return;
+      }
+      const b64 = btoa(unescape(encodeURIComponent(JSON.stringify({ repo, token }))));
+      const baseUrl = window.location.origin + window.location.pathname;
+      const fullUrl = `${baseUrl}#sync=${b64}`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(fullUrl).then(() => {
+          alert("✓ 1-Click Phone Link copied to clipboard!\n\nSend this link to your phone (via WhatsApp, Telegram, or Notes) and open it. Your phone will instantly pair with real-time cloud sync!");
+        }).catch(() => {
+          prompt("Copy this 1-click sync link and open it on your phone:", fullUrl);
+        });
+      } else {
+        prompt("Copy this 1-click sync link and open it on your phone:", fullUrl);
+      }
     }
 
     window.addEventListener("DOMContentLoaded", initApp);
