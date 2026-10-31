@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T16:56:58.453Z",
+  "lastUpdated": "2026-10-31T16:57:42.778Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2274,6 +2274,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 42,
+      "paymentDate": "2026-10-22",
+      "ticker": "BAFL",
+      "year": "2026",
+      "term": "3Q",
+      "sharesEligible": 1036,
+      "status": "Unpaid",
+      "dps": 1.5,
+      "wht": 233,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2710,5 +2724,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 34
+  "revision": 35
 }
