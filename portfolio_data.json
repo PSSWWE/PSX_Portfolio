@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T14:11:01.643Z",
+  "lastUpdated": "2026-10-31T14:12:39.544Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1615,6 +1615,30 @@
       "price": 194.72,
       "brkFees": 3.31,
       "sst": 0.5,
+      "notes": ""
+    },
+    {
+      "id": 100,
+      "date": "2026-10-31",
+      "ticker": "BOP",
+      "company": "Bank of Punjab",
+      "action": "Buy",
+      "shares": 1000,
+      "price": 28.35,
+      "brkFees": 50,
+      "sst": 7.5,
+      "notes": ""
+    },
+    {
+      "id": 101,
+      "date": "2026-10-31",
+      "ticker": "LUCK",
+      "company": "Lucky Cement Company",
+      "action": "Buy",
+      "shares": 100,
+      "price": 500,
+      "brkFees": 85,
+      "sst": 12.75,
       "notes": ""
     }
   ],
