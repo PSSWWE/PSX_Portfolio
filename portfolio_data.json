@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T16:57:42.778Z",
+  "lastUpdated": "2026-10-31T17:02:17.875Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2288,6 +2288,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 43,
+      "paymentDate": "2026-09-16",
+      "ticker": "MTL",
+      "year": "2026",
+      "term": "YR",
+      "sharesEligible": 28,
+      "status": "Unpaid",
+      "dps": 11,
+      "wht": 46,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2724,5 +2738,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 35
+  "revision": 36
 }
