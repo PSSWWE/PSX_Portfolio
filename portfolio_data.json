@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T16:40:39.105Z",
+  "lastUpdated": "2026-10-31T16:41:19.869Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2210,7 +2210,7 @@
       "paymentDate": "2026-10-31",
       "ticker": "KAPCO",
       "year": "2026",
-      "term": "HYR",
+      "term": "YR",
       "sharesEligible": 1000,
       "status": "Unpaid",
       "dps": 1.5,
@@ -2654,5 +2654,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 26
+  "revision": 27
 }
