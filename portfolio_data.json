@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T14:15:39.855Z",
+  "lastUpdated": "2026-10-31T14:26:08.780Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2159,6 +2159,20 @@
       "expectedPaymentDate": "",
       "dps": 6,
       "wht": 174,
+      "zakat": 0,
+      "reinvest": "Yes",
+      "reinvestPrice": 0
+    },
+    {
+      "id": 35,
+      "paymentDate": "2026-10-30",
+      "ticker": "DOL",
+      "year": "2025-26",
+      "term": "YR",
+      "sharesEligible": 1000,
+      "status": "Paid",
+      "dps": 2,
+      "wht": 300,
       "zakat": 0,
       "reinvest": "Yes",
       "reinvestPrice": 0
