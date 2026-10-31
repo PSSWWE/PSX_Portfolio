@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T17:06:08.813Z",
+  "lastUpdated": "2026-10-31T17:11:03.055Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2237,8 +2237,8 @@
       "id": 39,
       "paymentDate": "2026-10-28",
       "ticker": "FFC",
-      "year": "2027",
-      "term": "1Q",
+      "year": "2026",
+      "term": "3Q",
       "sharesEligible": 24,
       "status": "Unpaid",
       "dps": 18.5,
@@ -2738,5 +2738,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 37
+  "revision": 38
 }
