@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T14:40:34.419Z",
+  "lastUpdated": "2026-10-31T14:44:28.342Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1606,6 +1606,18 @@
       "brkFees": 3.31,
       "sst": 0.5,
       "notes": ""
+    },
+    {
+      "id": 100,
+      "date": "2026-10-31",
+      "ticker": "FFC",
+      "company": "Fauji Fertilizer Company Limited",
+      "action": "Buy",
+      "shares": 4,
+      "price": 561.9,
+      "brkFees": 3.82,
+      "sst": 0.57,
+      "notes": ""
     }
   ],
   "dividends": [
@@ -2616,5 +2628,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 13
+  "revision": 14
 }
