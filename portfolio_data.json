@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T16:48:09.928Z",
+  "lastUpdated": "2026-10-31T16:51:35.388Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2232,6 +2232,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 39,
+      "paymentDate": "2026-10-28",
+      "ticker": "FFC",
+      "year": "2027",
+      "term": "1Q",
+      "sharesEligible": 24,
+      "status": "Unpaid",
+      "dps": 18.5,
+      "wht": 67,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2668,5 +2682,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 30
+  "revision": 31
 }
