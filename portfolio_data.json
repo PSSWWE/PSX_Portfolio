@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T14:12:39.544Z",
+  "lastUpdated": "2026-10-31T14:13:29.251Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1627,18 +1627,6 @@
       "price": 28.35,
       "brkFees": 50,
       "sst": 7.5,
-      "notes": ""
-    },
-    {
-      "id": 101,
-      "date": "2026-10-31",
-      "ticker": "LUCK",
-      "company": "Lucky Cement Company",
-      "action": "Buy",
-      "shares": 100,
-      "price": 500,
-      "brkFees": 85,
-      "sst": 12.75,
       "notes": ""
     }
   ],
