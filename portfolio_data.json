@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T13:39:10.521Z",
+  "lastUpdated": "2026-10-31T13:43:03.575Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -416,6 +416,16 @@
       "dayRange": "395.55 - 399.00",
       "volume": "320,203",
       "asOf": "As of Fri, Oct 30, 2026 4:49 PM"
+    },
+    {
+      "ticker": "LUCK",
+      "name": "Lucky Cement Company",
+      "frequency": "Semi-Annual",
+      "sector": "CEMENT",
+      "price": 500,
+      "ldcp": 500,
+      "change": 0,
+      "changePct": 0
     }
   ],
   "transactions": [
