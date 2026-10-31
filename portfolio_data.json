@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T14:35:36.908Z",
+  "lastUpdated": "2026-10-31T14:39:11.425Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2152,6 +2152,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 35,
+      "paymentDate": "2026-10-30",
+      "ticker": "NPL",
+      "year": "2026",
+      "term": "YR",
+      "sharesEligible": 1389,
+      "status": "Paid",
+      "dps": 1,
+      "wht": 104,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2588,5 +2602,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 11
+  "revision": 12
 }
