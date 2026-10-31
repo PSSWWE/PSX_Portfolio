@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T14:31:45.048Z",
+  "lastUpdated": "2026-10-31T14:32:22.910Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1606,6 +1606,18 @@
       "brkFees": 3.31,
       "sst": 0.5,
       "notes": ""
+    },
+    {
+      "id": 100,
+      "date": "2026-10-31",
+      "ticker": "ALTN",
+      "company": "Altern Energy",
+      "action": "Buy",
+      "shares": 1000,
+      "price": 6.16,
+      "brkFees": 50,
+      "sst": 7.5,
+      "notes": ""
     }
   ],
   "dividends": [
@@ -2588,5 +2600,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 3
+  "revision": 4
 }
