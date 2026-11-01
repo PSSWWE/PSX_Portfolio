@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-01T23:48:26.281Z",
+  "lastUpdated": "2026-11-01T23:50:44.807Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2265,7 +2265,7 @@
       "ticker": "HUBC",
       "year": "2027",
       "term": "1Q",
-      "sharesEligible": 511,
+      "sharesEligible": 521,
       "status": "Unpaid",
       "dps": 5,
       "wht": 383,
@@ -2778,5 +2778,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 48
+  "revision": 49
 }
