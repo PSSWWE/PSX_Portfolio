@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-10-31T17:27:08.853Z",
+  "lastUpdated": "2026-11-01T22:59:01.269Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2316,6 +2316,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 45,
+      "paymentDate": "2026-10-19",
+      "ticker": "EFERT",
+      "year": "2026",
+      "term": "3Q",
+      "sharesEligible": 500,
+      "status": "Unpaid",
+      "dps": 5.5,
+      "wht": 413,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2752,5 +2766,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 42
+  "revision": 43
 }
