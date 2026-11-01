@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-01T23:50:44.807Z",
+  "lastUpdated": "2026-11-01T23:52:36.093Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2778,5 +2778,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 49
+  "revision": 51
 }
