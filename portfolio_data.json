@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-02T14:15:57.704Z",
+  "lastUpdated": "2026-11-02T14:16:25.302Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2347,10 +2347,10 @@
       "id": 46,
       "paymentDate": "2026-11-02",
       "ticker": "OGDC",
-      "year": "2026",
-      "term": "3Q",
+      "year": "2027",
+      "term": "1Q",
       "sharesEligible": 200,
-      "status": "Paid",
+      "status": "Unpaid",
       "dps": 5,
       "wht": 150,
       "zakat": 0,
@@ -2792,5 +2792,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 65
+  "revision": 66
 }
