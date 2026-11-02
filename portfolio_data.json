@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-02T23:07:00.485Z",
+  "lastUpdated": "2026-11-02T23:07:48.470Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2356,6 +2356,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 47,
+      "paymentDate": "2026-11-02",
+      "ticker": "EPQL",
+      "year": "2026",
+      "term": "1Q",
+      "sharesEligible": 1300,
+      "status": "Unpaid",
+      "dps": 0.75,
+      "wht": 73,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2792,5 +2806,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 67
+  "revision": 68
 }
