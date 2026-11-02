@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-02T14:13:42.097Z",
+  "lastUpdated": "2026-11-02T14:15:57.704Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2342,6 +2342,20 @@
       "zakat": 0,
       "reinvest": "No",
       "reinvestPrice": 0
+    },
+    {
+      "id": 46,
+      "paymentDate": "2026-11-02",
+      "ticker": "OGDC",
+      "year": "2026",
+      "term": "3Q",
+      "sharesEligible": 200,
+      "status": "Paid",
+      "dps": 5,
+      "wht": 150,
+      "zakat": 0,
+      "reinvest": "No",
+      "reinvestPrice": 0
     }
   ],
   "quotes": {
@@ -2778,5 +2792,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 64
+  "revision": 65
 }
