@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-02T14:16:25.302Z",
+  "lastUpdated": "2026-11-02T23:07:00.485Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2018,7 +2018,7 @@
       "paymentDate": "2026-08-18",
       "ticker": "EPQL",
       "year": "2026",
-      "term": "HYR",
+      "term": "1Q",
       "sharesEligible": 1300,
       "status": "Paid",
       "announcementDate": "",
@@ -2792,5 +2792,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 66
+  "revision": 67
 }
