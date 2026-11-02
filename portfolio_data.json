@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-02T23:08:03.403Z",
+  "lastUpdated": "2026-11-02T23:10:56.323Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2359,7 +2359,7 @@
     },
     {
       "id": 47,
-      "paymentDate": "2026-11-02",
+      "paymentDate": "2026-10-19",
       "ticker": "EPQL",
       "year": "2026",
       "term": "HYR",
@@ -2806,5 +2806,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 69
+  "revision": 70
 }
