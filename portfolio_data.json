@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-02T00:13:07.808Z",
+  "lastUpdated": "2026-11-02T14:13:42.097Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2317,12 +2317,12 @@
     },
     {
       "id": 44,
-      "paymentDate": "2026-10-08",
+      "paymentDate": "2026-11-02",
       "ticker": "SRR",
       "year": "2026",
       "term": "YR",
       "sharesEligible": 1500,
-      "status": "Unpaid",
+      "status": "Paid",
       "dps": 0.5,
       "wht": 113,
       "zakat": 0,
@@ -2778,5 +2778,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 63
+  "revision": 64
 }
