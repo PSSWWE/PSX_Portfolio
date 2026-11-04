@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-03T22:54:16.149Z",
+  "lastUpdated": "2026-11-04T08:48:05.730Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2303,12 +2303,12 @@
     },
     {
       "id": 43,
-      "paymentDate": "2026-09-16",
+      "paymentDate": "2026-11-04",
       "ticker": "MTL",
       "year": "2026",
       "term": "YR",
       "sharesEligible": 156,
-      "status": "Unpaid",
+      "status": "Paid",
       "dps": 11,
       "wht": 257,
       "zakat": 0,
@@ -2806,5 +2806,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 73
+  "revision": 74
 }
