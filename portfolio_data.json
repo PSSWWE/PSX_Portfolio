@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T14:40:02.780Z",
+  "lastUpdated": "2026-11-04T14:40:39.734Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1674,7 +1674,7 @@
       "company": "Signature Residency Riet",
       "action": "Buy",
       "shares": 36,
-      "price": 17.28,
+      "price": 17.72,
       "brkFees": 1.8,
       "sst": 0.27,
       "notes": ""
@@ -2866,5 +2866,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 85
+  "revision": 86
 }
