@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:54:21.142Z",
+  "lastUpdated": "2026-11-04T15:55:09.475Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -359,7 +359,7 @@
       "ticker": "SPSL",
       "name": "Sitara Petroleum Sevices Limited",
       "frequency": "Annual",
-      "price": 12.58,
+      "price": 12.3,
       "ldcp": 12.63,
       "change": -0.05,
       "changePct": -0.4,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 114
+  "revision": 115
 }
