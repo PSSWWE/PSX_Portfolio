@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T14:39:42.051Z",
+  "lastUpdated": "2026-11-04T14:40:02.780Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1662,8 +1662,8 @@
       "company": "Millat Tractors Limited",
       "action": "Buy",
       "shares": 5,
-      "price": 280.1,
-      "brkFees": 2.38,
+      "price": 285.8,
+      "brkFees": 2.43,
       "sst": 0.36,
       "notes": ""
     },
@@ -2866,5 +2866,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 84
+  "revision": 85
 }
