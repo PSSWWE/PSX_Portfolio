@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T13:24:00.151Z",
+  "lastUpdated": "2026-11-04T13:24:11.478Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1678,6 +1678,18 @@
       "brkFees": 1.8,
       "sst": 0.27,
       "notes": ""
+    },
+    {
+      "id": 106,
+      "date": "2026-11-04",
+      "ticker": "HUBC",
+      "company": "Hub Power Company Limited",
+      "action": "Buy",
+      "shares": 1,
+      "price": 193.18,
+      "brkFees": 0.33,
+      "sst": 0.05,
+      "notes": ""
     }
   ],
   "dividends": [
@@ -2842,5 +2854,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 79
+  "revision": 80
 }
