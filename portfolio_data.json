@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:48:48.980Z",
+  "lastUpdated": "2026-11-04T15:49:00.536Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -44,7 +44,7 @@
       "ticker": "BOP",
       "name": "Bank of Punjab",
       "frequency": "Semi-Annual",
-      "price": 28.35,
+      "price": 30.9,
       "ldcp": 28.66,
       "change": -0.31,
       "changePct": -1.08,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 104
+  "revision": 105
 }
