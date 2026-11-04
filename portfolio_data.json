@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T14:41:27.182Z",
+  "lastUpdated": "2026-11-04T14:42:15.379Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1702,6 +1702,18 @@
       "brkFees": 0.99,
       "sst": 0.15,
       "notes": ""
+    },
+    {
+      "id": 108,
+      "date": "2026-11-04",
+      "ticker": "OGDC",
+      "company": "Oil & Gas Development Company Limited",
+      "action": "Buy",
+      "shares": 3,
+      "price": 310.326,
+      "brkFees": 1.58,
+      "sst": 0.24,
+      "notes": ""
     }
   ],
   "dividends": [
@@ -2866,5 +2878,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 90
+  "revision": 91
 }
