@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T14:39:01.026Z",
+  "lastUpdated": "2026-11-04T14:39:42.051Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1650,7 +1650,7 @@
       "company": "Descon Oxychem Limited",
       "action": "Buy",
       "shares": 57,
-      "price": 30,
+      "price": 30.03,
       "brkFees": 2.91,
       "sst": 0.44,
       "notes": ""
@@ -2866,5 +2866,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 83
+  "revision": 84
 }
