@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:49:42.033Z",
+  "lastUpdated": "2026-11-04T15:49:58.407Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -179,7 +179,7 @@
       "ticker": "JSMFETF",
       "name": "JS Momentum Factor ETF",
       "frequency": "Annual",
-      "price": 10.23,
+      "price": 10.06,
       "ldcp": 10.31,
       "change": -0.08,
       "changePct": -0.78,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 106
+  "revision": 107
 }
