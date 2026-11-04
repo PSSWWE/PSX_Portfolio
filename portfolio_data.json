@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:49:00.536Z",
+  "lastUpdated": "2026-11-04T15:49:42.033Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -389,7 +389,7 @@
       "ticker": "UBLPETF",
       "name": "UBL Pakistan Enterprise ETF",
       "frequency": "Annual",
-      "price": 27.74,
+      "price": 28.73,
       "ldcp": 27.79,
       "change": -0.05,
       "changePct": -0.18,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 105
+  "revision": 106
 }
