@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:49:58.407Z",
+  "lastUpdated": "2026-11-04T15:50:13.442Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -239,7 +239,7 @@
       "ticker": "MZNPETF",
       "name": "Meezan Pakistan ETF",
       "frequency": "Annual",
-      "price": 17.01,
+      "price": 17.57,
       "ldcp": 17.04,
       "change": -0.03,
       "changePct": -0.18,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 107
+  "revision": 108
 }
