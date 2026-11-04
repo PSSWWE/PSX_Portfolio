@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:53:03.599Z",
+  "lastUpdated": "2026-11-04T15:53:15.503Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -314,7 +314,7 @@
       "ticker": "PAKQATAR",
       "name": "Pak Qatar Family Takaful",
       "frequency": "Annual",
-      "price": 15.55,
+      "price": 15.24,
       "ldcp": 15.33,
       "change": 0.22,
       "changePct": 1.44,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 111
+  "revision": 112
 }
