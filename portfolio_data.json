@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T13:23:25.756Z",
+  "lastUpdated": "2026-11-04T13:24:00.151Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1666,6 +1666,18 @@
       "brkFees": 2.38,
       "sst": 0.36,
       "notes": ""
+    },
+    {
+      "id": 105,
+      "date": "2026-11-04",
+      "ticker": "SRR",
+      "company": "Signature Residency Riet",
+      "action": "Buy",
+      "shares": 36,
+      "price": 17.28,
+      "brkFees": 1.8,
+      "sst": 0.27,
+      "notes": ""
     }
   ],
   "dividends": [
@@ -2830,5 +2842,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 78
+  "revision": 79
 }
