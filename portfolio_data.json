@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T14:46:11.921Z",
+  "lastUpdated": "2026-11-04T14:46:32.371Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1742,7 +1742,7 @@
       "dps": 0.63,
       "wht": 57,
       "zakat": 0,
-      "reinvest": "No",
+      "reinvest": "Yes",
       "reinvestPrice": 0
     },
     {
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 96
+  "revision": 97
 }
