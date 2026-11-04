@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T13:24:24.255Z",
+  "lastUpdated": "2026-11-04T14:38:35.876Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1698,9 +1698,9 @@
       "company": "Fauji Fertilizer Company Limited",
       "action": "Buy",
       "shares": 1,
-      "price": 559.49,
-      "brkFees": 0.95,
-      "sst": 0.14,
+      "price": 579.45,
+      "brkFees": 0.99,
+      "sst": 0.15,
       "notes": ""
     }
   ],
@@ -2866,5 +2866,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 81
+  "revision": 82
 }
