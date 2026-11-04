@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:50:13.442Z",
+  "lastUpdated": "2026-11-04T15:50:51.853Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -89,7 +89,7 @@
       "ticker": "EFERT",
       "name": "Engro Fertilizer Limited",
       "frequency": "Quarterly",
-      "price": 194.99,
+      "price": 207.96,
       "ldcp": 192.57,
       "change": 2.42,
       "changePct": 1.26,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 108
+  "revision": 109
 }
