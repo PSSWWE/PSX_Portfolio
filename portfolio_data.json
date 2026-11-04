@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:55:09.475Z",
+  "lastUpdated": "2026-11-04T15:55:35.673Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -164,7 +164,7 @@
       "ticker": "HUBC",
       "name": "Hub Power Company Limited",
       "frequency": "Quarterly",
-      "price": 193.18,
+      "price": 204.17,
       "ldcp": 194.04,
       "change": -0.86,
       "changePct": -0.44,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 115
+  "revision": 116
 }
