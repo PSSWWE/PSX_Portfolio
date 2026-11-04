@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:56:27.956Z",
+  "lastUpdated": "2026-11-04T15:56:47.492Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -194,7 +194,7 @@
       "ticker": "KAPCO",
       "name": "Kot Addu Power Company Ltd",
       "frequency": "Semi-Annual",
-      "price": 24.17,
+      "price": 24.53,
       "ldcp": 24.09,
       "change": 0.08,
       "changePct": 0.33,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 118
+  "revision": 119
 }
