@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:47:30.284Z",
+  "lastUpdated": "2026-11-04T15:48:28.315Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -29,7 +29,7 @@
       "ticker": "BAFL",
       "name": "Bank Alfalah Limited",
       "frequency": "Quarterly",
-      "price": 57.77,
+      "price": 57.8,
       "ldcp": 57.89,
       "change": -0.12,
       "changePct": -0.21,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 102
+  "revision": 103
 }
