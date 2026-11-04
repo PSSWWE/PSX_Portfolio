@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T14:38:35.876Z",
+  "lastUpdated": "2026-11-04T14:39:01.026Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -1686,8 +1686,8 @@
       "company": "Hub Power Company Limited",
       "action": "Buy",
       "shares": 1,
-      "price": 193.18,
-      "brkFees": 0.33,
+      "price": 203,
+      "brkFees": 0.35,
       "sst": 0.05,
       "notes": ""
     },
@@ -2866,5 +2866,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 82
+  "revision": 83
 }
