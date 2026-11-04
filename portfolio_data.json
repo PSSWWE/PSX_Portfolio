@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:48:28.315Z",
+  "lastUpdated": "2026-11-04T15:48:48.980Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -149,7 +149,7 @@
       "ticker": "HMB",
       "name": "Habib Metropolitan Bank Limited",
       "frequency": "Quarterly",
-      "price": 96.68,
+      "price": 97.1,
       "ldcp": 96.29,
       "change": 0.39,
       "changePct": 0.41,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 103
+  "revision": 104
 }
