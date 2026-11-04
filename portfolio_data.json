@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-04T15:56:09.512Z",
+  "lastUpdated": "2026-11-04T15:56:27.956Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -104,7 +104,7 @@
       "ticker": "EPQL",
       "name": "Engro Powergen Qadirpur Limited",
       "frequency": "Semi-Annual",
-      "price": 23.92,
+      "price": 23.99,
       "ldcp": 23.59,
       "change": 0.33,
       "changePct": 1.4,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 117
+  "revision": 118
 }
