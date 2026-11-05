@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T12:58:28.338Z",
+  "lastUpdated": "2026-11-05T12:58:44.819Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -224,7 +224,7 @@
       "ticker": "MTL",
       "name": "Millat Tractors Limited",
       "frequency": "Semi-Annual",
-      "price": 285.72,
+      "price": 291.45,
       "ldcp": 284.35,
       "change": -4.25,
       "changePct": -1.49,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 139
+  "revision": 140
 }
