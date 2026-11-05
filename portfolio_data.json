@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T08:16:25.704Z",
+  "lastUpdated": "2026-11-05T12:40:03.182Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2443,12 +2443,12 @@
     },
     {
       "id": 47,
-      "paymentDate": "2026-10-19",
+      "paymentDate": "2026-11-05",
       "ticker": "EPQL",
       "year": "2026",
       "term": "HYR",
       "sharesEligible": 1300,
-      "status": "Unpaid",
+      "status": "Paid",
       "dps": 0.75,
       "wht": 73,
       "zakat": 0,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 126
+  "revision": 127
 }
