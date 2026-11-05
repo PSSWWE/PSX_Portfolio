@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T12:55:34.016Z",
+  "lastUpdated": "2026-11-05T12:56:01.404Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -134,7 +134,7 @@
       "ticker": "GDL",
       "name": "Ghani Dairies Limited",
       "frequency": "None",
-      "price": 17.04,
+      "price": 17.35,
       "ldcp": 18.16,
       "change": -1.12,
       "changePct": -6.17,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 134
+  "revision": 135
 }
