@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T12:58:07.222Z",
+  "lastUpdated": "2026-11-05T12:58:28.338Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -209,7 +209,7 @@
       "ticker": "MARI",
       "name": "Mari Energies Limited",
       "frequency": "Semi-Annual",
-      "price": 658.42,
+      "price": 656.34,
       "ldcp": 636.22,
       "change": -4.69,
       "changePct": -0.74,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 138
+  "revision": 139
 }
