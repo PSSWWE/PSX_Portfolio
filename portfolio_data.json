@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T12:59:06.016Z",
+  "lastUpdated": "2026-11-05T12:59:25.577Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -269,7 +269,7 @@
       "ticker": "NCPL",
       "name": "Nishat Chunian Power Limited",
       "frequency": "Semi-Annual",
-      "price": 48.47,
+      "price": 50.04,
       "ldcp": 49.01,
       "change": 0.59,
       "changePct": 1.2,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 141
+  "revision": 142
 }
