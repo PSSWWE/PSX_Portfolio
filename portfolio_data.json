@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T08:16:08.536Z",
+  "lastUpdated": "2026-11-05T08:16:25.704Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -2308,7 +2308,7 @@
       "year": "2026",
       "term": "YR",
       "sharesEligible": 1000,
-      "status": "Unpaid",
+      "status": "Paid",
       "dps": 1.5,
       "wht": 225,
       "zakat": 0,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 125
+  "revision": 126
 }
