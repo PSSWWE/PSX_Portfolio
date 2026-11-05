@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T13:01:39.895Z",
+  "lastUpdated": "2026-11-05T13:02:08.984Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -374,7 +374,7 @@
       "ticker": "SRR",
       "name": "Signature Residency Riet",
       "frequency": "Annual",
-      "price": 18,
+      "price": 17.5,
       "ldcp": 17.1,
       "change": 0.18,
       "changePct": 1.05,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 148
+  "revision": 149
 }
