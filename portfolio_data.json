@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T12:54:13.136Z",
+  "lastUpdated": "2026-11-05T12:54:28.512Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -74,7 +74,7 @@
       "ticker": "DOL",
       "name": "Descon Oxychem Limited",
       "frequency": "Semi-Annual",
-      "price": 30,
+      "price": 30.5,
       "ldcp": 30.11,
       "change": -0.11,
       "changePct": -0.37,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 130
+  "revision": 131
 }
