@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T12:59:58.105Z",
+  "lastUpdated": "2026-11-05T13:00:14.967Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -299,7 +299,7 @@
       "ticker": "OGDC",
       "name": "Oil & Gas Development Company Limited",
       "frequency": "Quarterly",
-      "price": 310.47,
+      "price": 316.24,
       "ldcp": 306.21,
       "change": 0.57,
       "changePct": 0.19,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 143
+  "revision": 144
 }
