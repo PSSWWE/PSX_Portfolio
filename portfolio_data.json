@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T12:53:55.776Z",
+  "lastUpdated": "2026-11-05T12:54:13.136Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -59,7 +59,7 @@
       "ticker": "DCR",
       "name": "Dolmen City Riet",
       "frequency": "Quarterly",
-      "price": 38.79,
+      "price": 38.88,
       "ldcp": 39.23,
       "change": 0.21,
       "changePct": 0.54,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 129
+  "revision": 130
 }
