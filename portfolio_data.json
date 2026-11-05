@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T12:59:25.577Z",
+  "lastUpdated": "2026-11-05T12:59:58.105Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -284,7 +284,7 @@
       "ticker": "NPL",
       "name": "Nishat Power Limited",
       "frequency": "Semi-Annual",
-      "price": 53.4,
+      "price": 52.9,
       "ldcp": 52.41,
       "change": -0.61,
       "changePct": -1.16,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 142
+  "revision": 143
 }
