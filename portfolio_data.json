@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T12:55:13.642Z",
+  "lastUpdated": "2026-11-05T12:55:34.016Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -119,7 +119,7 @@
       "ticker": "FFC",
       "name": "Fauji Fertilizer Company Limited",
       "frequency": "Quarterly",
-      "price": 581.02,
+      "price": 584.21,
       "ldcp": 561.05,
       "change": -1.56,
       "changePct": -0.28,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 133
+  "revision": 134
 }
