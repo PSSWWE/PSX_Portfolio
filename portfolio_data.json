@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T13:00:46.535Z",
+  "lastUpdated": "2026-11-05T13:01:04.831Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -329,7 +329,7 @@
       "ticker": "PQGTL",
       "name": "Pak Qatar General Takaful Limited",
       "frequency": "Annual",
-      "price": 12.38,
+      "price": 12.62,
       "ldcp": 12.1,
       "change": -0.08,
       "changePct": -0.66,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 145
+  "revision": 146
 }
