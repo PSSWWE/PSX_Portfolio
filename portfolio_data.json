@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-11-05T13:01:04.831Z",
+  "lastUpdated": "2026-11-05T13:01:20.265Z",
   "currency": "PKR",
   "settings": {
     "defaultBrokerageRate": 0.0015,
@@ -344,7 +344,7 @@
       "ticker": "SLM",
       "name": "Service Long March Tyres Limited",
       "frequency": "Semi-Annual",
-      "price": 21.53,
+      "price": 21.81,
       "ldcp": 21.21,
       "change": 0.15,
       "changePct": 0.71,
@@ -2890,5 +2890,5 @@
       "volume": "320,203"
     }
   },
-  "revision": 146
+  "revision": 147
 }
